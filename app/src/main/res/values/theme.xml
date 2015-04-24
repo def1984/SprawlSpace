@@ -14,7 +14,7 @@
     <style name="MyActionBar" parent="@style/Widget.AppCompat.ActionBar">
         <!-- Support library compatibility -->
         <item name="background">@android:color/holo_blue_dark</item>
-        <item name="homeAsUpIndicator">@drawable/abc_ic_menu_copy_mtrl_am_alpha</item>
+        <item name="homeAsUpIndicator">@drawable/ic_menu_white_24dp</item>
         <item name="titleTextStyle">@style/MyActionBarTitleText</item>
         <item name="actionOverflowButtonStyle">@style/Base.Widget.AppCompat.ActionButton.Overflow</item>
     </style>
