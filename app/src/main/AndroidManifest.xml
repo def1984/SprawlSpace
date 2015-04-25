@@ -9,7 +9,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:theme="@style/MainAtyTheme"
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,11 +18,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".BaseActivity"
+            android:name=".ui.BaseActivity"
             android:label="@string/title_activity_base" >
         </activity>
         <activity
-            android:name=".SearchActivity"
+            android:name=".ui.SearchActivity"
             android:label="@string/title_activity_base" >
         </activity>
     </application>
