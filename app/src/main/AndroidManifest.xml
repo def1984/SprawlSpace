@@ -20,6 +20,10 @@
             android:name=".BaseActivity"
             android:label="@string/title_activity_base" >
         </activity>
+        <activity
+            android:name=".SearchActivity"
+            android:label="@string/title_activity_base" >
+        </activity>
     </application>
 
 </manifest>

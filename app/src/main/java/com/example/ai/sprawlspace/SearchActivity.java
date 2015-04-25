@@ -15,35 +15,28 @@
  */
 package com.example.ai.sprawlspace;
 
-import android.app.FragmentManager;
 import android.app.SearchManager;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.IntentCompat;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.support.v7.widget.SearchView;
+import android.widget.LinearLayout;
 
-
-
-public class SearchActivity extends ActionBarActivity {
-
-
+public class SearchActivity extends BaseActivity {
+    SearchView mSearchView = null;
+    LinearLayout linearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-
         Toolbar toolbar = getActionBarToolbar();
         toolbar.setTitle(R.string.title_search);
         toolbar.setNavigationIcon(R.drawable.ic_up);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
     }
 
@@ -52,7 +45,12 @@ public class SearchActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.search, menu);
-
+        final MenuItem searchItem = menu.findItem(R.id.menu_search);
+        if (searchItem != null) {
+            SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+            final SearchView view = (SearchView) searchItem.getActionView();
+            mSearchView = view;
+        }
         return true;
     }
 

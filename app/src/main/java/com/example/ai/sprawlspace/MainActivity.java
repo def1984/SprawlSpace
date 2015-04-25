@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 
-public class MainActivity extends ActionBarActivity  {
+public class MainActivity extends BaseActivity  {
 
     private Toolbar mToolbar;
 
@@ -24,10 +24,6 @@ public class MainActivity extends ActionBarActivity  {
         setContentView(R.layout.activity_main);
         intiView();
     }
-
-
-    
-
 
 
     private void intiView(){

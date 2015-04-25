@@ -3,5 +3,7 @@
 
     <declare-styleable name="ScrimInsetsView">
         <attr name="insetForeground" format="reference|color" />
+        <attr name="actionBarInsetStart" format="dimension" />
+        <attr name="actionBarIconColor" format="color" />
     </declare-styleable>
 </resources>
