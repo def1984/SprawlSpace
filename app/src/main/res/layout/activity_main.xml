@@ -5,48 +5,60 @@
     android:orientation="vertical"
     tools:context="com.example.toolbar.MainActivity" >
 
-    <include layout="@layout/toolbar" />
-
     <android.support.v4.widget.DrawerLayout
-        android:id="@+id/drawer"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/my_drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
-        <!-- 内容界面 -->
+        <!-- Your normal content view -->
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
-            <!--<com.example.toolbar.widget.PagerSlidingTabStrip-->
-                <!--android:id="@+id/tabs"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="48dip" >-->
-            <!--</com.example.toolbar.widget.PagerSlidingTabStrip>-->
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/pager"
+            <!-- We use a Toolbar so that our drawer can be displayed
+                 in front of the action bar -->
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/my_awesome_toolbar"
+                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-            </android.support.v4.view.ViewPager>
-        </LinearLayout>
+                android:minHeight="?attr/actionBarSize"
+                android:background="?attr/colorPrimary" />
 
-        <!-- 侧滑菜单内容 -->
-
-        <LinearLayout
-            android:id="@+id/drawer_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:background="@drawable/drawer"
-            android:orientation="vertical"
-            android:padding="8dp" >
-
+            <!-- The rest of your content view -->
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hello_world"/>
+
         </LinearLayout>
+
+        <!-- The navigation drawer -->
+        <com.example.ai.sprawlspace.ui.widget.ScrimInsetsFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="304dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:background="@android:color/white"
+            android:elevation="10dp"
+            android:fitsSystemWindows="true"
+            app:insetForeground="#4000">
+
+            <!-- Your drawer content -->
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/drawer"/>
+
+        </com.example.ai.sprawlspace.ui.widget.ScrimInsetsFrameLayout>
+
     </android.support.v4.widget.DrawerLayout>
+
+
 
 </LinearLayout> 
