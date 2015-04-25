@@ -1,5 +1,6 @@
 package com.example.ai.sprawlspace;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -24,6 +25,11 @@ public class MainActivity extends ActionBarActivity  {
         intiView();
     }
 
+
+    
+
+
+
     private void intiView(){
 
         // 在这里我们获取了主题暗色，并设置了status bar的颜色
@@ -44,23 +50,6 @@ public class MainActivity extends ActionBarActivity  {
         drawerLayout.setDrawerListener(mDrawerToggle);
 
 
-        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.action_settings:
-                        Toast.makeText(MainActivity.this, "action_settings", Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.action_share:
-                        Toast.makeText(MainActivity.this, "action_share", Toast.LENGTH_SHORT).show();
-                        break;
-                    default:
-                        break;
-                }
-                return true;
-            }
-        });
-
     }
 
     @Override
@@ -77,15 +66,20 @@ public class MainActivity extends ActionBarActivity  {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        switch (item.getItemId()) {
+            case R.id.menu_search:
+                /* [ANALYTICS:EVENT]
+                 * TRIGGER:   Click the search button on the Explore screen.
+                 * CATEGORY:  'Explore'
+                 * ACTION:    'launchsearch'
+                 * LABEL:     (none)
+                 * [/ANALYTICS]
+                 */
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+                startActivity(new Intent(this, SearchActivity.class));
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
-
-
 }
