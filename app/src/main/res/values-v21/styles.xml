@@ -1,11 +1,13 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">  
   
-    <style name="AppTheme" parent="@style/AppBaseTheme">  
-  
+    <style name="AppTheme" parent="@style/AppBaseTheme">
         <!-- 底部导航栏颜色 -->
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">#4876FF</item>  
+    </style>
+
+    <style name="MainAtyTheme" parent="@style/AppTheme">
+        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
 
