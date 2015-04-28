@@ -52,12 +52,10 @@
             android:layout_gravity="center_vertical"
             android:layout_marginTop="4dip"
             android:layout_marginBottom="4dip"
-            android:layout_marginLeft="8dip"
+            android:layout_marginLeft="0dp"
             android:layout_marginRight="8dip"
             android:orientation="horizontal"
             android:layoutDirection="locale">
-
-
 
         <android.support.v7.internal.widget.TintImageView
                 android:id="@+id/search_mag_icon"
@@ -84,11 +82,13 @@
                   android:layout_weight="1"
                   android:minWidth="@dimen/abc_search_view_text_min_width"
                   android:layout_gravity="bottom"
-                  android:paddingLeft="@dimen/abc_dropdownitem_text_padding_left"
                   android:paddingRight="@dimen/abc_dropdownitem_text_padding_right"
                   android:singleLine="true"
                   android:ellipsize="end"
+                  android:cursorVisible="true"
+                  android:textCursorDrawable="@null"
                   android:background="@null"
+                  android:textColorHint="@android:color/darker_gray"
                   android:inputType="text|textAutoComplete|textNoSuggestions"
                   android:imeOptions="actionSearch"
                   android:dropDownHeight="wrap_content"
@@ -141,3 +141,4 @@
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
+<!-- From: file:/usr/local/google/buildbot/repo_clients/https___googleplex-android.googlesource.com_a_platform_manifest.git/lmp-mr1-supportlib-release/frameworks/support/v7/appcompat/res/layout/abc_search_view.xml -->

@@ -9,11 +9,7 @@
     <style name="MainAtyTheme" parent="@style/AppTheme">
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
-
-    <style name="SearchTheme" parent="@style/AppTheme">
-
+    <style name="SearchTheme" parent="@style/AppBaseTheme">
     </style>
 
-
-  
-</resources>  
+</resources>

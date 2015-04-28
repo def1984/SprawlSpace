@@ -17,11 +17,12 @@
 
 
     <style name="SearchTheme" parent="@style/AppBaseTheme">
-        <item name="searchViewStyle">@style/SearchView</item>
-    </style>
+        <item name="android:textViewStyle">@style/SearchEditView</item>
 
-    <style name="SearchView" parent="Widget.AppCompat.Light.SearchView">
-        <item name="android:textColorPrimary">@color/body_text_2</item>
+    </style>
+    
+    <style name="SearchEditView">
+        <item name="android:textColorHint">@color/gray_background</item>
     </style>
 
     <style name="MainAtyTheme" parent="@style/AppBaseTheme">
