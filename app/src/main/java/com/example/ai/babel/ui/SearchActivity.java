@@ -52,6 +52,7 @@ public class SearchActivity extends BaseActivity {
             SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
             final SearchView view = (SearchView) searchItem.getActionView();
             mSearchView = view;
+            view.setIconified(false);
         }
         return true;
     }
