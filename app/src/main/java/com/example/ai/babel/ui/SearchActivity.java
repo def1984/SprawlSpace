@@ -22,7 +22,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.IntentCompat;
-import android.support.v7.widget.SearchView;
+import com.example.ai.babel.ui.widget.MySearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,7 +31,8 @@ import android.view.View;
 import com.example.ai.babel.R;
 
 public class SearchActivity extends BaseActivity {
-    SearchView mSearchView = null;
+    MySearchView mSearchView = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,15 +62,15 @@ public class SearchActivity extends BaseActivity {
         final MenuItem searchItem = menu.findItem(R.id.menu_search);
         if (searchItem != null) {
             SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-            final SearchView view = (SearchView) searchItem.getActionView();
+            final MySearchView view = (MySearchView) searchItem.getActionView();
             mSearchView = view;
             if (view == null) {
                 System.out.print("Could not set up search view, view is null.");
             } else {
                 view.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-                view.setIconified(false);
+                view.setIconifiedByDefault(false);
                 view.setQueryHint("搜索");
-                view.setOnCloseListener(new SearchView.OnCloseListener() {
+                view.setOnCloseListener(new MySearchView.OnCloseListener() {
                     @Override
                     public boolean onClose() {
                         finish();
