@@ -1,4 +1,4 @@
-package com.example.ai.sprawlspace.ui.widget;
+package com.example.ai.babel.ui.widget;
 
 /*
  * Copyright 2014 Google Inc.
@@ -26,7 +26,7 @@ import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
-import com.example.ai.sprawlspace.R;
+import com.example.ai.babel.R;
 
 /**
  * A layout that draws something in the insets passed to {@link #fitSystemWindows(Rect)}, i.e. the area above UI chrome

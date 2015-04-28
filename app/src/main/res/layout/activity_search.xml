@@ -20,7 +20,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.ai.sprawlspace.SearchActivity"
+    tools:context="com.example.ai.babel.SearchActivity"
     android:orientation="vertical">
 
     <include layout="@layout/toolbar_actionbar_with_headerbar" />

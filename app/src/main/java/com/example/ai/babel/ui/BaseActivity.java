@@ -1,10 +1,10 @@
-package com.example.ai.sprawlspace.ui;
+package com.example.ai.babel.ui;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
-import com.example.ai.sprawlspace.R;
+import com.example.ai.babel.R;
 
 
 public class BaseActivity extends ActionBarActivity {

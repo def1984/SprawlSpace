@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ai.sprawlspace" >
+    package="com.example.ai.babel" >
 
     <application
         android:allowBackup="true"
@@ -9,7 +9,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:theme="@style/MainAtyTheme"
-            android:name=".ui.MainActivity"
+            android:name="com.example.ai.babel.ui.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,11 +18,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.BaseActivity"
+            android:name="com.example.ai.babel.ui.BaseActivity"
             android:label="@string/title_activity_base" >
         </activity>
         <activity
-            android:name=".ui.SearchActivity"
+            android:name="com.example.ai.babel.ui.SearchActivity"
             android:label="@string/title_activity_base" >
         </activity>
     </application>

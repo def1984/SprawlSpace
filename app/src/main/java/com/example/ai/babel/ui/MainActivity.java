@@ -1,17 +1,15 @@
-package com.example.ai.sprawlspace.ui;
+package com.example.ai.babel.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import com.example.ai.sprawlspace.R;
+import com.example.ai.babel.R;
 
 
 public class MainActivity extends BaseActivity  {

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.ai.sprawlspace.ui;
+package com.example.ai.babel.ui;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -24,7 +24,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 
-import com.example.ai.sprawlspace.R;
+import com.example.ai.babel.R;
 
 public class SearchActivity extends BaseActivity {
     SearchView mSearchView = null;
