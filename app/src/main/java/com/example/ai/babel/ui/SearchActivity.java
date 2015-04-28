@@ -16,12 +16,15 @@
 package com.example.ai.babel.ui;
 
 import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.content.IntentCompat;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import com.example.ai.babel.R;
@@ -35,10 +38,17 @@ public class SearchActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         Toolbar toolbar = getActionBarToolbar();
-        toolbar.setTitle(R.string.title_search);
-        toolbar.setNavigationIcon(R.drawable.ic_up);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        toolbar.setTitle(R.string.title_search);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navigateUpToFromChild(SearchActivity.this,
+                        IntentCompat.makeMainActivity(new ComponentName(SearchActivity.this,
+                                MainActivity.class)));
+            }
+        });
 
     }
 
@@ -52,7 +62,20 @@ public class SearchActivity extends BaseActivity {
             SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
             final SearchView view = (SearchView) searchItem.getActionView();
             mSearchView = view;
-            view.setIconified(false);
+            if (view == null) {
+                System.out.print("Could not set up search view, view is null.");
+            } else {
+                view.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+                view.setIconified(false);
+                view.setQueryHint("搜索");
+                view.setOnCloseListener(new SearchView.OnCloseListener() {
+                    @Override
+                    public boolean onClose() {
+                        finish();
+                        return false;
+                    }
+                });
+            }
         }
         return true;
     }

@@ -3,21 +3,27 @@
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
         <!-- toolbar（actionbar）颜色 -->
-        <item name="colorPrimary">#4876FF</item>
+        <item name="colorPrimary">@color/theme_primary</item>
         <!-- 状态栏颜色 -->
-        <item name="colorPrimaryDark">#3A5FCD</item>
+        <item name="colorPrimaryDark">@color/theme_primary_dark</item>
         <!-- 窗口的背景颜色 -->
         <item name="android:windowBackground">@android:color/white</item>
         <!-- SearchView -->
+        <item name="android:textColorPrimary">@color/body_text_2</item>
 
     </style>
 
     <style name="AppTheme" parent="@style/AppBaseTheme"></style>
 
-    <style name="MainAtyTheme" parent="@style/AppBaseTheme">
+
+    <style name="SearchTheme" parent="@style/AppBaseTheme">
+        <item name="searchViewStyle">@style/SearchView</item>
     </style>
 
+    <style name="SearchView" parent="Widget.AppCompat.Light.SearchView">
+        <item name="android:textColorPrimary">@color/body_text_2</item>
+    </style>
 
-
-
+    <style name="MainAtyTheme" parent="@style/AppBaseTheme">
+    </style>
 </resources>  

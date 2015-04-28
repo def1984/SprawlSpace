@@ -25,10 +25,11 @@
 
     <include layout="@layout/toolbar_actionbar_with_headerbar" />
 
-    <!--<FrameLayout-->
-        <!--android:id="@+id/fragment_container"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_weight="1"-->
-        <!--tools:context=".ui.SearchActivity" />-->
+    <FrameLayout
+        android:background="@color/gray_background"
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        tools:context=".ui.SearchActivity" />
 </LinearLayout>

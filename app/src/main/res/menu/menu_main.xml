@@ -9,10 +9,6 @@
         android:title="@string/description_search"
         app:showAsAction="always" />
 
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="action_settings"
-        app:showAsAction="never"/>
+
 
 </menu>
