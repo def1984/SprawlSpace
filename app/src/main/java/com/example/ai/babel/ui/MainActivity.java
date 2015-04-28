@@ -45,15 +45,16 @@ public class MainActivity extends BaseActivity  {
         drawerLayout.setDrawerListener(mDrawerToggle);
 
 
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        final MenuItem searchItem = menu.findItem(R.id.menu_search);
+        searchItem.setIcon(android.support.v7.appcompat.R.drawable.abc_ic_search_api_mtrl_alpha);
         return true;
-
-
     }
 
     @Override

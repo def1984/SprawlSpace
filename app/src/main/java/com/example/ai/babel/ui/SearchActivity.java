@@ -15,9 +15,11 @@
  */
 package com.example.ai.babel.ui;
 
+import android.annotation.TargetApi;
 import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.IntentCompat;
 import android.support.v7.widget.SearchView;
@@ -25,13 +27,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.example.ai.babel.R;
 
 public class SearchActivity extends BaseActivity {
     SearchView mSearchView = null;
-    LinearLayout linearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +40,9 @@ public class SearchActivity extends BaseActivity {
         Toolbar toolbar = getActionBarToolbar();
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitle(R.string.title_search);
+        toolbar.setTitle("");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View view) {
                 navigateUpToFromChild(SearchActivity.this,
