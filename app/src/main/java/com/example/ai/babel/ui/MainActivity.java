@@ -8,10 +8,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
 import com.example.ai.babel.R;
 
 
-public class MainActivity extends BaseActivity  {
+public class MainActivity extends BaseActivity {
 
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -35,7 +37,7 @@ public class MainActivity extends BaseActivity  {
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.my_drawer_layout);
         drawerLayout.setStatusBarBackgroundColor(color);
         mToolbar = getActionBarToolbar();
-        setSupportActionBar(mToolbar);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, mToolbar, R.string.drawer_open,
                 R.string.drawer_close);
@@ -62,14 +64,7 @@ public class MainActivity extends BaseActivity  {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.menu_search_into:
-                /* [ANALYTICS:EVENT]
-                 * TRIGGER:   Click the search_menu_toobar button on the Explore screen.
-                 * CATEGORY:  'Explore'
-                 * ACTION:    'launchsearch'
-                 * LABEL:     (none)
-                 * [/ANALYTICS]
-                 */
-
+                Toast.makeText(this,"test",Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(this, SearchActivity.class));
                 return true;
         }
