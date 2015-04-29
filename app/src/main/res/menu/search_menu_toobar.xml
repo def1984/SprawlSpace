@@ -15,9 +15,9 @@
   -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:iosched="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/menu_search"
+    <item android:id="@+id/menu_search_toolbar"
         android:title="@string/description_search"
         android:orderInCategory="0"
-        iosched:actionViewClass="com.example.ai.babel.ui.widget.MySearchView"
+        iosched:actionViewClass="com.example.ai.babel.ui.mViews.MySearchView"
         iosched:showAsAction="always" />
 </menu>

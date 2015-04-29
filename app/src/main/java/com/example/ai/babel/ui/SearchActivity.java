@@ -22,7 +22,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.IntentCompat;
-import com.example.ai.babel.ui.widget.MySearchView;
+import com.example.ai.babel.ui.mViews.MySearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,12 +33,11 @@ import com.example.ai.babel.R;
 public class SearchActivity extends BaseActivity {
     MySearchView mSearchView = null;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        Toolbar toolbar = getActionBarToolbar();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar_search);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setTitle("");
@@ -58,14 +57,14 @@ public class SearchActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.search, menu);
-        final MenuItem searchItem = menu.findItem(R.id.menu_search);
+        getMenuInflater().inflate(R.menu.search_menu_toobar, menu);
+        final MenuItem searchItem = menu.findItem(R.id.menu_search_toolbar);
         if (searchItem != null) {
             SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
             final MySearchView view = (MySearchView) searchItem.getActionView();
             mSearchView = view;
             if (view == null) {
-                System.out.print("Could not set up search view, view is null.");
+                System.out.print("Could not set up search_menu_toobar view, view is null.");
             } else {
                 view.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
                 view.setIconifiedByDefault(false);
@@ -86,7 +85,7 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menu_search) {
+        if (item.getItemId() == R.id.menu_search_into) {
             return true;
         }
         return super.onOptionsItemSelected(item);

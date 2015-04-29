@@ -27,6 +27,7 @@
 
 
             <!-- The rest of your content view -->
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

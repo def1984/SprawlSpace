@@ -1,4 +1,4 @@
-package com.example.ai.babel.ui.widget;
+package com.example.ai.babel.ui.mViews;
 
 /**
  * Created by ai on 15-4-28.

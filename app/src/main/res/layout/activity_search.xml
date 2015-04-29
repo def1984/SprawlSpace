@@ -23,7 +23,7 @@
     tools:context="com.example.ai.babel.SearchActivity"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar_actionbar_with_headerbar" />
+    <include layout="@layout/search" />
 
     <FrameLayout
         android:background="@color/gray_background"
