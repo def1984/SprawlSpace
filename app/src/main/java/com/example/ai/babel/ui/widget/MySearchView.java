@@ -41,6 +41,6 @@ public class MySearchView  extends SearchView{
 
     @Override
     public void setIconifiedByDefault(boolean iconified) {
-        
+        super.setIconifiedByDefault(iconified);
     }
 }

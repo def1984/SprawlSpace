@@ -85,6 +85,8 @@
                   android:paddingRight="@dimen/abc_dropdownitem_text_padding_right"
                   android:singleLine="true"
                   android:ellipsize="end"
+                  android:focusable="true"
+                  android:focusableInTouchMode="true"
                   android:cursorVisible="true"
                   android:textCursorDrawable="@null"
                   android:background="@null"
