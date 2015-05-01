@@ -1,6 +1,5 @@
 package com.example.ai.babel.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -40,7 +39,7 @@ public class InterActivity extends BaseActivity {
 
     private void intiView(){
         mToolbar = getActionBarToolbar();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }
 
     @Override
@@ -62,7 +61,7 @@ public class InterActivity extends BaseActivity {
                 mViewPager.setCurrentItem(0);
                 break;
             case R.id.action_registers:
-                mViewPager.setCurrentItem(1);
+                mViewPager.setCurrentItem(2);
                 Toast.makeText(this,"3",Toast.LENGTH_SHORT).show();
                 break;
         }
@@ -81,15 +80,15 @@ public class InterActivity extends BaseActivity {
                 case 0:
                     // The first section of the app is the most interesting -- it offers
                     // a launchpad into the other demonstrations in this example application.
-                    return new LaunchpadSectionFragment();
+                    return new LaunchpadFragment();
                 case 1:
                     // The first section of the app is the most interesting -- it offers
                     // a launchpad into the other demonstrations in this example application.
-                    return new LaunchpadSectionFragment();
+                    return new RegisterFragMent();
 
                 default:
                     // The other sections of the app are dummy placeholders.
-                    return new LaunchpadSectionFragment();
+                    return new LoginFragMent();
             }
         }
 
@@ -111,40 +110,37 @@ public class InterActivity extends BaseActivity {
     /**
      * A fragment that launches other parts of the demo application.
      */
-    public static class LaunchpadSectionFragment extends Fragment {
+    public static class LaunchpadFragment extends Fragment {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_section_launchpad, container, false);
+            View rootView = inflater.inflate(R.layout.launchpad_fragment, container, false);
 
-            // Demonstration of a collection-browsing activity.
-            rootView.findViewById(R.id.demo_collection_button)
-                    .setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Intent intent = new Intent(getActivity(), MainActivity.class);
-                            startActivity(intent);
-                        }
-                    });
 
-            // Demonstration of navigating to external activities.
-            rootView.findViewById(R.id.demo_external_activity)
-                    .setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            // Create an intent that asks the user to pick a photo, but using
-                            // FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET, ensures that relaunching
-                            // the application from the device home screen does not return
-                            // to the external activity.
-                            Intent externalActivityIntent = new Intent(Intent.ACTION_PICK);
-                            externalActivityIntent.setType("image/*");
-                            externalActivityIntent.addFlags(
-                                    Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-                            startActivity(externalActivityIntent);
-                        }
-                    });
+            return rootView;
+        }
+    }
 
+    /**
+     * A fragment that launches other parts of the demo application.
+     */
+    public static class RegisterFragMent extends Fragment {
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.register_fragment, container, false);
+            return rootView;
+        }
+    }
+
+    public static class LoginFragMent extends Fragment {
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.login_fragment, container, false);
             return rootView;
         }
     }
