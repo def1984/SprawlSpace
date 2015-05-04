@@ -2,17 +2,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.ai.babel.ui.InterActivity">
-
     <item
         android:id="@+id/action_registers"
-        android:title="@string/action_settings"
+        android:title="@string/action_registers"
         android:orderInCategory="0"
         app:showAsAction="always" />
-
     <item
         android:id="@+id/action_login"
-        android:title="@string/action_settings"
+        android:title="@string/action_login"
         android:orderInCategory="1"
         app:showAsAction="always" />
-
 </menu>

@@ -29,7 +29,8 @@
         </activity>
         <activity
             android:name=".ui.InterActivity"
-            android:label="@string/title_activity_login" >
+            android:theme="@style/InterTheme"
+            android:label="" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

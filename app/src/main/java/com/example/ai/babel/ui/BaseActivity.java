@@ -1,10 +1,12 @@
 package com.example.ai.babel.ui;
 
+
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVAnalytics;
+import com.example.ai.babel.Config;
 import com.example.ai.babel.R;
 
 
@@ -12,11 +14,10 @@ public class BaseActivity extends ActionBarActivity {
     // Primary toolbar and drawer toggle
     private Toolbar mActionBarToolbar;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AVOSCloud.initialize(this, "9lv2ouk1313iornwpwlliesuouu0lioblfnbdahmseyvfls2", "mzry71qrf377cvljbb62eggmbv5j3aeqdss7j7ipmt11whsw");
+        setupAVOSCloud(true);
         AVAnalytics.trackAppOpened(getIntent());
     }
 
@@ -36,4 +37,14 @@ public class BaseActivity extends ActionBarActivity {
         }
         return mActionBarToolbar;
     }
+
+    private void setupAVOSCloud(boolean config) {
+        if (config) {
+            AVOSCloud.initialize(getApplication(),
+                    Config.APP_ID, Config.APP_KEY);
+            return;
+        }
+    }
+
+
 }

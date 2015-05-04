@@ -8,7 +8,7 @@ android {
         exclude 'META-INF/NOTICE.txt'
     }
     defaultConfig {
-        applicationId "com.example.ai.sprawlspace"
+        applicationId 'com.example.ai.babel'
         minSdkVersion 15
         targetSdkVersion 21
         versionCode 1
@@ -20,28 +20,25 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    productFlavors {
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:22.1.0'
     //avoscloud-sdk 为 LeanCloud基础包
     compile 'cn.leancloud.android:avoscloud-sdk:v2.7+'
-
     //avoscloud-push 与 Java-WebSocket 为推送与IM需要的包
     compile 'cn.leancloud.android:avoscloud-push:v2.7+@aar'
     compile 'cn.leancloud.android:Java-WebSocket:1.2.0-leancloud'
-
     //avoscloud-statistics 为 LeanCloud 统计包
     compile 'cn.leancloud.android:avoscloud-statistics:v2.7+@aar'
-
     //avoscloud-feedback 为 LeanCloud 用户反馈包
     compile 'cn.leancloud.android:avoscloud-feedback:v2.7+@aar'
-
     //avoscloud-sns 为 LeanCloud 第三方登陆包
     compile 'cn.leancloud.android:avoscloud-sns:v2.7+@aar'
     compile 'cn.leancloud.android:qq-sdk:1.6.1-leancloud'
-
     //avoscloud-search_menu_toobar 为 LeanCloud 应用内搜索包
     compile 'cn.leancloud.android:avoscloud-search:v2.7+@aar'
 }

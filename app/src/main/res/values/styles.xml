@@ -15,16 +15,18 @@
 
     <style name="AppTheme" parent="@style/AppBaseTheme"></style>
 
+    <style name="MainAtyTheme" parent="@style/AppBaseTheme">
+    </style>
 
     <style name="SearchTheme" parent="@style/AppBaseTheme">
         <item name="android:textViewStyle">@style/SearchEditView</item>
-
     </style>
     
     <style name="SearchEditView">
         <item name="android:textColorHint">@color/gray_background</item>
     </style>
 
-    <style name="MainAtyTheme" parent="@style/AppBaseTheme">
+    <style name="InterTheme" parent="AppTheme">
+        <item name="android:textColorPrimary">@android:color/black</item>
     </style>
 </resources>  

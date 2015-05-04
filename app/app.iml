@@ -97,8 +97,8 @@
     <orderEntry type="library" exported="" name="fastjson-1.1.37-leancloud" level="project" />
     <orderEntry type="library" exported="" name="android-async-http-1.4.6" level="project" />
     <orderEntry type="library" exported="" name="avoscloud-statistics-v2.7" level="project" />
-    <orderEntry type="library" exported="" name="Java-WebSocket-1.2.0-leancloud" level="project" />
     <orderEntry type="library" exported="" name="avoscloud-sdk-v2.7" level="project" />
+    <orderEntry type="library" exported="" name="Java-WebSocket-1.2.0-leancloud" level="project" />
     <orderEntry type="library" exported="" name="avoscloud-sns-v2.7" level="project" />
   </component>
 </module>
