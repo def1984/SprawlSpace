@@ -1,5 +1,6 @@
 package com.example.ai.babel.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.avos.avoscloud.AVUser;
 import com.example.ai.babel.R;
 import com.example.ai.babel.ui.fragment.LaunchpadFragment;
 import com.example.ai.babel.ui.fragment.LoginFragment;
@@ -26,7 +28,13 @@ public class InterActivity extends BaseActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inter);
-        intiView();
+        AVUser currentUser = AVUser.getCurrentUser();
+        if (currentUser != null) {
+            Intent mainIntent = new Intent(this, MainActivity.class);
+            startActivity(mainIntent);
+        } else {
+            intiView();
+        }
     }
 
     private void intiView(){

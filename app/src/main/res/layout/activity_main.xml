@@ -48,10 +48,11 @@
 
             <!-- Your drawer content -->
 
-            <ImageView
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/logout_button"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/drawer"/>
+                android:text="登出"/>
 
         </com.example.ai.babel.ui.widget.ScrimInsetsFrameLayout>
 

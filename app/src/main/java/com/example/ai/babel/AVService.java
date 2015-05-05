@@ -72,7 +72,7 @@ public class AVService {
     AVUser user = new AVUser();
     user.setPassword(password);
     user.setEmail(email);
-    user.setUsername("用户");
+    user.setUsername(email);
     user.signUpInBackground(signUpCallback);
   }
 

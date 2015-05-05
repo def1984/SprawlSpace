@@ -1,6 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context="com.example.ai.babel.ui.fragment.RegisterFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -10,9 +11,6 @@
         android:layout_gravity="center_horizontal|top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-
-
-
         <EditText
             android:id="@+id/email_edit"
             android:hint="@string/email"

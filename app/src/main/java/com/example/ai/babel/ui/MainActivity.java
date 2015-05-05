@@ -1,6 +1,7 @@
 package com.example.ai.babel.ui;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -8,8 +9,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
+import com.avos.avoscloud.AVUser;
 import com.example.ai.babel.R;
 
 
@@ -17,12 +21,27 @@ public class MainActivity extends BaseActivity {
 
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mDrawerToggle;
+    private Button logoutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         intiView();
+        logOut();
+    }
+
+    private void logOut() {
+        logoutButton = (Button) findViewById(R.id.logout_button);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AVUser.logOut();
+                Intent interIntent = new Intent(MainActivity.this,InterActivity.class);
+                startActivity(interIntent);
+                finish();
+            }
+        });
     }
 
 
