@@ -27,11 +27,9 @@
 
 
             <!-- The rest of your content view -->
+            <include layout="@layout/content_layout"></include>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="hello_world"/>
+
 
         </LinearLayout>
 

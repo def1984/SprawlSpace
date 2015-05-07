@@ -41,4 +41,5 @@ dependencies {
     compile 'cn.leancloud.android:qq-sdk:1.6.1-leancloud'
     //avoscloud-search_menu_toobar 为 LeanCloud 应用内搜索包
     compile 'cn.leancloud.android:avoscloud-search:v2.7+@aar'
+    compile 'com.melnykov:floatingactionbutton:1.3.0'
 }

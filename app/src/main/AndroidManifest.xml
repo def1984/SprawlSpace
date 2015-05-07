@@ -11,7 +11,7 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
+        android:label="@string/app_name_main"
         android:theme="@style/AppTheme" >
         <activity
             android:name=".ui.MainActivity"
@@ -20,7 +20,7 @@
         </activity>
         <activity
             android:name=".ui.BaseActivity"
-            android:label="" >
+            android:label="@string/app_name_main" >
         </activity>
         <activity
             android:name=".ui.SearchActivity"
@@ -30,7 +30,7 @@
         <activity
             android:name=".ui.InterActivity"
             android:theme="@style/InterTheme"
-            android:label="" >
+            android:label="@string/app_name_main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
