@@ -9,7 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import com.avos.avoscloud.AVUser;
 import com.example.ai.babel.R;
 import com.example.ai.babel.ui.fragment.LaunchpadFragment;
@@ -17,7 +16,7 @@ import com.example.ai.babel.ui.fragment.LoginFragment;
 import com.example.ai.babel.ui.fragment.RegisterFragment;
 
 
-public class InterActivity extends BaseActivity  {
+public class InterActivity extends BaseActivity {
 
     private Toolbar mToolbar;
     DemoCollectionPagerAdapter mDemoCollectionPagerAdapter;
@@ -32,6 +31,7 @@ public class InterActivity extends BaseActivity  {
         if (currentUser != null) {
             Intent mainIntent = new Intent(this, MainActivity.class);
             startActivity(mainIntent);
+            finish();
         } else {
             intiView();
         }

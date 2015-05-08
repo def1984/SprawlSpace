@@ -1,25 +1,29 @@
 package com.example.ai.babel.ui;
-
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import com.melnykov.fab.FloatingActionButton;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
 import android.widget.Button;
 import android.widget.Toast;
-
 import com.avos.avoscloud.AVUser;
+
 import com.example.ai.babel.R;
 
 
 public class MainActivity extends BaseActivity {
 
     private Toolbar mToolbar;
+    private FloatingActionButton fabBtn;
+    private Boolean isCheck = false;
     private ActionBarDrawerToggle mDrawerToggle;
     private Button logoutButton;
 
@@ -29,6 +33,29 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         intiView();
         logOut();
+        fabBtn= (FloatingActionButton) findViewById(R.id.fab);
+        fabBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animation animationSet = AnimationUtils.loadAnimation(MainActivity.this,R.anim.fab_anim);
+                if(!isCheck){
+                    animationSet.setFillAfter(true);
+                    fabBtn.startAnimation(animationSet);
+                    isCheck=true;
+                }else{
+                    animationSet.setInterpolator(new ReverseInterpolator());
+                    fabBtn.startAnimation(animationSet);
+                    isCheck=false;
+                }
+            }
+        });
+    }
+
+    public class ReverseInterpolator implements Interpolator {
+        @Override
+        public float getInterpolation(float paramFloat) {
+            return Math.abs(paramFloat -1f);
+        }
     }
 
     private void logOut() {
