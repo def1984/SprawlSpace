@@ -7,6 +7,7 @@
     <LinearLayout
         android:layout_gravity="bottom|right"
         android:layout_width="60dp"
+        android:id="@+id/mini_fab_content"
         android:orientation="vertical"
         android:gravity="center"
         android:layout_marginRight="16dp"
@@ -19,11 +20,24 @@
             android:src="@drawable/ic_up"
             android:layout_margin="16dp"
             fab:fab_type="mini"
-            android:id="@+id/fab2"
+            android:visibility="gone"
             fab:fab_colorNormal="@color/avoscloud_feedback_white"
             fab:fab_colorPressed="@color/theme_primary_light"
             fab:fab_colorRipple="@color/theme_primary_dark"  />
+
+        <com.melnykov.fab.FloatingActionButton
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_up"
+            android:layout_margin="16dp"
+            fab:fab_type="mini"
+            fab:fab_colorNormal="@color/avoscloud_feedback_white"
+            fab:fab_colorPressed="@color/theme_primary_light"
+            fab:fab_colorRipple="@color/theme_primary_dark"  />
+
         </LinearLayout>
+
 
     <com.melnykov.fab.FloatingActionButton
         android:id="@+id/fab"

@@ -1,11 +1,14 @@
 package com.example.ai.babel.ui;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+
 import com.melnykov.fab.FloatingActionButton;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,10 +16,13 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
+
 import com.avos.avoscloud.AVUser;
 
 import com.example.ai.babel.R;
+
 
 
 public class MainActivity extends BaseActivity {
@@ -26,6 +32,7 @@ public class MainActivity extends BaseActivity {
     private Boolean isCheck = false;
     private ActionBarDrawerToggle mDrawerToggle;
     private Button logoutButton;
+    private LinearLayout mLinearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,53 +40,17 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         intiView();
         logOut();
-        fabBtn= (FloatingActionButton) findViewById(R.id.fab);
-        fabBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Animation animationSet = AnimationUtils.loadAnimation(MainActivity.this,R.anim.fab_anim);
-                if(!isCheck){
-                    animationSet.setFillAfter(true);
-                    fabBtn.startAnimation(animationSet);
-                    isCheck=true;
-                }else{
-                    animationSet.setInterpolator(new ReverseInterpolator());
-                    fabBtn.startAnimation(animationSet);
-                    isCheck=false;
-                }
-            }
-        });
+        fabBtnAm();
     }
 
-    public class ReverseInterpolator implements Interpolator {
-        @Override
-        public float getInterpolation(float paramFloat) {
-            return Math.abs(paramFloat -1f);
-        }
-    }
-
-    private void logOut() {
-        logoutButton = (Button) findViewById(R.id.logout_button);
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AVUser.logOut();
-                Intent interIntent = new Intent(MainActivity.this,InterActivity.class);
-                startActivity(interIntent);
-                finish();
-            }
-        });
-    }
-
-
-    private void intiView(){
+    private void intiView() {
 
         // 在这里我们获取了主题暗色，并设置了status bar的颜色
         TypedValue typedValue = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValue, true);
         int color = typedValue.data;
 
-// 注意setStatusBarBackgroundColor方法需要你将fitsSystemWindows设置为true才会生效
+        // 注意setStatusBarBackgroundColor方法需要你将fitsSystemWindows设置为true才会生效
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.my_drawer_layout);
         drawerLayout.setStatusBarBackgroundColor(color);
         mToolbar = getActionBarToolbar();
@@ -90,9 +61,71 @@ public class MainActivity extends BaseActivity {
         mDrawerToggle.syncState();
         drawerLayout.setDrawerListener(mDrawerToggle);
 
-
-
     }
+    private void showAllMinFab() {
+        Animation minFabSet = AnimationUtils.loadAnimation(MainActivity.this, R.anim.min_fab_anim);
+        mLinearLayout = (LinearLayout) findViewById(R.id.mini_fab_content);
+        for (int i = 0; i < mLinearLayout.getChildCount(); i++) {
+              FloatingActionButton mini= (FloatingActionButton) mLinearLayout .getChildAt(i);
+              mini.setVisibility(View.VISIBLE);
+              mini.startAnimation(minFabSet);
+        }
+    }
+
+    private void hideAllMinFab() {
+        mLinearLayout = (LinearLayout) findViewById(R.id.mini_fab_content);
+        Animation minFabSetRve = AnimationUtils.loadAnimation(MainActivity.this, R.anim.min_fab_anim_rev);
+        for (int i = 0; i < mLinearLayout.getChildCount(); i++) {
+            FloatingActionButton mini= (FloatingActionButton) mLinearLayout .getChildAt(i);
+            minFabSetRve.setFillAfter(true);
+            mini.startAnimation(minFabSetRve);
+        }
+    }
+
+
+    private void fabBtnAm() {
+
+        fabBtn = (FloatingActionButton) findViewById(R.id.fab);
+        fabBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animation animationSet = AnimationUtils.loadAnimation(MainActivity.this, R.anim.fab_anim);
+
+                if (!isCheck) {
+                    animationSet.setFillAfter(true);
+                    showAllMinFab();
+                    fabBtn.startAnimation(animationSet);
+                    isCheck = true;
+                } else {
+                    animationSet.setInterpolator(new ReverseInterpolator());
+                    fabBtn.startAnimation(animationSet);
+                    hideAllMinFab();
+                    isCheck = false;
+                }
+            }
+        });
+    }
+
+    public class ReverseInterpolator implements Interpolator {
+        @Override
+        public float getInterpolation(float paramFloat) {
+            return Math.abs(paramFloat - 1f);
+        }
+    }
+
+    private void logOut() {
+        logoutButton = (Button) findViewById(R.id.logout_button);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AVUser.logOut();
+                Intent interIntent = new Intent(MainActivity.this, InterActivity.class);
+                startActivity(interIntent);
+                finish();
+            }
+        });
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -110,7 +143,7 @@ public class MainActivity extends BaseActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.menu_search_into:
-                Toast.makeText(this,"test",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "test", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(this, SearchActivity.class));
                 return true;
         }
