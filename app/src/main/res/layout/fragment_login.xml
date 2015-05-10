@@ -26,6 +26,8 @@
             android:layout_height="wrap_content" />
 
         <Button
+            android:textColor="@color/avoscloud_feedback_white"
+            android:background="@color/theme_primary"
             android:id="@+id/login_button"
             android:layout_width="300dp"
             android:layout_height="wrap_content"

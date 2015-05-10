@@ -11,20 +11,34 @@
         android:layout_gravity="center_horizontal|top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="48dp"
+            android:text="用户注册"/>
+
         <EditText
             android:id="@+id/email_edit"
-            android:hint="@string/email"
+            android:hint="@string/login_input_user_name"
+            android:textColorHint="@color/avoscloud_feedback_text_gray"
+            android:textCursorDrawable="@null"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <EditText
+
             android:id="@+id/password_edit"
-            android:hint="@string/password"
+            android:textColorHint="@color/avoscloud_feedback_text_gray"
+            android:hint="@string/login_input_user_password"
             android:password="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <Button
+            android:textColor="@color/avoscloud_feedback_white"
+            android:background="@color/theme_primary"
             android:id="@+id/register_button"
             android:layout_width="300dp"
             android:layout_height="wrap_content"

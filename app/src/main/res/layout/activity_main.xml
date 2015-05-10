@@ -46,11 +46,7 @@
 
             <!-- Your drawer content -->
 
-            <Button
-                android:id="@+id/logout_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="登出"/>
+            <include layout="@layout/nav_drawer"></include>
 
         </com.example.ai.babel.ui.widget.ScrimInsetsFrameLayout>
 

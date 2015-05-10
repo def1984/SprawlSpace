@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 
 import com.melnykov.fab.FloatingActionButton;
+import com.example.ai.babel.container.DrawerListItems;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,22 +18,28 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVUser;
 
 import com.example.ai.babel.R;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class MainActivity extends BaseActivity {
 
     private Toolbar mToolbar;
+    private ListView lv;
     private FloatingActionButton fabBtn;
     private Boolean isCheck = false;
     private ActionBarDrawerToggle mDrawerToggle;
     private Button logoutButton;
     private LinearLayout mLinearLayout;
+    private DrawerListItems drawerListItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +48,22 @@ public class MainActivity extends BaseActivity {
         intiView();
         logOut();
         fabBtnAm();
+        mDrawerListView();
+    }
+
+
+    private void mDrawerListView(){
+        lv = (ListView) findViewById(R.id.lv);
+        ArrayList<HashMap<String, Object>> listItemMain = new ArrayList<HashMap<String,Object>>();
+        drawerListItems=new DrawerListItems();
+        drawerListItems.setListItem(listItemMain);
+        SimpleAdapter mSimpleAdapter = new SimpleAdapter(this,drawerListItems.getListItem(),//需要绑定的数据
+                R.layout.drawer_item,//每一行的布局
+//动态数组中的数据源的键对应到定义布局的View中
+                new String[] {"ItemImage","ItemTitle" },
+                new int[] {R.id.ItemImage,R.id.ItemTitle}
+        );
+        lv.setAdapter(mSimpleAdapter);//为ListView绑定适配器
     }
 
     private void intiView() {
