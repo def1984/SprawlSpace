@@ -7,9 +7,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 
-import com.melnykov.fab.FloatingActionButton;
-import com.example.ai.babel.container.DrawerListItems;
 
+import com.example.ai.babel.container.DrawerListItems;
+import com.example.ai.babel.ui.widget.MyFloatingActionButton;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +17,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 import com.avos.avoscloud.AVUser;
 
 import com.example.ai.babel.R;
+import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,12 +36,11 @@ public class MainActivity extends BaseActivity {
 
     private Toolbar mToolbar;
     private ListView lv;
-    private FloatingActionButton fabBtn;
+    private MyFloatingActionButton fabBtn;
     private Boolean isCheck = false;
     private ActionBarDrawerToggle mDrawerToggle;
     private Button logoutButton;
     private LinearLayout mLinearLayout;
-    private DrawerListItems drawerListItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +52,10 @@ public class MainActivity extends BaseActivity {
         mDrawerListView();
     }
 
-
     private void mDrawerListView(){
         lv = (ListView) findViewById(R.id.lv);
         ArrayList<HashMap<String, Object>> listItemMain = new ArrayList<HashMap<String,Object>>();
-        drawerListItems=new DrawerListItems();
+        DrawerListItems drawerListItems=new DrawerListItems();
         drawerListItems.setListItem(listItemMain);
         SimpleAdapter mSimpleAdapter = new SimpleAdapter(this,drawerListItems.getListItem(),//需要绑定的数据
                 R.layout.drawer_item,//每一行的布局
@@ -107,21 +107,21 @@ public class MainActivity extends BaseActivity {
 
 
     private void fabBtnAm() {
+        fabBtn = (MyFloatingActionButton) findViewById(R.id.fab);
 
-        fabBtn = (FloatingActionButton) findViewById(R.id.fab);
         fabBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Animation animationSet = AnimationUtils.loadAnimation(MainActivity.this, R.anim.fab_anim);
-
+                ImageView fabImageView= (ImageView) findViewById(R.id.img_fab);
                 if (!isCheck) {
                     animationSet.setFillAfter(true);
                     showAllMinFab();
-                    fabBtn.startAnimation(animationSet);
+                    fabImageView.startAnimation(animationSet);
                     isCheck = true;
                 } else {
                     animationSet.setInterpolator(new ReverseInterpolator());
-                    fabBtn.startAnimation(animationSet);
+                    fabImageView.startAnimation(animationSet);
                     hideAllMinFab();
                     isCheck = false;
                 }

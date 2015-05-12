@@ -4,6 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ListView
+        android:id="@+id/list_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </ListView>
+
     <LinearLayout
         android:layout_gravity="bottom|right"
         android:layout_width="60dp"
@@ -38,15 +44,19 @@
 
         </LinearLayout>
 
+         <com.example.ai.babel.ui.widget.MyFloatingActionButton
+             android:id="@+id/fab"
+             android:layout_width="@dimen/fab_size"
+             android:layout_height="@dimen/fab_size"
+             android:layout_margin="16dp"
+             android:layout_gravity="bottom|right">
 
-    <com.melnykov.fab.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_add"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="16dp"
-        fab:fab_colorNormal="@color/theme_primary"
-        fab:fab_colorPressed="@color/theme_primary_light"
-        fab:fab_colorRipple="@color/theme_primary_dark"  />
+             <ImageView
+                 android:id="@+id/img_fab"
+                 android:layout_width="@dimen/fab_icon_size"
+                 android:layout_height="@dimen/fab_icon_size"
+                 android:src="@drawable/ic_add"
+                 android:layout_gravity="center"
+                 android:duplicateParentState="true"/>
+            </com.example.ai.babel.ui.widget.MyFloatingActionButton>
 </FrameLayout>

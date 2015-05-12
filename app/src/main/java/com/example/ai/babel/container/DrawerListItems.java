@@ -1,7 +1,6 @@
 package com.example.ai.babel.container;
 
 import com.example.ai.babel.R;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
