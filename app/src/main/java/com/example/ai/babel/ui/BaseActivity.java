@@ -17,7 +17,7 @@ public class BaseActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setupAVOSCloud(true);
+
         AVAnalytics.trackAppOpened(getIntent());
     }
 
@@ -37,14 +37,5 @@ public class BaseActivity extends ActionBarActivity {
         }
         return mActionBarToolbar;
     }
-
-    private void setupAVOSCloud(boolean config) {
-        if (config) {
-            AVOSCloud.initialize(getApplication(),
-                    Config.APP_ID, Config.APP_KEY);
-            return;
-        }
-    }
-
 
 }

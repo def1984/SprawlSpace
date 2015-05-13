@@ -5,10 +5,15 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 
 
-import com.example.ai.babel.container.DrawerListItems;
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.FindCallback;
+import com.example.ai.babel.service.MyService;
 import com.example.ai.babel.ui.widget.MyFloatingActionButton;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +35,7 @@ import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 public class MainActivity extends BaseActivity {
@@ -50,14 +56,28 @@ public class MainActivity extends BaseActivity {
         logOut();
         fabBtnAm();
         mDrawerListView();
+        AVQuery<AVObject> query = new AVQuery<AVObject>("Post");
+        query.whereEqualTo("objectId", "55533034e4b076f1c30a92ff");
+        query.findInBackground(new FindCallback<AVObject>() {
+            public void done(List<AVObject> avObjects, AVException e) {
+                if (e == null) {
+                    for (int i = 0; i < avObjects.size(); i++) {
+                        String postTile=avObjects.get(i).getString("title");
+                        System.out.println(postTile);
+                    }
+                } else {
+                    Log.d("失败", "查询错误: " + e.getMessage());
+                }
+            }
+        });
     }
 
     private void mDrawerListView(){
         lv = (ListView) findViewById(R.id.lv);
         ArrayList<HashMap<String, Object>> listItemMain = new ArrayList<HashMap<String,Object>>();
-        DrawerListItems drawerListItems=new DrawerListItems();
-        drawerListItems.setListItem(listItemMain);
-        SimpleAdapter mSimpleAdapter = new SimpleAdapter(this,drawerListItems.getListItem(),//需要绑定的数据
+        MyService drawerListItems=new MyService();
+        drawerListItems.setDrawListItem(listItemMain);
+        SimpleAdapter mSimpleAdapter = new SimpleAdapter(this,drawerListItems.getDrawListItem(),//需要绑定的数据
                 R.layout.drawer_item,//每一行的布局
 //动态数组中的数据源的键对应到定义布局的View中
                 new String[] {"ItemImage","ItemTitle" },
