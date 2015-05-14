@@ -3,44 +3,42 @@ package com.example.ai.babel.service;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.util.Log;
-
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.FindCallback;
 import com.example.ai.babel.R;
-
+import com.avos.avoscloud.AVUser;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class MyService extends Service {
 
+    private String userId;
+
     ArrayList<HashMap<String, Object>> drawListItem = new ArrayList<HashMap<String,Object>>();
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        final AVUser currentUser = AVUser.getCurrentUser();
+        if (currentUser != null) {
+            userId = currentUser.getObjectId();
+        }
 
-    HashMap<String, Object> allDrawNavTag = new HashMap<String, Object>();
+//        // 创建微博信息
+//        AVObject post = new AVObject("Post");
+//        post.put("content", "很好时节");
+//
+//        post.put("userObjectId", currentUser);
+//
+//        post.saveInBackground();
 
-    public MyService() {
-        AVQuery<AVObject> query = new AVQuery<AVObject>("Post");
-        query.whereEqualTo("objec", "steve");
-        query.findInBackground(new FindCallback<AVObject>() {
-            public void done(List <AVObject> avObjects, AVException e) {
-                if (e == null) {
-                    Log.d("成功", "查询到" + avObjects.size() + " 条符合条件的数据");
-                } else {
-                    Log.d("失败", "查询错误: " + e.getMessage());
-                }
-            }
-        });
     }
 
     public void setDrawListItem(ArrayList<HashMap<String, Object>> drawListItem) {
         this.drawListItem = drawListItem;
-        allDrawNavTag.put("ItemImage", R.drawable.ic_tick);//加入图片
-        allDrawNavTag.put("ItemTitle", "所有日记");
-        drawListItem.add(allDrawNavTag);
     }
 
     public ArrayList<HashMap<String, Object>> getDrawListItem() {
