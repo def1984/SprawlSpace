@@ -72,5 +72,8 @@
     <string name="doing_detail_person">人</string>
     <string name="doing_detail_get_achievement_title">本次获得的成就</string>
     <string name="doing_detail_achievement_null">没有获得成就T.T</string>
+    <string name="title_activity_detail">DetailActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 
 </resources>

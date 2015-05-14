@@ -6,8 +6,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
-
-
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVObject;
@@ -20,6 +18,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -40,12 +39,14 @@ import java.util.List;
 public class MainActivity extends BaseActivity {
 
     private Toolbar mToolbar;
-    private ListView lv;
+    private ListView postList;
     private MyFloatingActionButton fabBtn;
     private Boolean isCheck = false;
     private ActionBarDrawerToggle mDrawerToggle;
     private Button logoutButton;
+    private AVUser currentUser = AVUser.getCurrentUser();
     private LinearLayout mLinearLayout;
+    String postObjID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,25 +55,28 @@ public class MainActivity extends BaseActivity {
         intiView();
         logOut();
         fabBtnAm();
-        mDrawerListView();
+        mainListView();
     }
 
+
     ArrayList<HashMap<String, Object>> listItemMain = new ArrayList<HashMap<String,Object>>();
-    private void mDrawerListView(){
-        lv = (ListView) findViewById(R.id.lv);
-        AVUser currentUser = AVUser.getCurrentUser();
+    ArrayList<String> postObjIDList = new ArrayList<String>();
+    private void mainListView(){
+        postList = (ListView) findViewById(R.id.post_list);
         AVQuery<AVObject> query = AVQuery.getQuery("Post");
         AVOSCloud.setLastModifyEnabled(true);
-        query.whereEqualTo("userObjectId", currentUser);
         query.setCachePolicy(AVQuery.CachePolicy.CACHE_ELSE_NETWORK);
+        query.whereEqualTo("userObjectId", currentUser);
         query.findInBackground(new FindCallback<AVObject>() {
             public void done(List<AVObject> commentList, AVException e) {
                 if (e == null) {
                     for (int i = 0; i < commentList.size(); i++) {
                         HashMap<String, Object> allDrawNavTag = new HashMap<String, Object>();
-                        allDrawNavTag.put("ItemImage", R.drawable.ic_tick);//加入图片
-                        allDrawNavTag.put("ItemTitle",commentList.get(i).getString("content"));
+                        allDrawNavTag.put("postImage", R.drawable.ic_tick);//加入图片
+                        allDrawNavTag.put("postTitle",commentList.get(i).getString("title"));
+                        allDrawNavTag.put("postContent",commentList.get(i).getString("content"));
                         listItemMain.add(allDrawNavTag);
+                        postObjIDList.add(commentList.get(i).getObjectId());
                     }
                 } else {
                     System.out.println("无法查询");
@@ -82,12 +86,24 @@ public class MainActivity extends BaseActivity {
         });
 
         SimpleAdapter mSimpleAdapter = new SimpleAdapter(this,listItemMain,//需要绑定的数据
-                R.layout.drawer_item,//每一行的布局
-//动态数组中的数据源的键对应到定义布局的View中
-                new String[] {"ItemImage","ItemTitle" },
-                new int[] {R.id.ItemImage,R.id.ItemTitle}
+                R.layout.content_item,
+                new String[] {"postImage","postTitle","postContent"},
+                new int[] {R.id.contentImage,R.id.postTitle,R.id.postContent}
         );
-        lv.setAdapter(mSimpleAdapter);//为ListView绑定适配器
+
+
+        postList.setAdapter(mSimpleAdapter);//为ListView绑定适配器
+
+        postList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent=new Intent();
+
+                intent.putExtra("objectId", postObjIDList.get(position));
+                intent.setClass(MainActivity.this, DetailActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void intiView() {

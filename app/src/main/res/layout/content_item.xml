@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_width="match_parent">
+
+    <ImageView
+        android:layout_gravity="center_vertical"
+        android:layout_margin="16dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:id="@+id/contentImage"
+        />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:text="所有笔记"
+            android:id="@+id/postTitle"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:textSize="18dp"
+            />
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:text="所有笔记"
+            android:id="@+id/postContent"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:textSize="18dp"
+            />
+        </LinearLayout>
+
+
+</LinearLayout>
