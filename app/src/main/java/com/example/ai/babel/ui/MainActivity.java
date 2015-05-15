@@ -1,17 +1,20 @@
 package com.example.ai.babel.ui;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.FindCallback;
 import com.example.ai.babel.ui.widget.MyFloatingActionButton;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,65 +49,80 @@ public class MainActivity extends BaseActivity {
     private Button logoutButton;
     private AVUser currentUser = AVUser.getCurrentUser();
     private LinearLayout mLinearLayout;
-    String postObjID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        intiView();
-        logOut();
-        fabBtnAm();
-        mainListView();
+        new UpDataPostList().execute();
     }
 
 
-    ArrayList<HashMap<String, Object>> listItemMain = new ArrayList<HashMap<String,Object>>();
-    ArrayList<String> postObjIDList = new ArrayList<String>();
-    private void mainListView(){
-        postList = (ListView) findViewById(R.id.post_list);
-        AVQuery<AVObject> query = AVQuery.getQuery("Post");
-        AVOSCloud.setLastModifyEnabled(true);
-        query.setCachePolicy(AVQuery.CachePolicy.CACHE_ELSE_NETWORK);
-        query.whereEqualTo("userObjectId", currentUser);
-        query.findInBackground(new FindCallback<AVObject>() {
-            public void done(List<AVObject> commentList, AVException e) {
-                if (e == null) {
-                    for (int i = 0; i < commentList.size(); i++) {
-                        HashMap<String, Object> allDrawNavTag = new HashMap<String, Object>();
-                        allDrawNavTag.put("postImage", R.drawable.ic_tick);//加入图片
-                        allDrawNavTag.put("postTitle",commentList.get(i).getString("title"));
-                        allDrawNavTag.put("postContent",commentList.get(i).getString("content"));
-                        listItemMain.add(allDrawNavTag);
-                        postObjIDList.add(commentList.get(i).getObjectId());
-                    }
-                } else {
-                    System.out.println("无法查询");
+
+    class UpDataPostList extends AsyncTask<Void, Integer, Boolean> {
+        ArrayList<HashMap<String, Object>> listItemMain = new ArrayList<HashMap<String, Object>>();
+        ArrayList<String> postObjIDList = new ArrayList<String>();
+        @Override
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            AVQuery<AVObject> query = AVQuery.getQuery("Post");
+            postList = (ListView) findViewById(R.id.post_list);
+
+            query.whereEqualTo("userObjectId", currentUser);
+            List<AVObject> commentList = null;
+            try {
+                commentList = query.find();
+            } catch (AVException e) {
+                e.printStackTrace();
+            }
+            for (int i = 0; i < commentList.size(); i++) {
+                HashMap<String, Object> allDrawNavTag = new HashMap<String, Object>();
+                allDrawNavTag.put("postImage", R.drawable.ic_tick);//加入图片
+                allDrawNavTag.put("postTitle", commentList.get(i).getString("title"));
+                allDrawNavTag.put("postContent", commentList.get(i).getString("content"));
+                listItemMain.add(allDrawNavTag);
+                postObjIDList.add(commentList.get(i).getObjectId());
+            }
+            return true;
+        }
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            intiView();
+            logOut();
+            fabBtnAm();
+            SimpleAdapter mSimpleAdapter = new SimpleAdapter(MainActivity.this, listItemMain,//需要绑定的数据
+                    R.layout.content_item,
+                    new String[]{"postImage", "postTitle", "postContent"},
+                    new int[]{R.id.contentImage, R.id.postTitle, R.id.postContent}
+            );
+
+
+            postList.setAdapter(mSimpleAdapter);//为ListView绑定适配器
+
+            postList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intent = new Intent();
+                    intent.putExtra("objectId", postObjIDList.get(position));
+                    intent.setClass(MainActivity.this, DetailActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
-
-            }
-        });
-
-        SimpleAdapter mSimpleAdapter = new SimpleAdapter(this,listItemMain,//需要绑定的数据
-                R.layout.content_item,
-                new String[] {"postImage","postTitle","postContent"},
-                new int[] {R.id.contentImage,R.id.postTitle,R.id.postContent}
-        );
-
-
-        postList.setAdapter(mSimpleAdapter);//为ListView绑定适配器
-
-        postList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent=new Intent();
-
-                intent.putExtra("objectId", postObjIDList.get(position));
-                intent.setClass(MainActivity.this, DetailActivity.class);
-                startActivity(intent);
-            }
-        });
+            });
+        }
     }
+
+
 
     private void intiView() {
 
@@ -125,13 +143,14 @@ public class MainActivity extends BaseActivity {
         drawerLayout.setDrawerListener(mDrawerToggle);
 
     }
+
     private void showAllMinFab() {
         Animation minFabSet = AnimationUtils.loadAnimation(MainActivity.this, R.anim.min_fab_anim);
         mLinearLayout = (LinearLayout) findViewById(R.id.mini_fab_content);
         for (int i = 0; i < mLinearLayout.getChildCount(); i++) {
-              FloatingActionButton mini= (FloatingActionButton) mLinearLayout .getChildAt(i);
-              mini.setVisibility(View.VISIBLE);
-              mini.startAnimation(minFabSet);
+            FloatingActionButton mini = (FloatingActionButton) mLinearLayout.getChildAt(i);
+            mini.setVisibility(View.VISIBLE);
+            mini.startAnimation(minFabSet);
         }
     }
 
@@ -139,7 +158,7 @@ public class MainActivity extends BaseActivity {
         mLinearLayout = (LinearLayout) findViewById(R.id.mini_fab_content);
         Animation minFabSetRve = AnimationUtils.loadAnimation(MainActivity.this, R.anim.min_fab_anim_rev);
         for (int i = 0; i < mLinearLayout.getChildCount(); i++) {
-            FloatingActionButton mini= (FloatingActionButton) mLinearLayout .getChildAt(i);
+            FloatingActionButton mini = (FloatingActionButton) mLinearLayout.getChildAt(i);
             minFabSetRve.setFillAfter(true);
             mini.startAnimation(minFabSetRve);
         }
@@ -153,7 +172,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Animation animationSet = AnimationUtils.loadAnimation(MainActivity.this, R.anim.fab_anim);
-                ImageView fabImageView= (ImageView) findViewById(R.id.img_fab);
+                ImageView fabImageView = (ImageView) findViewById(R.id.img_fab);
                 if (!isCheck) {
                     animationSet.setFillAfter(true);
                     showAllMinFab();

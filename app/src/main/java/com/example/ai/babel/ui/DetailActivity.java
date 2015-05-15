@@ -5,7 +5,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
@@ -17,8 +20,10 @@ import com.example.ai.babel.R;
 public class DetailActivity extends BaseActivity {
 
     private EditText postTitle,postContent;
+    private Button saveBtn;
     String objectId;
     String postInputTitle,postInputContent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,14 +31,56 @@ public class DetailActivity extends BaseActivity {
         Intent intent=getIntent();
         objectId=intent.getStringExtra("objectId");
         postTitle= (EditText) findViewById(R.id.post_et_title);
+        new DetailPost().execute();
         postContent= (EditText) findViewById(R.id.post_et_content);
-        new DetailListView().execute();
+        saveBtn= (Button) findViewById(R.id.btnSave);
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new upDataPost().execute();
+            }
+        });
 
     }
 
+    class upDataPost extends AsyncTask<Void, Integer, Boolean> {
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+        AVQuery<AVObject> query = AVQuery.getQuery("Post");;
+        AVObject postUpData = new AVObject("Post");
+        @Override
+        protected Boolean doInBackground(Void... params) {
 
 
-    class DetailListView extends AsyncTask<Void, Integer, Boolean> {
+            try {
+                postUpData=query.get(objectId);
+                postUpData.put("content", postContent.getText().toString());
+                postUpData.put("title", postTitle.getText().toString());
+                postUpData.save();
+                postUpData.setFetchWhenSave(true);
+            } catch (AVException e) {
+                e.printStackTrace();
+            }
+            return true;
+        }
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            Toast.makeText(DetailActivity.this,"保存成功",Toast.LENGTH_SHORT).show();
+            finish();
+            Intent intent=new Intent(DetailActivity.this,MainActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    class DetailPost extends AsyncTask<Void, Integer, Boolean> {
 
         @Override
         protected void onPreExecute() {
@@ -43,7 +90,6 @@ public class DetailActivity extends BaseActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             AVQuery<AVObject> query = AVQuery.getQuery("Post");
-            query.setCachePolicy(AVQuery.CachePolicy.NETWORK_ELSE_CACHE);
             AVObject postInput;
             try {
                 postInput = query.get(objectId);

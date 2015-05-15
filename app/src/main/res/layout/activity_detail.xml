@@ -18,5 +18,9 @@
         android:id="@+id/post_et_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
+    <Button
+        android:layout_width="wrap_content"
+        android:id="@+id/btnSave"
+        android:text="保存"
+        android:layout_height="wrap_content" />
 </LinearLayout>
