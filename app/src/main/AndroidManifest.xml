@@ -49,6 +49,10 @@
             android:name=".ui.DetailActivity"
             android:label="@string/title_activity_detail" >
         </activity>
+        <activity
+            android:name=".ui.AddNewPost"
+            android:label="@string/title_activity_add_new_post" >
+        </activity>
     </application>
 
 </manifest>

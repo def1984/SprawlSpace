@@ -9,10 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 
 import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
-import com.avos.avoscloud.FindCallback;
 import com.example.ai.babel.ui.widget.MyFloatingActionButton;
 
 import android.view.Menu;
@@ -46,7 +44,7 @@ public class MainActivity extends BaseActivity {
     private MyFloatingActionButton fabBtn;
     private Boolean isCheck = false;
     private ActionBarDrawerToggle mDrawerToggle;
-    private Button logoutButton;
+    private Button logoutButton ;
     private AVUser currentUser = AVUser.getCurrentUser();
     private LinearLayout mLinearLayout;
 
@@ -100,6 +98,7 @@ public class MainActivity extends BaseActivity {
             intiView();
             logOut();
             fabBtnAm();
+            addNewPost();
             SimpleAdapter mSimpleAdapter = new SimpleAdapter(MainActivity.this, listItemMain,//需要绑定的数据
                     R.layout.content_item,
                     new String[]{"postImage", "postTitle", "postContent"},
@@ -203,6 +202,19 @@ public class MainActivity extends BaseActivity {
                 AVUser.logOut();
                 Intent interIntent = new Intent(MainActivity.this, InterActivity.class);
                 startActivity(interIntent);
+                finish();
+            }
+        });
+    }
+
+    private void addNewPost(){
+        FloatingActionButton addNewPost= (FloatingActionButton) findViewById(R.id.add_new_post);
+        addNewPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, AddNewPost.class);
+                startActivity(intent);
                 finish();
             }
         });
