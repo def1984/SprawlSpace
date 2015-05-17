@@ -1,6 +1,5 @@
 package com.example.ai.babel.ui;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
