@@ -76,5 +76,6 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_add_new_post">AddNewPost</string>
+    <string name="title_activity_profile">ProfileActivity</string>
 
 </resources>

@@ -1,5 +1,6 @@
 package com.example.ai.babel.ui;
 
+
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -36,6 +37,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class MainActivity extends BaseActivity {
 
@@ -47,6 +50,7 @@ public class MainActivity extends BaseActivity {
     private Button logoutButton ;
     private AVUser currentUser = AVUser.getCurrentUser();
     private LinearLayout mLinearLayout;
+    private CircleImageView profileImage;
 
 
     @Override
@@ -54,7 +58,16 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         new UpDataPostList().execute();
+        profileImage= (CircleImageView) findViewById(R.id.profile_image);
+        profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,ProfileActivity.class);
+                startActivity(intent);
+            }
+        });
     }
+
 
 
 
