@@ -45,9 +45,7 @@ public class SearchActivity extends BaseActivity {
             @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View view) {
-                navigateUpToFromChild(SearchActivity.this,
-                        IntentCompat.makeMainActivity(new ComponentName(SearchActivity.this,
-                                MainActivity.class)));
+                finish();
             }
         });
 

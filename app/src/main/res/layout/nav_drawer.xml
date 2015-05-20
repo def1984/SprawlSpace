@@ -6,27 +6,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:scaleType="centerCrop"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:background="@color/avoscloud_blue"
+        android:layout_height="120dp">
+    <LinearLayout
+        android:layout_gravity="center_vertical"
+        android:scaleType="centerCrop"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@color/avoscloud_blue">
+        >
 
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/profile_image"
             android:layout_width="48dp"
+            android:layout_margin="16dp"
             android:layout_height="48dp"
             android:src="@drawable/default_cover"
             app:border_width="1dp"
-            app:border_color="#ffffffff"/>
+            app:border_color="@color/secondary_text_default_material_light"/>
         <TextView
             android:layout_width="wrap_content"
             android:text="youname"
             android:layout_height="wrap_content" />
         </LinearLayout>
-
+    </FrameLayout>
     <ListView
         android:id="@+id/lv"
         android:layout_width="match_parent"
