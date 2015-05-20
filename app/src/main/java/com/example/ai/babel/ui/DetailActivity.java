@@ -38,6 +38,7 @@ public class DetailActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 new upDataPost().execute();
+                finish();
             }
         });
 
@@ -74,9 +75,7 @@ public class DetailActivity extends BaseActivity {
         @Override
         protected void onPostExecute(Boolean result) {
             Toast.makeText(DetailActivity.this,"保存成功",Toast.LENGTH_SHORT).show();
-            finish();
-            Intent intent=new Intent(DetailActivity.this,MainActivity.class);
-            startActivity(intent);
+
         }
     }
 

@@ -4,7 +4,9 @@ package com.example.ai.babel.ui;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
@@ -40,8 +42,9 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener{
 
+    private SwipeRefreshLayout swipeLayout;
     private Toolbar mToolbar;
     private ListView postList;
     private MyFloatingActionButton fabBtn;
@@ -51,12 +54,25 @@ public class MainActivity extends BaseActivity {
     private AVUser currentUser = AVUser.getCurrentUser();
     private LinearLayout mLinearLayout;
     private CircleImageView profileImage;
+    private  boolean isRefresh = false;
 
+    @Override
+    protected void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();//在下一行加入代码
+        new UpDataPostList().execute();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+        swipeLayout.setOnRefreshListener(this);
+        //加载颜色是循环播放的，只要没有完成刷新就会一直循环，color1>color2>color3>color4
+        swipeLayout.setColorScheme(android.R.color.white,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light, android.R.color.holo_red_light);
         new UpDataPostList().execute();
         profileImage= (CircleImageView) findViewById(R.id.profile_image);
         profileImage.setOnClickListener(new View.OnClickListener() {
@@ -68,7 +84,17 @@ public class MainActivity extends BaseActivity {
         });
     }
 
-
+    public void onRefresh() {
+        if(!isRefresh){
+            isRefresh = true;
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                swipeLayout.setRefreshing(false);
+                new UpDataPostList().execute();
+                isRefresh= false;
+            }
+        }, 3000); }
+    }
 
 
     class UpDataPostList extends AsyncTask<Void, Integer, Boolean> {
@@ -85,6 +111,7 @@ public class MainActivity extends BaseActivity {
             postList = (ListView) findViewById(R.id.post_list);
 
             query.whereEqualTo("userObjectId", currentUser);
+            query.orderByDescending("createdAt");
             List<AVObject> commentList = null;
             try {
                 commentList = query.find();
@@ -92,6 +119,7 @@ public class MainActivity extends BaseActivity {
                 e.printStackTrace();
             }
             for (int i = 0; i < commentList.size(); i++) {
+
                 HashMap<String, Object> allDrawNavTag = new HashMap<String, Object>();
                 allDrawNavTag.put("postImage", R.drawable.ic_tick);//加入图片
                 allDrawNavTag.put("postTitle", commentList.get(i).getString("title"));
@@ -128,7 +156,7 @@ public class MainActivity extends BaseActivity {
                     intent.putExtra("objectId", postObjIDList.get(position));
                     intent.setClass(MainActivity.this, DetailActivity.class);
                     startActivity(intent);
-                    finish();
+
                 }
             });
         }
@@ -228,7 +256,7 @@ public class MainActivity extends BaseActivity {
                 Intent intent = new Intent();
                 intent.setClass(MainActivity.this, AddNewPost.class);
                 startActivity(intent);
-                finish();
+
             }
         });
     }

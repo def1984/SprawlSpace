@@ -31,6 +31,7 @@ public class AddNewPost extends BaseActivity {
                 newPost.put("userObjectId", currentUser);
                 newPost.saveInBackground();
                 Toast.makeText(AddNewPost.this,"保存成功",Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }

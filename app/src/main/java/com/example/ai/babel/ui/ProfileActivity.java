@@ -1,7 +1,6 @@
 package com.example.ai.babel.ui;
 
 import android.annotation.TargetApi;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -24,7 +23,7 @@ import java.util.Date;
 public class ProfileActivity extends BaseActivity {
     private CircleImageView resultView;
 
-    private String filename; //图片名称
+    private String filename;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +44,6 @@ public class ProfileActivity extends BaseActivity {
         resultView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resultView.setImageDrawable(null);
                 Crop.pickImage(ProfileActivity.this);
             }
         });

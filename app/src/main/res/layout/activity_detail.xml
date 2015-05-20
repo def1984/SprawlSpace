@@ -8,12 +8,13 @@
     tools:context="com.example.ai.babel.ui.DetailActivity">
 
     <EditText
-        android:hint="title"
+        android:hint=""
         android:id="@+id/post_et_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <EditText
-        android:hint="content"
+        android:hint=""
+        android:gravity="top"
         android:layout_weight="1"
         android:id="@+id/post_et_content"
         android:layout_width="match_parent"
