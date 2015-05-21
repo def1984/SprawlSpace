@@ -17,18 +17,16 @@ package com.example.ai.babel.ui;
 
 import android.annotation.TargetApi;
 import android.app.SearchManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.IntentCompat;
-import com.example.ai.babel.ui.mViews.MySearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.example.ai.babel.R;
+import com.example.ai.babel.ui.mViews.MySearchView;
 
 public class SearchActivity extends BaseActivity {
     MySearchView mSearchView = null;
