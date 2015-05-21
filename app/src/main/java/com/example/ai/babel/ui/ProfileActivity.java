@@ -14,11 +14,13 @@ import android.widget.Toast;
 
 import com.example.ai.babel.R;
 import com.soundcloud.android.crop.Crop;
-import de.hdodenhof.circleimageview.CircleImageView;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends BaseActivity {
     private CircleImageView resultView;

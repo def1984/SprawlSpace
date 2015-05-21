@@ -1,7 +1,10 @@
 package com.example.ai.babel;
 
 import android.app.Application;
-import com.avos.avoscloud.*;
+
+import com.avos.avoscloud.AVOSCloud;
+import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.SignUpCallback;
 
 
 /**

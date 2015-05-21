@@ -3,15 +3,11 @@ package com.example.ai.babel.service;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVObject;
-import com.avos.avoscloud.AVQuery;
-import com.avos.avoscloud.FindCallback;
-import com.example.ai.babel.R;
+
 import com.avos.avoscloud.AVUser;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class MyService extends Service {
 

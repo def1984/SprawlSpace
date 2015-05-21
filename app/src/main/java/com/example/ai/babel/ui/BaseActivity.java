@@ -1,12 +1,11 @@
 package com.example.ai.babel.ui;
 
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import com.avos.avoscloud.AVOSCloud;
+
 import com.avos.avoscloud.AVAnalytics;
-import com.example.ai.babel.Config;
 import com.example.ai.babel.R;
 
 

@@ -8,18 +8,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
-
-import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVObject;
-import com.avos.avoscloud.AVQuery;
-import com.avos.avoscloud.FindCallback;
-import com.example.ai.babel.ui.widget.MyFloatingActionButton;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,9 +26,13 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
-
+import com.avos.avoscloud.FindCallback;
 import com.example.ai.babel.R;
+import com.example.ai.babel.ui.widget.MyFloatingActionButton;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -46,9 +42,9 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener{
+public class MainActivity extends BaseActivity    {
 
-    private SwipeRefreshLayout swipeLayout;
+
     private Toolbar mToolbar;
     private ListView postList;
     private MyFloatingActionButton fabBtn;
@@ -58,7 +54,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private AVUser currentUser = AVUser.getCurrentUser();
     private LinearLayout mLinearLayout;
     private CircleImageView profileImage;
-    private  boolean isRefresh = false;
+
 
     @Override
     protected void onResume() {
@@ -71,7 +67,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SwipeRefresh();
+
         new UpDataPostList().execute();
         profileImage= (CircleImageView) findViewById(R.id.profile_image);
         profileImage.setOnClickListener(new View.OnClickListener() {
@@ -82,28 +78,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             }
         });
     }
-
-    public void SwipeRefresh() {
-        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
-        swipeLayout.setOnRefreshListener(this);
-        //加载颜色是循环播放的，只要没有完成刷新就会一直循环，color1>color2>color3>color4
-        swipeLayout.setColorScheme(android.R.color.white,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light, android.R.color.holo_red_light);
-    }
-
-    public void onRefresh() {
-        if(!isRefresh){
-            isRefresh = true;
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                swipeLayout.setRefreshing(false);
-                new UpDataPostList().execute();
-                isRefresh= false;
-            }
-        }, 3000); }
-    }
-
 
     class UpDataPostList extends AsyncTask<Void, Integer, Boolean> {
         ArrayList<HashMap<String, Object>> listItemMain = new ArrayList<HashMap<String, Object>>();

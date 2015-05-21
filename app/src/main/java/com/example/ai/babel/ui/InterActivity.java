@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import com.avos.avoscloud.AVUser;
 import com.example.ai.babel.R;
 import com.example.ai.babel.ui.fragment.LaunchpadFragment;

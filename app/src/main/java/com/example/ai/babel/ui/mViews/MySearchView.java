@@ -5,7 +5,6 @@ package com.example.ai.babel.ui.mViews;
  */
 
 import android.content.Context;
-
 import android.support.v7.internal.widget.TintTypedArray;
 import android.support.v7.widget.SearchView;
 import android.util.AttributeSet;
