@@ -50,12 +50,13 @@ public class DetailActivity extends BaseActivity {
         protected void onPreExecute() {
 
         }
-        AVQuery<AVObject> query = AVQuery.getQuery("Post");;
+        AVQuery<AVObject> query = AVQuery.getQuery("Post");
+
         AVObject postUpData = new AVObject("Post");
         @Override
         protected Boolean doInBackground(Void... params) {
 
-
+            query.setCachePolicy(AVQuery.CachePolicy.NETWORK_ELSE_CACHE);
             try {
                 postUpData=query.get(objectId);
                 postUpData.put("content", postContent.getText().toString());

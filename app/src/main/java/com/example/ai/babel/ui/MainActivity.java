@@ -94,6 +94,7 @@ public class MainActivity extends BaseActivity    {
         @Override
         protected Boolean doInBackground(Void... params) {
             AVQuery<AVObject> query = AVQuery.getQuery("Post");
+            query.setCachePolicy(AVQuery.CachePolicy.NETWORK_ELSE_CACHE);
             postList = (ListView) findViewById(R.id.post_list);
 
             query.whereEqualTo("userObjectId", currentUser);
@@ -153,12 +154,12 @@ public class MainActivity extends BaseActivity    {
                 public boolean onItemLongClick(AdapterView parent, View view, final int position,
                 long id) {
                     DeleteDialog();
-                    AVQuery<AVObject> query = AVQuery.getQuery("Post");;
+                    AVQuery<AVObject> query = AVQuery.getQuery("Post");
+
                     query.whereEqualTo("objectId", postObjIDList.get(position));
                     query.findInBackground(new FindCallback<AVObject>() {
                         public void done(List<AVObject> avObjects, AVException e) {
                             if (e == null) {
-
                                 avObjects.get(0).deleteInBackground();
                             } else {
                             }
@@ -184,7 +185,7 @@ public class MainActivity extends BaseActivity    {
                     public void run() {
                         new UpDataPostList().execute();
                     }
-                }, 1000);
+                }, 50);
             }
         });
 
