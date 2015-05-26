@@ -7,14 +7,20 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
@@ -24,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
@@ -46,7 +53,7 @@ public class MainActivity extends BaseActivity    {
 
 
     private Toolbar mToolbar;
-    private ListView postList;
+
     private MyFloatingActionButton fabBtn;
     private Boolean isCheck = false;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -54,148 +61,42 @@ public class MainActivity extends BaseActivity    {
     private AVUser currentUser = AVUser.getCurrentUser();
     private LinearLayout mLinearLayout;
     private CircleImageView profileImage;
+    DemoCollectionPagerAdapter mDemoCollectionPagerAdapter;
 
+    /**
+     * The {@link android.support.v4.view.ViewPager} that will display the object collection.
+     */
+    ViewPager mViewPager;
 
     @Override
     protected void onResume() {
         // TODO Auto-generated method stub
         super.onResume();//在下一行加入代码
-        new UpDataPostList().execute();
+
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        intiView();
 
-        new UpDataPostList().execute();
+        mDemoCollectionPagerAdapter = new DemoCollectionPagerAdapter(getSupportFragmentManager());
+
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager.setAdapter(mDemoCollectionPagerAdapter);
         profileImage= (CircleImageView) findViewById(R.id.profile_image);
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,ProfileActivity.class);
+                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
                 startActivity(intent);
             }
         });
+        logOut();
+        fabBtnAm();
+        addNewPost();
     }
-
-    class UpDataPostList extends AsyncTask<Void, Integer, Boolean> {
-        ArrayList<HashMap<String, Object>> listItemMain = new ArrayList<HashMap<String, Object>>();
-        ArrayList<String> postObjIDList = new ArrayList<String>();
-
-        ProgressDialog dialog = new ProgressDialog(MainActivity.this);
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            dialog.show();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            AVQuery<AVObject> query = AVQuery.getQuery("Post");
-            query.setCachePolicy(AVQuery.CachePolicy.NETWORK_ELSE_CACHE);
-            postList = (ListView) findViewById(R.id.post_list);
-
-            query.whereEqualTo("userObjectId", currentUser);
-            query.orderByDescending("createdAt");
-            List<AVObject> commentList = null;
-            try {
-                commentList = query.find();
-            } catch (AVException e) {
-                e.printStackTrace();
-            }
-            for (int i = 0; i < commentList.size(); i++) {
-
-                HashMap<String, Object> allDrawNavTag = new HashMap<String, Object>();
-                allDrawNavTag.put("postImage", R.drawable.ic_tick);//加入图片
-                allDrawNavTag.put("postTitle", commentList.get(i).getString("title"));
-                allDrawNavTag.put("postContent", commentList.get(i).getString("content"));
-                listItemMain.add(allDrawNavTag);
-                postObjIDList.add(commentList.get(i).getObjectId());
-            }
-            return true;
-        }
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate();
-            dialog.setMessage("当前下载进度：" + values[0] + "%");
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            dialog.dismiss();
-            intiView();
-            logOut();
-            fabBtnAm();
-            addNewPost();
-            SimpleAdapter mSimpleAdapter = new SimpleAdapter(MainActivity.this, listItemMain,//需要绑定的数据
-                    R.layout.content_item,
-                    new String[]{"postImage", "postTitle", "postContent"},
-                    new int[]{R.id.contentImage, R.id.postTitle, R.id.postContent}
-            );
-
-
-            postList.setAdapter(mSimpleAdapter);//为ListView绑定适配器
-
-
-            postList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent intent = new Intent();
-                    intent.putExtra("objectId", postObjIDList.get(position));
-                    intent.setClass(MainActivity.this, DetailActivity.class);
-                    startActivity(intent);
-                }
-            });
-
-            postList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
-                @Override
-                public boolean onItemLongClick(AdapterView parent, View view, final int position,
-                long id) {
-                    DeleteDialog();
-                    AVQuery<AVObject> query = AVQuery.getQuery("Post");
-
-                    query.whereEqualTo("objectId", postObjIDList.get(position));
-                    query.findInBackground(new FindCallback<AVObject>() {
-                        public void done(List<AVObject> avObjects, AVException e) {
-                            if (e == null) {
-                                avObjects.get(0).deleteInBackground();
-                            } else {
-                            }
-                        }
-                    });
-                    return true;
-                }
-            });
-        }
-    }
-
-    private void DeleteDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-
-        builder.setMessage("确定删除？");
-        builder.setTitle("提示");
-
-        builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        new UpDataPostList().execute();
-                    }
-                }, 50);
-            }
-        });
-
-
-        builder.create().show();
-    }
-
-
-
-
 
 
     private void intiView() {
@@ -215,7 +116,6 @@ public class MainActivity extends BaseActivity    {
                 R.string.drawer_close);
         mDrawerToggle.syncState();
         drawerLayout.setDrawerListener(mDrawerToggle);
-
     }
 
     private void showAllMinFab() {
@@ -318,6 +218,171 @@ public class MainActivity extends BaseActivity    {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public   class DemoCollectionPagerAdapter extends FragmentStatePagerAdapter {
+
+        public DemoCollectionPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+            Fragment fragment = new DemoObjectFragment();
+            Bundle args = new Bundle();
+            args.putInt(DemoObjectFragment.ARG_OBJECT, i + 1); // Our object is just an integer :-P
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public int getCount() {
+            // For this contrived example, we have a 100-object collection.
+            return 100;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "OBJECT " + (position + 1);
+        }
+    }
+
+    /**
+     * A dummy fragment representing a section of the app, but that simply displays dummy text.
+     */
+    public class DemoObjectFragment extends Fragment {
+
+        public static final String ARG_OBJECT = "object";
+        private ListView postList;
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            new UpDataPostList().execute();
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_collection_object, container, false);
+            Bundle args = getArguments();
+
+            ((TextView) rootView.findViewById(android.R.id.text1)).setText(
+                    Integer.toString(args.getInt(ARG_OBJECT)));
+            return rootView;
+        }
+
+        class UpDataPostList extends AsyncTask<Void, Integer, Boolean> {
+
+            ArrayList<HashMap<String, Object>> listItemMain = new ArrayList<HashMap<String, Object>>();
+            ArrayList<String> postObjIDList = new ArrayList<String>();
+
+            ProgressDialog dialog = new ProgressDialog(getActivity());
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                dialog.show();
+            }
+
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                AVQuery<AVObject> query = AVQuery.getQuery("Post");
+                query.setCachePolicy(AVQuery.CachePolicy.NETWORK_ELSE_CACHE);
+                postList = (ListView) findViewById(R.id.post_list);
+
+                query.whereEqualTo("userObjectId", currentUser);
+                query.orderByDescending("createdAt");
+                List<AVObject> commentList = null;
+                try {
+                    commentList = query.find();
+                } catch (AVException e) {
+                    e.printStackTrace();
+                }
+                for (int i = 0; i < commentList.size(); i++) {
+
+                    HashMap<String, Object> allDrawNavTag = new HashMap<String, Object>();
+                    allDrawNavTag.put("postImage", R.drawable.ic_tick);//加入图片
+                    allDrawNavTag.put("postTitle", commentList.get(i).getString("title"));
+                    allDrawNavTag.put("postContent", commentList.get(i).getString("content"));
+                    listItemMain.add(allDrawNavTag);
+                    postObjIDList.add(commentList.get(i).getObjectId());
+                }
+                return true;
+            }
+            @Override
+            protected void onProgressUpdate(Integer... values) {
+                super.onProgressUpdate();
+                dialog.setMessage("当前下载进度：" + values[0] + "%");
+            }
+
+            @Override
+            protected void onPostExecute(Boolean result) {
+                dialog.dismiss();
+                SimpleAdapter mSimpleAdapter = new SimpleAdapter(MainActivity.this, listItemMain,//需要绑定的数据
+                        R.layout.content_item,
+                        new String[]{"postImage", "postTitle", "postContent"},
+                        new int[]{R.id.contentImage, R.id.postTitle, R.id.postContent}
+                );
+
+
+                postList.setAdapter(mSimpleAdapter);//为ListView绑定适配器
+
+
+                postList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Intent intent = new Intent();
+                        intent.putExtra("objectId", postObjIDList.get(position));
+                        intent.setClass(MainActivity.this, DetailActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
+                postList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
+                    @Override
+                    public boolean onItemLongClick(AdapterView parent, View view, final int position,
+                                                   long id) {
+                        DeleteDialog();
+                        AVQuery<AVObject> query = AVQuery.getQuery("Post");
+
+                        query.whereEqualTo("objectId", postObjIDList.get(position));
+                        query.findInBackground(new FindCallback<AVObject>() {
+                            public void done(List<AVObject> avObjects, AVException e) {
+                                if (e == null) {
+                                    avObjects.get(0).deleteInBackground();
+                                } else {
+                                }
+                            }
+                        });
+                        return true;
+                    }
+                });
+            }
+        }
+
+        private void DeleteDialog() {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+            builder.setMessage("确定删除？");
+            builder.setTitle("提示");
+
+            builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    new Handler().postDelayed(new Runnable() {
+                        public void run() {
+                            new UpDataPostList().execute();
+                        }
+                    }, 50);
+                }
+            });
+
+
+            builder.create().show();
+        }
+
     }
 
 }
