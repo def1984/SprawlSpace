@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/theme_primary"
-    tools:context="com.example.ai.babel.ui.InterActivity">
+    tools:context="com.example.ai.babel.ui.InitActivity">
 
     <android.support.v4.view.ViewPager
         xmlns:android="http://schemas.android.com/apk/res/android"

@@ -7,5 +7,10 @@
         android:id="@+id/menu_search_into"
         android:orderInCategory="1"
         android:title="@string/description_search"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/add_new_page"
+        android:orderInCategory="1"
+        android:title="新建"
         app:showAsAction="always" />
 </menu>

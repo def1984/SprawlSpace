@@ -17,7 +17,7 @@ import com.example.ai.babel.ui.fragment.LoginFragment;
 import com.example.ai.babel.ui.fragment.RegisterFragment;
 
 
-public class InterActivity extends BaseActivity {
+public class InitActivity extends BaseActivity {
 
     private Toolbar mToolbar;
     DemoCollectionPagerAdapter mDemoCollectionPagerAdapter;
