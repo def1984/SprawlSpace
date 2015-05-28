@@ -1,5 +1,6 @@
 package com.example.ai.babel.ui.fragment;
 
+
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,7 +19,6 @@ import android.widget.TextView;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
-import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
 import com.example.ai.babel.R;
 import com.example.ai.babel.ui.DetailActivity;
@@ -30,77 +30,78 @@ import java.util.List;
 
 public class DemoObjectFragment extends android.support.v4.app.Fragment {
 
-
-    public static final String ARG_OBJECT = "object";
     private ListView postList;
+    private AVObject pageObj;
+    ArrayList<HashMap<String, Object>> listItemMain = new ArrayList<HashMap<String, Object>>();
+    ArrayList<String> postObjIDList = new ArrayList<String>();
 
-    private AVUser currentUser = AVUser.getCurrentUser();
     @Override
     public void onResume() {
         super.onResume();
-        new UpDataPostList().execute();
 
     }
+
+    public DemoObjectFragment(AVObject pageObj) {
+        this.pageObj = pageObj;
+    }
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        new UpDataPostList().execute();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_collection_object, container, false);
-        Bundle args = getArguments();
 
+        View rootView = inflater.inflate(R.layout.fragment_collection_object, container, false);
         ((TextView) rootView.findViewById(android.R.id.text1)).setText(
-                Integer.toString(args.getInt(ARG_OBJECT)));
+                pageObj.getString("title"));
+        postList = (ListView) rootView.findViewById(R.id.post_list);
         return rootView;
     }
 
-
-
     class UpDataPostList extends AsyncTask<Void, Integer, Boolean> {
-
-        ArrayList<HashMap<String, Object>> listItemMain = new ArrayList<HashMap<String, Object>>();
-        ArrayList<String> postObjIDList = new ArrayList<String>();
-
-        ProgressDialog dialog = new ProgressDialog(getActivity());
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog.show();
+
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             AVQuery<AVObject> query = AVQuery.getQuery("Post");
             query.setCachePolicy(AVQuery.CachePolicy.NETWORK_ELSE_CACHE);
-            postList = (ListView) getActivity().findViewById(R.id.post_list);
-
-            query.whereEqualTo("userObjectId", currentUser);
-
+            query.whereEqualTo("pgObjectid", pageObj);
             query.orderByDescending("createdAt");
             List<AVObject> commentList = null;
             try {
                 commentList = query.find();
+                for (int i = 0; i < commentList.size(); i++) {
+                    HashMap<String, Object> allDrawNavTag = new HashMap<String, Object>();
+                    allDrawNavTag.put("postImage", R.drawable.ic_tick);//加入图片
+                    allDrawNavTag.put("postTitle", commentList.get(i).getString("title"));
+                    allDrawNavTag.put("postContent", commentList.get(i).getString("content"));
+                    listItemMain.add(allDrawNavTag);
+                    postObjIDList.add(commentList.get(i).getObjectId());
+                }
             } catch (AVException e) {
                 e.printStackTrace();
-            }
-            for (int i = 0; i < commentList.size(); i++) {
-                HashMap<String, Object> allDrawNavTag = new HashMap<String, Object>();
-                allDrawNavTag.put("postImage", R.drawable.ic_tick);//加入图片
-                allDrawNavTag.put("postTitle", commentList.get(i).getString("title"));
-                allDrawNavTag.put("postContent", commentList.get(i).getString("content"));
-                listItemMain.add(allDrawNavTag);
-                postObjIDList.add(commentList.get(i).getObjectId());
             }
             return true;
         }
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate();
-            dialog.setMessage("当前下载进度：" + values[0] + "%");
+
         }
 
         @Override
         protected void onPostExecute(Boolean result) {
-            dialog.dismiss();
+
             SimpleAdapter mSimpleAdapter = new SimpleAdapter(getActivity(), listItemMain,//需要绑定的数据
                     R.layout.content_item,
                     new String[]{"postImage", "postTitle", "postContent"},
@@ -121,13 +122,12 @@ public class DemoObjectFragment extends android.support.v4.app.Fragment {
                 }
             });
 
-            postList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
+            postList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView parent, View view, final int position,
                                                long id) {
                     DeleteDialog();
                     AVQuery<AVObject> query = AVQuery.getQuery("Post");
-
                     query.whereEqualTo("objectId", postObjIDList.get(position));
                     query.findInBackground(new FindCallback<AVObject>() {
                         public void done(List<AVObject> avObjects, AVException e) {
@@ -145,19 +145,16 @@ public class DemoObjectFragment extends android.support.v4.app.Fragment {
 
     private void DeleteDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
         builder.setMessage("确定删除？");
         builder.setTitle("提示");
-
         builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
-
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
                         new UpDataPostList().execute();
                     }
-                }, 50);
+                }, 10);
             }
         });
         builder.create().show();

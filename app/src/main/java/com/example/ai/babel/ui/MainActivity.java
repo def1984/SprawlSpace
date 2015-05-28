@@ -19,16 +19,13 @@ import android.view.animation.Interpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
-import com.avos.avoscloud.CountCallback;
 import com.example.ai.babel.R;
 import com.example.ai.babel.adapter.DemoCollectionPagerAdapter;
-import com.example.ai.babel.service.MyService;
 import com.example.ai.babel.ui.widget.MyFloatingActionButton;
 import com.melnykov.fab.FloatingActionButton;
 
@@ -38,19 +35,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class MainActivity extends BaseActivity    {
-
-
     private Toolbar mToolbar;
     private MyFloatingActionButton fabBtn;
     private Boolean isCheck = false;
     private ActionBarDrawerToggle mDrawerToggle;
     private Button logoutButton ;
-
     private LinearLayout mLinearLayout;
     private CircleImageView profileImage;
     private DemoCollectionPagerAdapter mDemoCollectionPagerAdapter;
     private ViewPager mViewPager;
-    private int PageCount;
     private AVUser currentUser = AVUser.getCurrentUser();
     @Override
     protected void onResume() {
@@ -63,7 +56,18 @@ public class MainActivity extends BaseActivity    {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        intiView();
+        profileImage= (CircleImageView) findViewById(R.id.profile_image);
+        profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+        logOut();
+        fabBtnAm();
+        addNewPost();
     }
 
     @Override
@@ -91,9 +95,7 @@ public class MainActivity extends BaseActivity    {
     }
 
     class UpDataPageList extends AsyncTask<Void, Integer, Boolean> {
-
         ProgressDialog dialog = new ProgressDialog(MainActivity.this);
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -105,16 +107,13 @@ public class MainActivity extends BaseActivity    {
             AVQuery<AVObject> query = AVQuery.getQuery("Page");
             query.setCachePolicy(AVQuery.CachePolicy.NETWORK_ELSE_CACHE);
             query.whereEqualTo("userObjectId", currentUser);
-            List<AVObject> commentList = null;
             try {
-                commentList = query.find();
-                PageCount=commentList.size();
+                List<AVObject> pageList = query.find();
                 mDemoCollectionPagerAdapter = new DemoCollectionPagerAdapter(getSupportFragmentManager());
-                mDemoCollectionPagerAdapter.setPageCount(PageCount);
+                mDemoCollectionPagerAdapter.setPageList(pageList);
             } catch (AVException e) {
                 e.printStackTrace();
             }
-
             return true;
         }
         @Override
@@ -126,23 +125,8 @@ public class MainActivity extends BaseActivity    {
         @Override
         protected void onPostExecute(Boolean result) {
             dialog.dismiss();
-            intiView();
-
-
             mViewPager = (ViewPager) findViewById(R.id.pager);
             mViewPager.setAdapter(mDemoCollectionPagerAdapter);
-            profileImage= (CircleImageView) findViewById(R.id.profile_image);
-            profileImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-                    startActivity(intent);
-                }
-            });
-            logOut();
-            fabBtnAm();
-            addNewPost();
-            Toast.makeText(MainActivity.this,Integer.toString(PageCount),Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -238,7 +222,4 @@ public class MainActivity extends BaseActivity    {
             }
         });
     }
-
-
-
 }
