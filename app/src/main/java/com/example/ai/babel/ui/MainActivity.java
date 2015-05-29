@@ -1,14 +1,11 @@
 package com.example.ai.babel.ui;
-
-
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,32 +21,56 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.FindCallback;
 import com.example.ai.babel.R;
 import com.example.ai.babel.adapter.DemoCollectionPagerAdapter;
 import com.example.ai.babel.ui.widget.MyFloatingActionButton;
 import com.melnykov.fab.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class MainActivity extends BaseActivity    {
+public class MainActivity extends BaseActivity {
+
     private Toolbar mToolbar;
     private MyFloatingActionButton fabBtn;
     private Boolean isCheck = false;
     private ActionBarDrawerToggle mDrawerToggle;
-    private Button logoutButton ;
+    private Button logoutButton;
     private LinearLayout mLinearLayout;
     private CircleImageView profileImage;
     private DemoCollectionPagerAdapter mDemoCollectionPagerAdapter;
     private ViewPager mViewPager;
     private AVUser currentUser = AVUser.getCurrentUser();
+    private ArrayList<String> pgObIdList = new ArrayList<String>();
+
     @Override
     protected void onResume() {
         // TODO Auto-generated method stub
-        super.onResume();//在下一行加入代码
-        new UpDataPageList().execute();
+        super.onResume();
+        AVQuery<AVObject> query = AVQuery.getQuery("Page");
+        query.setCachePolicy(AVQuery.CachePolicy.NETWORK_ELSE_CACHE);
+        query.whereEqualTo("userObjectId", currentUser);
+        query.orderByDescending("updatedAt");
+        query.findInBackground(new FindCallback<AVObject>() {
+            public void done(List<AVObject> pageList, AVException e) {
+                if (e == null) {
+                    for (int i = 0; i < pageList.size(); i++) {
+                        pgObIdList.add(pageList.get(i).getObjectId());
+                    }
+                    mDemoCollectionPagerAdapter = new DemoCollectionPagerAdapter(getSupportFragmentManager());
+                    mDemoCollectionPagerAdapter.setPageList(pageList);
+                    mViewPager = (ViewPager) findViewById(R.id.pager);
+                    mViewPager.setAdapter(mDemoCollectionPagerAdapter);
+                } else {
+                    Log.d("失败", "查询错误: " + e.getMessage());
+                }
+            }
+        });
+
     }
 
     @Override
@@ -57,7 +78,7 @@ public class MainActivity extends BaseActivity    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         intiView();
-        profileImage= (CircleImageView) findViewById(R.id.profile_image);
+        profileImage = (CircleImageView) findViewById(R.id.profile_image);
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,48 +108,15 @@ public class MainActivity extends BaseActivity    {
         switch (item.getItemId()) {
             case R.id.menu_search_into:
                 startActivity(new Intent(this, SearchActivity.class));
+                break;
             case R.id.add_new_page:
                 startActivity(new Intent(this, AddNewPage.class));
-                return true;
+                finish();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    class UpDataPageList extends AsyncTask<Void, Integer, Boolean> {
-        ProgressDialog dialog = new ProgressDialog(MainActivity.this);
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            dialog.show();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            AVQuery<AVObject> query = AVQuery.getQuery("Page");
-            query.setCachePolicy(AVQuery.CachePolicy.NETWORK_ELSE_CACHE);
-            query.whereEqualTo("userObjectId", currentUser);
-            try {
-                List<AVObject> pageList = query.find();
-                mDemoCollectionPagerAdapter = new DemoCollectionPagerAdapter(getSupportFragmentManager());
-                mDemoCollectionPagerAdapter.setPageList(pageList);
-            } catch (AVException e) {
-                e.printStackTrace();
-            }
-            return true;
-        }
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate();
-            dialog.setMessage("当前下载进度：" + values[0] + "%");
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            dialog.dismiss();
-            mViewPager = (ViewPager) findViewById(R.id.pager);
-            mViewPager.setAdapter(mDemoCollectionPagerAdapter);
-        }
-    }
 
     private void intiView() {
         // 在这里我们获取了主题暗色，并设置了status bar的颜色
@@ -211,14 +199,17 @@ public class MainActivity extends BaseActivity    {
         });
     }
 
-    private void addNewPost(){
-        FloatingActionButton addNewPost= (FloatingActionButton) findViewById(R.id.add_new_post);
+    private void addNewPost() {
+        FloatingActionButton addNewPost = (FloatingActionButton) findViewById(R.id.add_new_post);
         addNewPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
+                intent.putExtra("objectId", pgObIdList.get(mViewPager.getCurrentItem()));
                 intent.setClass(MainActivity.this, AddNewPost.class);
+                finish();
                 startActivity(intent);
+                overridePendingTransition(android.support.v7.appcompat.R.anim.abc_fade_in, android.support.v7.appcompat.R.anim.abc_fade_out);
             }
         });
     }

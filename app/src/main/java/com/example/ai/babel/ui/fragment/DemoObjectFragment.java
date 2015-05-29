@@ -1,7 +1,6 @@
 package com.example.ai.babel.ui.fragment;
 
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -32,13 +31,11 @@ public class DemoObjectFragment extends android.support.v4.app.Fragment {
 
     private ListView postList;
     private AVObject pageObj;
-    ArrayList<HashMap<String, Object>> listItemMain = new ArrayList<HashMap<String, Object>>();
-    ArrayList<String> postObjIDList = new ArrayList<String>();
+
 
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
     public DemoObjectFragment(AVObject pageObj) {
@@ -57,25 +54,27 @@ public class DemoObjectFragment extends android.support.v4.app.Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_collection_object, container, false);
-        ((TextView) rootView.findViewById(android.R.id.text1)).setText(
+        ((TextView) rootView.findViewById(R.id.text_title)).setText(
                 pageObj.getString("title"));
+        ((TextView) rootView.findViewById(R.id.text_description)).setText(
+                pageObj.getString("description"));
         postList = (ListView) rootView.findViewById(R.id.post_list);
         return rootView;
     }
 
     class UpDataPostList extends AsyncTask<Void, Integer, Boolean> {
-
+        ArrayList<HashMap<String, Object>> listItemMain = new ArrayList<HashMap<String, Object>>();
+        ArrayList<String> postObjIDList = new ArrayList<String>();
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             AVQuery<AVObject> query = AVQuery.getQuery("Post");
             query.setCachePolicy(AVQuery.CachePolicy.NETWORK_ELSE_CACHE);
-            query.whereEqualTo("pgObjectid", pageObj);
+            query.whereEqualTo("pgObjectId", pageObj);
             query.orderByDescending("createdAt");
             List<AVObject> commentList = null;
             try {
@@ -96,7 +95,6 @@ public class DemoObjectFragment extends android.support.v4.app.Fragment {
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate();
-
         }
 
         @Override

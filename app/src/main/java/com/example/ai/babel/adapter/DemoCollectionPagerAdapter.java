@@ -42,7 +42,7 @@ public class DemoCollectionPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return "OBJECT " + (position + 1);
+        return "第" + (position + 1)+"页";
     }
 
     public void setPageList(List<AVObject> pageList) {

@@ -1,5 +1,6 @@
 package com.example.ai.babel.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -32,6 +33,8 @@ public class AddNewPage extends BaseActivity {
                 newPost.saveInBackground();
                 Toast.makeText(AddNewPage.this,"保存成功",Toast.LENGTH_SHORT).show();
                 finish();
+                startActivity(new Intent(AddNewPage.this,MainActivity.class));
+                overridePendingTransition(android.support.v7.appcompat.R.anim.abc_fade_in, android.support.v7.appcompat.R.anim.abc_fade_out);
             }
         });
     }

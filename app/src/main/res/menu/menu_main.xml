@@ -2,12 +2,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity" >
-
     <item
         android:id="@+id/menu_search_into"
         android:orderInCategory="1"
         android:title="@string/description_search"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/add_new_page"
         android:orderInCategory="1"

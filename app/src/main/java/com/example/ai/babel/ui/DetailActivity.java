@@ -76,7 +76,6 @@ public class DetailActivity extends BaseActivity {
         @Override
         protected void onPostExecute(Boolean result) {
             Toast.makeText(DetailActivity.this,"保存成功",Toast.LENGTH_SHORT).show();
-
         }
     }
 
