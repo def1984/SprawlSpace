@@ -1,5 +1,7 @@
 package com.example.ai.babel.ui;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -16,6 +18,7 @@ import android.view.animation.Interpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
@@ -51,26 +54,48 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
-        AVQuery<AVObject> query = AVQuery.getQuery("Page");
-        query.setCachePolicy(AVQuery.CachePolicy.NETWORK_ELSE_CACHE);
-        query.whereEqualTo("userObjectId", currentUser);
-        query.orderByDescending("updatedAt");
-        query.findInBackground(new FindCallback<AVObject>() {
-            public void done(List<AVObject> pageList, AVException e) {
-                if (e == null) {
-                    for (int i = 0; i < pageList.size(); i++) {
-                        pgObIdList.add(pageList.get(i).getObjectId());
-                    }
-                    mDemoCollectionPagerAdapter = new DemoCollectionPagerAdapter(getSupportFragmentManager());
-                    mDemoCollectionPagerAdapter.setPageList(pageList);
-                    mViewPager = (ViewPager) findViewById(R.id.pager);
-                    mViewPager.setAdapter(mDemoCollectionPagerAdapter);
-                } else {
-                    Log.d("失败", "查询错误: " + e.getMessage());
-                }
-            }
-        });
+        new DownloadPages().execute();
+    }
 
+    class DownloadPages extends AsyncTask<Void, Integer, Boolean> {
+        ProgressDialog progressDialog =new ProgressDialog(MainActivity.this);
+        @Override
+        protected void onPreExecute() {
+            progressDialog.show();
+
+        }
+
+        private List<AVObject> pageListAll;
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            AVQuery<AVObject> query = AVQuery.getQuery("Page");
+            query.setCachePolicy(AVQuery.CachePolicy.NETWORK_ONLY);
+            query.whereEqualTo("userObjectId", currentUser);
+            query.orderByDescending("updatedAt");
+            try {
+                pageListAll=query.find();
+                for (int i = 0; i < pageListAll.size(); i++) {
+                    pgObIdList.add(pageListAll.get(i).getObjectId());
+                }
+            } catch (AVException e) {
+                Toast.makeText(MainActivity.this, "连接超时:错误代码:"+e.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+            return true;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            progressDialog.setMessage("当前下载进度：" + values[0] + "%");
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            progressDialog.dismiss();
+            mDemoCollectionPagerAdapter = new DemoCollectionPagerAdapter(getSupportFragmentManager());
+            mDemoCollectionPagerAdapter.setPageList(pageListAll);
+            mViewPager = (ViewPager) findViewById(R.id.pager);
+            mViewPager.setAdapter(mDemoCollectionPagerAdapter);
+        }
     }
 
     @Override

@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
@@ -81,7 +82,7 @@ public class DemoObjectFragment extends android.support.v4.app.Fragment {
                 commentList = query.find();
                 for (int i = 0; i < commentList.size(); i++) {
                     HashMap<String, Object> allDrawNavTag = new HashMap<String, Object>();
-                    allDrawNavTag.put("postImage", R.drawable.ic_tick);//加入图片
+                    allDrawNavTag.put("postImage", R.drawable.default_cover);//加入图片
                     allDrawNavTag.put("postTitle", commentList.get(i).getString("title"));
                     allDrawNavTag.put("postContent", commentList.get(i).getString("content"));
                     listItemMain.add(allDrawNavTag);
@@ -89,6 +90,7 @@ public class DemoObjectFragment extends android.support.v4.app.Fragment {
                 }
             } catch (AVException e) {
                 e.printStackTrace();
+                Toast.makeText(getActivity(), "查询错误:" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
             return true;
         }

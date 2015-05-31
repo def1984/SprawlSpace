@@ -55,14 +55,15 @@ public class AddNewPost extends BaseActivity {
                     public void done(AVException e) {
                         if (e == null) {
                             Log.i("LeanCloud", "Save successfully.");
+                            finish();
+                            startActivity(new Intent(AddNewPost.this, MainActivity.class));
+                            overridePendingTransition(android.support.v7.appcompat.R.anim.abc_fade_in, android.support.v7.appcompat.R.anim.abc_fade_out);
                         } else {
                             Log.e("LeanCloud", "Save failed.");
                         }
                     }
                 });
-                finish();
-                startActivity(new Intent(AddNewPost.this, MainActivity.class));
-                overridePendingTransition(android.support.v7.appcompat.R.anim.abc_fade_in, android.support.v7.appcompat.R.anim.abc_fade_out);
+
             }
         });
     }
