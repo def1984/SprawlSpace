@@ -8,7 +8,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:background="@color/avoscloud_blue"
+        android:background="@color/theme_primary"
         android:layout_height="120dp">
     <LinearLayout
         android:layout_gravity="center_vertical"
@@ -18,7 +18,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         >
-
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/profile_image"

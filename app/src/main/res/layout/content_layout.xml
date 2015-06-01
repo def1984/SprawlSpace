@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:background="@color/theme_primary"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -8,15 +9,6 @@
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <android.support.v4.view.PagerTitleStrip
-            android:id="@+id/pager_title_strip"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:textColor="@color/map_info_2"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp" />
-
     </android.support.v4.view.ViewPager>
 
     <LinearLayout
@@ -52,7 +44,6 @@
             fab:fab_colorNormal="@color/fab_color_1"
             fab:fab_colorPressed="@color/theme_primary_light"
             fab:fab_colorRipple="@color/theme_primary_dark"  />
-
         </LinearLayout>
 
          <com.example.ai.babel.ui.widget.MyFloatingActionButton
@@ -69,5 +60,5 @@
                  android:src="@drawable/ic_add"
                  android:layout_gravity="center"
                  android:duplicateParentState="true"/>
-            </com.example.ai.babel.ui.widget.MyFloatingActionButton>
+         </com.example.ai.babel.ui.widget.MyFloatingActionButton>
 </FrameLayout>

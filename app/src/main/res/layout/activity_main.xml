@@ -27,7 +27,14 @@
 
 
             <!-- The rest of your content view -->
-            <include layout="@layout/content_layout"></include>
+            <android.support.v4.view.ViewPager
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/pager"
+                android:background="@color/theme_primary"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </android.support.v4.view.ViewPager>
 
 
 

@@ -168,7 +168,7 @@ public class MyFloatingActionButton extends FrameLayout implements Checkable {
         if (attr != null) {
             try {
                 mColorNormal = attr.getColor(R.styleable.FloatingActionButton_fab_colorNormal,
-                        getColor(R.color.theme_primary));
+                        getColor(R.color.theme_primary_light));
                 mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed,
                         darkenColor(mColorNormal));
                 mColorRipple = attr.getColor(R.styleable.FloatingActionButton_fab_colorRipple,
