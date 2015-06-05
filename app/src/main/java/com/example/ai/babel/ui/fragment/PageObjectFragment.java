@@ -7,19 +7,21 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.FindCallback;
+import com.avos.avoscloud.SaveCallback;
 import com.example.ai.babel.R;
 import com.example.ai.babel.ui.DetailActivity;
 
@@ -32,6 +34,7 @@ public class PageObjectFragment extends android.support.v4.app.Fragment {
 
     private ListView postList;
     private AVObject pageObj;
+    private EditText pageTitle;
 
 
     @Override
@@ -51,11 +54,26 @@ public class PageObjectFragment extends android.support.v4.app.Fragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        pageObj.put("title", pageTitle.getText());
+        pageObj.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(AVException e) {
+                if (e == null) {
+                } else {
+                    Log.e("LeanCloud", "Save failed.");
+                }
+            }
+        });
+    }
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_collection_page, container, false);
-
+        pageTitle = (EditText) rootView.findViewById(R.id.page_title);
+        pageTitle.setText(pageObj.get("title").toString());
         postList = (ListView) rootView.findViewById(R.id.post_list);
         return rootView;
     }

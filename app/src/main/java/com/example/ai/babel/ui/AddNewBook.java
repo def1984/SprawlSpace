@@ -33,6 +33,7 @@ public class AddNewBook extends BaseActivity {
                 newPost.put("description", postContent.getText().toString());
                 newPost.put("title", postTitle.getText().toString());
                 newPost.put("userObjectId", currentUser);
+                currentUser.put("bookIndex",0);
                 newPost.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(AVException e) {

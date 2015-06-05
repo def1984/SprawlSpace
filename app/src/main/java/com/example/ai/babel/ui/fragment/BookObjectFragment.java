@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.avos.avoscloud.AVObject;
 import com.example.ai.babel.R;
-import com.example.ai.babel.ui.AddNewPost;
 import com.example.ai.babel.ui.PageActivity;
 
 

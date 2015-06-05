@@ -12,37 +12,55 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.GetCallback;
 import com.avos.avoscloud.SaveCallback;
 import com.example.ai.babel.R;
 import com.example.ai.babel.ui.PageActivity;
 
 public class AddNewPageFragment extends Fragment {
     private Button btnDddNewBook;
+
+    AVQuery<AVObject> query = AVQuery.getQuery("Book");
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         View rootView =inflater.inflate(R.layout.fragment_add_new_book, container, false);
         btnDddNewBook= (Button) rootView.findViewById(R.id.btn_add_new_book);
         btnDddNewBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AVObject newPage = new AVObject("Page");
-                newPage.put("bookObjectId", getActivity().getIntent().getStringExtra("objectId"));
-                newPage.put("updateNow", "updateNow");
-                newPage.saveInBackground(new SaveCallback() {
+                query.setCachePolicy(AVQuery.CachePolicy.NETWORK_ELSE_CACHE);
+                query.getInBackground(getActivity().getIntent().getStringExtra("objectId"), new GetCallback<AVObject>() {
                     @Override
-                    public void done(AVException e) {
-                        if (e == null) {
-                            DeleteDialog();
-                        } else {
-                            Log.e("LeanCloud", "Save failed.");
-                        }
+                    public void done(AVObject avObject, AVException e) {
+                        AVObject newPage = new AVObject("Page");
+                        newPage.put("title", "请输入标题");
+                        newPage.put("bookObjectId", avObject);
+                        newPage.put("updateNow", "updateNow");
+                        newPage.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(AVException e) {
+                                if (e == null) {
+                                    DeleteDialog();
+                                } else {
+                                    Toast.makeText(getActivity(),"查询错误",Toast.LENGTH_SHORT).show();
+                                    Log.e("LeanCloud", "Save failed.");
+                                    getActivity().finish();
+                                }
+                            }
+                        });
                     }
                 });
+
+
 
             }
         });

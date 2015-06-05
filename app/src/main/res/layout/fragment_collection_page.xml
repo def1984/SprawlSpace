@@ -13,11 +13,24 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     android:orientation="vertical">
+    <EditText
+        android:hint="@string/login_input_user_name"
+        android:textColor="@color/home_pane_header"
+        android:textCursorDrawable="@null"
+        android:layout_width="match_parent"
+        android:background="@null"
+        android:textStyle="bold"
+        android:id="@+id/page_title"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:textSize="20sp" />
     <ListView
         android:divider="@null"
         android:padding="2dp"

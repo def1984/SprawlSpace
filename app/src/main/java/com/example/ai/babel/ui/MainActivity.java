@@ -11,11 +11,7 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.Interpolator;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -23,10 +19,10 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.SaveCallback;
 import com.example.ai.babel.R;
 import com.example.ai.babel.adapter.CollectionBookAdapter;
 import com.example.ai.babel.ui.widget.MyFloatingActionButton;
-import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,13 +45,25 @@ public class MainActivity extends BaseActivity {
     private ArrayList<String> pgObIdList = new ArrayList<String>();
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        currentUser.put("bookIndex", mViewPager.getCurrentItem());
+        currentUser.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(AVException e) {
+
+            }
+        });
+    }
+
+    @Override
     protected void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
-        new DownloadPages().execute();
+        new LoadPages().execute();
     }
 
-    class DownloadPages extends AsyncTask<Void, Integer, Boolean> {
+    class LoadPages extends AsyncTask<Void, Integer, Boolean> {
         ProgressDialog progressDialog =new ProgressDialog(MainActivity.this);
         @Override
         protected void onPreExecute() {
@@ -92,6 +100,7 @@ public class MainActivity extends BaseActivity {
             mDemoCollectionPagerAdapter.setPageList(bookListAll);
             mViewPager = (ViewPager) findViewById(R.id.pager);
             mViewPager.setAdapter(mDemoCollectionPagerAdapter);
+            mViewPager.setCurrentItem(currentUser.getInt("bookIndex"));
         }
     }
 

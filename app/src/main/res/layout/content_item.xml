@@ -6,8 +6,6 @@
     <LinearLayout
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dp"
-        android:background="#fff"
         android:layout_margin="10dp"
         android:layout_width="match_parent">
         <ImageView

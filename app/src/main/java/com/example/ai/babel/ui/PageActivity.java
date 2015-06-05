@@ -24,6 +24,7 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.GetCallback;
 import com.example.ai.babel.R;
 import com.example.ai.babel.adapter.CollectionPageAdapter;
 import com.example.ai.babel.ui.widget.MyFloatingActionButton;
@@ -40,10 +41,7 @@ public class PageActivity extends BaseActivity {
     private Toolbar mToolbar;
     private MyFloatingActionButton fabBtn;
     private Boolean isCheck = false;
-    private ActionBarDrawerToggle mDrawerToggle;
-    private Button logoutButton;
     private LinearLayout mLinearLayout;
-    private CircleImageView profileImage;
     private CollectionPageAdapter mDemoCollectionPagerAdapter;
     private ViewPager mViewPager;
     private ArrayList<String> pgObIdList = new ArrayList<String>();
@@ -60,18 +58,23 @@ public class PageActivity extends BaseActivity {
         @Override
         protected void onPreExecute() {
             progressDialog.show();
-
         }
 
         private List<AVObject> pageListAll;
         @Override
         protected Boolean doInBackground(Void... params) {
-            AVQuery<AVObject> query = AVQuery.getQuery("Page");
-            query.setCachePolicy(AVQuery.CachePolicy.NETWORK_ONLY);
-            query.whereEqualTo("bookObjectId", getIntent().getStringExtra("objectId"));
-            query.orderByDescending("updatedAt");
+            AVQuery<AVObject> queryPage = AVQuery.getQuery("Page");
+            AVQuery<AVObject> queryBook = AVQuery.getQuery("Book");
             try {
-                pageListAll=query.find();
+                queryPage.whereEqualTo("bookObjectId", queryBook.get(getIntent().getStringExtra("objectId")));
+
+            } catch (AVException e) {
+                e.printStackTrace();
+            }
+            queryPage.setCachePolicy(AVQuery.CachePolicy.NETWORK_ONLY);
+            queryPage.orderByDescending("createdAt");
+            try {
+                pageListAll=queryPage.find();
                 for (int i = 0; i < pageListAll.size(); i++) {
                     pgObIdList.add(pageListAll.get(i).getObjectId());
                 }
@@ -101,7 +104,6 @@ public class PageActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page);
         intiView();
-
         fabBtnAm();
         addNewPost();
     }

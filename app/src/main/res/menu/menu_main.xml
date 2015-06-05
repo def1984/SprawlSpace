@@ -10,6 +10,11 @@
     <item
         android:id="@+id/add_new_page"
         android:orderInCategory="1"
-        android:title="新建"
-        app:showAsAction="always" />
+        android:title="编辑封面"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/delete_new_page"
+        android:orderInCategory="1"
+        android:title="删除"
+        app:showAsAction="never" />
 </menu>

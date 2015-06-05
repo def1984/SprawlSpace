@@ -65,7 +65,7 @@
         </activity>
         <activity
             android:name=".ui.PageActivity"
-            android:label="@string/title_activity_detail" >
+            android:label="PageActivity" >
         </activity>
 
     </application>
