@@ -79,6 +79,7 @@ public class PageActivity extends BaseActivity {
                     pgObIdList.add(pageListAll.get(i).getObjectId());
                 }
             } catch (AVException e) {
+                e.printStackTrace();
                 Toast.makeText(PageActivity.this, "连接超时:错误代码:"+e.getMessage(),Toast.LENGTH_SHORT).show();
             }
             return true;

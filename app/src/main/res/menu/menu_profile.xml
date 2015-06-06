@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.ai.babel.ui.ProfileActivity">
 
-    <item android:id="@+id/action_select"
+    <item android:id="@+id/action_save"
         android:title="保存"
         android:orderInCategory="100"
         app:showAsAction="always" />

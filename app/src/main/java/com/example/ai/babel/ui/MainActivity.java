@@ -1,6 +1,10 @@
 package com.example.ai.babel.ui;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -12,7 +16,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
@@ -22,8 +25,10 @@ import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
 import com.example.ai.babel.R;
 import com.example.ai.babel.adapter.CollectionBookAdapter;
-import com.example.ai.babel.ui.widget.MyFloatingActionButton;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,11 +38,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MainActivity extends BaseActivity {
 
     private Toolbar mToolbar;
-    private MyFloatingActionButton fabBtn;
-    private Boolean isCheck = false;
     private ActionBarDrawerToggle mDrawerToggle;
     private Button logoutButton;
-    private LinearLayout mLinearLayout;
     private CircleImageView profileImage;
     private CollectionBookAdapter mDemoCollectionPagerAdapter;
     private ViewPager mViewPager;
@@ -51,7 +53,7 @@ public class MainActivity extends BaseActivity {
         currentUser.saveInBackground(new SaveCallback() {
             @Override
             public void done(AVException e) {
-
+                return;
             }
         });
     }
@@ -64,6 +66,8 @@ public class MainActivity extends BaseActivity {
     }
 
     class LoadPages extends AsyncTask<Void, Integer, Boolean> {
+        URL picUrl = null;
+        Bitmap pngBM = null;
         ProgressDialog progressDialog =new ProgressDialog(MainActivity.this);
         @Override
         protected void onPreExecute() {
@@ -85,6 +89,16 @@ public class MainActivity extends BaseActivity {
             } catch (AVException e) {
                 Toast.makeText(MainActivity.this, "连接超时:错误代码:"+e.getMessage(),Toast.LENGTH_SHORT).show();
             }
+            try {
+                picUrl = new URL(currentUser.getAVFile("AvatarImage").getUrl());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            try {
+                pngBM = BitmapFactory.decodeStream(picUrl.openStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return true;
         }
 
@@ -101,6 +115,15 @@ public class MainActivity extends BaseActivity {
             mViewPager = (ViewPager) findViewById(R.id.pager);
             mViewPager.setAdapter(mDemoCollectionPagerAdapter);
             mViewPager.setCurrentItem(currentUser.getInt("bookIndex"));
+            profileImage = (CircleImageView) findViewById(R.id.profile_image);
+            profileImage.setImageBitmap(pngBM);
+            profileImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                    startActivity(intent);
+                }
+            });
         }
     }
 
@@ -109,14 +132,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         intiView();
-        profileImage = (CircleImageView) findViewById(R.id.profile_image);
-        profileImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-                startActivity(intent);
-            }
-        });
+
         logOut();
 
 

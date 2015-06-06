@@ -12,6 +12,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVFile;
+import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.DeleteCallback;
 import com.example.ai.babel.R;
 import com.soundcloud.android.crop.Crop;
 
@@ -24,9 +28,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends BaseActivity {
     private CircleImageView resultView;
-
     private String filename;
-
+    private String dirPath ;
+    private File outputImage;
+    private AVUser currentUser = AVUser.getCurrentUser();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +54,22 @@ public class ProfileActivity extends BaseActivity {
                 Crop.pickImage(ProfileActivity.this);
             }
         });
+
+        if(Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())){
+            dirPath =  Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)+"/Babel";
+            File path1 = new File(dirPath);
+            if (!path1.exists()) {
+                //若不存在，创建目录，可以在应用启动的时候创建
+                path1.mkdirs();
+            }
+        }
+        else{
+            return;
+        }
+
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -59,8 +79,24 @@ public class ProfileActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_select) {
-
+        if (item.getItemId() == R.id.action_save) {
+            if (currentUser.getAVFile("AvatarImage") != null) {
+                currentUser.getAVFile("AvatarImage").deleteInBackground(new DeleteCallback() {
+                    @Override
+                    public void done(AVException e) {
+                        AVFile file = null;
+                        try {
+                            file = AVFile.withAbsoluteLocalPath("AvatarImage", String.valueOf(outputImage));
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                        currentUser.put("AvatarImage", file);
+                        currentUser.saveInBackground();
+                    }
+                });
+            }
+            Toast.makeText(this, "保存成功", Toast.LENGTH_SHORT).show();
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -79,8 +115,7 @@ public class ProfileActivity extends BaseActivity {
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
         Date date = new Date(System.currentTimeMillis());
         filename = format.format(date);
-        File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-        File outputImage = new File(path,filename+".jpg");
+        outputImage = new File(dirPath,filename+".jpg");
         try {
             if(outputImage.exists()) {
                 outputImage.delete();
