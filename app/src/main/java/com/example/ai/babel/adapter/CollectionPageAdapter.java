@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 
 import com.avos.avoscloud.AVObject;
 import com.example.ai.babel.ui.fragment.AddNewPageFragment;
-import com.example.ai.babel.ui.fragment.LaunchpadFragment;
 import com.example.ai.babel.ui.fragment.PageObjectFragment;
 
 import java.util.List;

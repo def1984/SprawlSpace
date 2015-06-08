@@ -29,6 +29,9 @@ public class BookObjectFragment extends android.support.v4.app.Fragment {
         this.bookObj = pageObj;
     }
 
+    public BookObjectFragment() {
+
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,7 +55,6 @@ public class BookObjectFragment extends android.support.v4.app.Fragment {
                 Intent intent = new Intent();
                 intent.putExtra("objectId", bookObjID);
                 intent.setClass(getActivity(), PageActivity.class);
-
                 startActivity(intent);
                 getActivity().overridePendingTransition(android.support.v7.appcompat.R.anim.abc_fade_in, android.support.v7.appcompat.R.anim.abc_fade_out);
             }

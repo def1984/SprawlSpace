@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
@@ -47,15 +48,12 @@ public class AddNewPost extends BaseActivity {
                 newPost.put("pgObjectId", pageObject);
                 newPost.saveInBackground();
                 Toast.makeText(AddNewPost.this, "保存成功", Toast.LENGTH_SHORT).show();
-
                 pageObject.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(AVException e) {
                         if (e == null) {
                             Log.i("LeanCloud", "Save successfully.");
                             finish();
-                            startActivity(new Intent(AddNewPost.this, PageActivity.class));
-                            overridePendingTransition(android.support.v7.appcompat.R.anim.abc_fade_in, android.support.v7.appcompat.R.anim.abc_fade_out);
                         } else {
                             Log.e("LeanCloud", "Save failed.");
                         }

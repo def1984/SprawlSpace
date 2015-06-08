@@ -8,9 +8,6 @@ import android.view.ViewGroup;
 import com.avos.avoscloud.AVObject;
 import com.example.ai.babel.ui.fragment.AddNewBookFragment;
 import com.example.ai.babel.ui.fragment.BookObjectFragment;
-import com.example.ai.babel.ui.fragment.PageObjectFragment;
-import com.example.ai.babel.ui.fragment.LaunchpadFragment;
-
 
 import java.util.List;
 import java.util.Stack;

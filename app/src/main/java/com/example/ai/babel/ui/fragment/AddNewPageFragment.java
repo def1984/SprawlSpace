@@ -30,10 +30,9 @@ public class AddNewPageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
 
-        View rootView =inflater.inflate(R.layout.fragment_add_new_book, container, false);
-        btnDddNewBook= (Button) rootView.findViewById(R.id.btn_add_new_book);
+        View rootView = inflater.inflate(R.layout.fragment_add_new_book, container, false);
+        btnDddNewBook = (Button) rootView.findViewById(R.id.btn_add_new_book);
         btnDddNewBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,14 +43,16 @@ public class AddNewPageFragment extends Fragment {
                         AVObject newPage = new AVObject("Page");
                         newPage.put("title", "请输入标题");
                         newPage.put("bookObjectId", avObject);
-                        newPage.put("updateNow", "updateNow");
+                        avObject.put("pageIndex", 0);
+                        final Intent intent = new Intent();
+                        intent.putExtra("objectId", PageActivity.bookObjectId);
                         newPage.saveInBackground(new SaveCallback() {
                             @Override
                             public void done(AVException e) {
                                 if (e == null) {
                                     DeleteDialog();
                                 } else {
-                                    Toast.makeText(getActivity(),"查询错误",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), "查询错误", Toast.LENGTH_SHORT).show();
                                     Log.e("LeanCloud", "Save failed.");
                                     getActivity().finish();
                                 }
@@ -59,9 +60,6 @@ public class AddNewPageFragment extends Fragment {
                         });
                     }
                 });
-
-
-
             }
         });
         return rootView;
@@ -74,11 +72,13 @@ public class AddNewPageFragment extends Fragment {
         builder.setPositiveButton("建立", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                    startActivity(new Intent(getActivity(), PageActivity.class));
-                    }
-                }, 1);
+                getActivity().finish();
+                Intent intent = new Intent();
+                intent.putExtra("objectId", PageActivity.bookObjectId);
+                intent.setClass(getActivity(), PageActivity.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(android.support.v7.appcompat.R.anim.abc_fade_in, android.support.v7.appcompat.R.anim.abc_fade_out);
+
             }
         });
         builder.create().show();

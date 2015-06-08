@@ -2,7 +2,6 @@ package com.example.ai.babel.ui.fragment;
 
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,19 +10,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
-import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.SaveCallback;
 import com.example.ai.babel.R;
-import com.example.ai.babel.ui.DetailActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,25 +28,34 @@ import java.util.List;
 
 public class PageObjectFragment extends android.support.v4.app.Fragment {
 
-    private ListView postList;
     private AVObject pageObj;
     private EditText pageTitle;
-
-
+    private ArrayList<View> pgViewList = new ArrayList<View>();
+    private LinearLayout pageBox ;
     @Override
     public void onResume() {
         super.onResume();
+        new UpDataPostList().execute();
     }
 
     public PageObjectFragment(AVObject pageObj) {
         this.pageObj = pageObj;
     }
 
+    public PageObjectFragment() {
+
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new UpDataPostList().execute();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
     }
 
     @Override
@@ -70,11 +75,10 @@ public class PageObjectFragment extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View rootView = inflater.inflate(R.layout.fragment_collection_page, container, false);
         pageTitle = (EditText) rootView.findViewById(R.id.page_title);
         pageTitle.setText(pageObj.get("title").toString());
-        postList = (ListView) rootView.findViewById(R.id.post_list);
+        pageBox= (LinearLayout) rootView.findViewById(R.id.page_box);
         return rootView;
     }
 
@@ -93,15 +97,28 @@ public class PageObjectFragment extends android.support.v4.app.Fragment {
             query.setCachePolicy(AVQuery.CachePolicy.NETWORK_ELSE_CACHE);
             query.whereEqualTo("pgObjectId", pageObj);
             query.orderByDescending("createdAt");
+            LayoutParams param = new LinearLayout.LayoutParams(
+                    LayoutParams.MATCH_PARENT,
+                    LayoutParams.MATCH_PARENT, 1.0f);
+            LayoutParams param2 = new LinearLayout.LayoutParams(
+                    LayoutParams.MATCH_PARENT,
+                    LayoutParams.WRAP_CONTENT, 1.0f);
             List<AVObject> commentList = null;
             try {
                 commentList = query.find();
                 for (int i = 0; i < commentList.size(); i++) {
-                    HashMap<String, Object> allDrawNavTag = new HashMap<String, Object>();
-                    allDrawNavTag.put("postImage", R.drawable.suqi);//加入图片
-                    allDrawNavTag.put("postTitle", commentList.get(i).getString("title"));
-                    allDrawNavTag.put("postContent", commentList.get(i).getString("content"));
-                    listItemMain.add(allDrawNavTag);
+                    LinearLayout postItem = new LinearLayout(getActivity());
+                    postItem.setLayoutParams(param);
+                    postItem.setOrientation(LinearLayout.VERTICAL);
+                    EditText editTitle = new EditText(getActivity());
+                    EditText editContent = new EditText(getActivity());
+                    editTitle.setLayoutParams(param2);
+                    editContent.setLayoutParams(param2);
+                    editTitle.setText(commentList.get(i).getString("title"));
+                    editContent.setText(commentList.get(i).getString("content"));
+                    postItem.addView(editTitle);
+                    postItem.addView(editContent);
+                    pgViewList.add(postItem);
                     postObjIDList.add(commentList.get(i).getObjectId());
                 }
             } catch (AVException e) {
@@ -118,42 +135,9 @@ public class PageObjectFragment extends android.support.v4.app.Fragment {
         @Override
         protected void onPostExecute(Boolean result) {
             if (errMs == null) {
-                SimpleAdapter mSimpleAdapter = new SimpleAdapter(getActivity(), listItemMain,//需要绑定的数据
-                        R.layout.content_item,
-                        new String[]{"postImage", "postTitle", "postContent"},
-                        new int[]{R.id.contentImage, R.id.postTitle, R.id.postContent}
-                );
-                postList.setAdapter(mSimpleAdapter);//为ListView绑定适配器
-
-
-                postList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Intent intent = new Intent();
-                        intent.putExtra("objectId", postObjIDList.get(position));
-                        intent.setClass(getActivity(), DetailActivity.class);
-                        startActivity(intent);
-                    }
-                });
-
-                postList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                    @Override
-                    public boolean onItemLongClick(AdapterView parent, View view, final int position,
-                                                   long id) {
-                        DeleteDialog();
-                        AVQuery<AVObject> query = AVQuery.getQuery("Post");
-                        query.whereEqualTo("objectId", postObjIDList.get(position));
-                        query.findInBackground(new FindCallback<AVObject>() {
-                            public void done(List<AVObject> avObjects, AVException e) {
-                                if (e == null) {
-                                    avObjects.get(0).deleteInBackground();
-                                } else {
-                                }
-                            }
-                        });
-                        return true;
-                    }
-                });
+                for (int i = 0; i <pgViewList.size() ; i++) {
+                    pageBox.addView(pgViewList.get(i));
+                }
             }else {
                 Toast.makeText(getActivity(), "查询错误,错误代码:" + errMs, Toast.LENGTH_SHORT).show();
             }

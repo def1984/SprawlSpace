@@ -1,10 +1,9 @@
 package com.example.ai.babel.ui;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -19,6 +18,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
@@ -43,6 +43,7 @@ public class MainActivity extends BaseActivity {
     private CircleImageView profileImage;
     private CollectionBookAdapter mDemoCollectionPagerAdapter;
     private ViewPager mViewPager;
+
     private AVUser currentUser = AVUser.getCurrentUser();
     private ArrayList<String> pgObIdList = new ArrayList<String>();
 
@@ -62,10 +63,10 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
-        new LoadPages().execute();
+        new LoadBooks().execute();
     }
 
-    class LoadPages extends AsyncTask<Void, Integer, Boolean> {
+    class LoadBooks extends AsyncTask<Void, Integer, Boolean> {
         URL picUrl = null;
         Bitmap pngBM = null;
         ProgressDialog progressDialog =new ProgressDialog(MainActivity.this);
@@ -80,7 +81,7 @@ public class MainActivity extends BaseActivity {
             AVQuery<AVObject> query = AVQuery.getQuery("Book");
             query.setCachePolicy(AVQuery.CachePolicy.NETWORK_ONLY);
             query.whereEqualTo("userObjectId", currentUser);
-            query.orderByDescending("updatedAt");
+            query.orderByDescending("createdAt");
             try {
                 bookListAll=query.find();
                 for (int i = 0; i < bookListAll.size(); i++) {
@@ -90,7 +91,11 @@ public class MainActivity extends BaseActivity {
                 Toast.makeText(MainActivity.this, "连接超时:错误代码:"+e.getMessage(),Toast.LENGTH_SHORT).show();
             }
             try {
-                picUrl = new URL(currentUser.getAVFile("AvatarImage").getUrl());
+                if (currentUser.getAVFile("AvatarImage") != null) {
+                    picUrl = new URL(currentUser.getAVFile("AvatarImage").getUrl());
+                }else {
+                    picUrl = new URL("http://ac-9lv2ouk1.clouddn.com/qG55U7B45Q7bL4fgoLOy1xlN4TUJpzJfXWSirhMN.jpg");
+                }
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -99,6 +104,9 @@ public class MainActivity extends BaseActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            mDemoCollectionPagerAdapter = new CollectionBookAdapter(getSupportFragmentManager());
+            mDemoCollectionPagerAdapter.setPageList(bookListAll);
             return true;
         }
 
@@ -110,8 +118,6 @@ public class MainActivity extends BaseActivity {
         @Override
         protected void onPostExecute(Boolean result) {
             progressDialog.dismiss();
-            mDemoCollectionPagerAdapter = new CollectionBookAdapter(getSupportFragmentManager());
-            mDemoCollectionPagerAdapter.setPageList(bookListAll);
             mViewPager = (ViewPager) findViewById(R.id.pager);
             mViewPager.setAdapter(mDemoCollectionPagerAdapter);
             mViewPager.setCurrentItem(currentUser.getInt("bookIndex"));
@@ -132,10 +138,8 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         intiView();
-
+        new LoadBooks().execute();
         logOut();
-
-
     }
 
     @Override

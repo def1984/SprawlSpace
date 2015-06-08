@@ -21,22 +21,21 @@
     android:background="#fff"
     android:orientation="vertical">
     <EditText
-        android:hint="@string/login_input_user_name"
-        android:textColor="@color/home_pane_header"
+        android:hint="标题"
+        android:textColorHint="@color/theme_primary"
+        android:textColor="#000"
         android:textCursorDrawable="@null"
         android:layout_width="match_parent"
         android:background="@null"
-        android:textStyle="bold"
         android:id="@+id/page_title"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:textSize="20sp" />
-    <ListView
-        android:divider="@null"
-        android:padding="2dp"
-        android:id="@+id/post_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </ListView>
+        android:layout_margin="8dp"
+        android:textSize="24sp" />
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:id="@+id/page_box"
+        android:orientation="vertical"
+        android:layout_width="match_parent">
+    </LinearLayout>
 </LinearLayout>
 

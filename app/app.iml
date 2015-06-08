@@ -90,8 +90,9 @@
     <orderEntry type="library" exported="" name="library-2.4.0" level="project" />
     <orderEntry type="library" exported="" name="httpmime-4.2.4" level="project" />
     <orderEntry type="library" exported="" name="android-styled-dialogs-2.2.0" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-22.1.0" level="project" />
+    <orderEntry type="library" exported="" name="CrosswalkLibrary-8.37.189.12" level="project" />
     <orderEntry type="library" exported="" name="httpcore-4.2.4" level="project" />
+    <orderEntry type="library" exported="" name="support-annotations-22.1.0" level="project" />
     <orderEntry type="library" exported="" name="support-v4-22.1.0" level="project" />
     <orderEntry type="library" exported="" name="avoscloud-search-v2.7" level="project" />
     <orderEntry type="library" exported="" name="avoscloud-feedback-v2.7" level="project" />
