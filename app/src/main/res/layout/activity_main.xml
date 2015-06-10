@@ -25,23 +25,79 @@
 
             <include layout="@layout/toolbar"></include>
 
-
-            <!-- The rest of your content view -->
-            <android.support.v4.view.ViewPager
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/pager"
+            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:fab="http://schemas.android.com/apk/res-auto"
                 android:background="@color/theme_primary"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+                <!-- The rest of your content view -->
+                <android.support.v4.view.ViewPager
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/pager"
+                    android:background="@color/theme_primary"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-            </android.support.v4.view.ViewPager>
+                </android.support.v4.view.ViewPager>
 
 
+                <LinearLayout
+                    android:layout_gravity="bottom|right"
+                    android:layout_width="60dp"
+                    android:id="@+id/mini_fab_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="82dp"
+                    android:layout_height="wrap_content">
 
+                    <com.melnykov.fab.FloatingActionButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_up"
+                        android:layout_margin="16dp"
+                        fab:fab_type="mini"
+                        android:id="@+id/add_new_photo"
+                        android:visibility="gone"
+                        fab:fab_colorNormal="@color/nearby_header_color"
+                        fab:fab_colorPressed="@color/theme_primary_light"
+                        fab:fab_colorRipple="@color/theme_primary_dark"  />
+
+                    <com.melnykov.fab.FloatingActionButton
+                        android:visibility="gone"
+                        android:id="@+id/add_new_post"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/abc_edit_text_material"
+                        android:layout_margin="16dp"
+                        fab:fab_type="mini"
+                        fab:fab_colorNormal="@color/fab_color_1"
+                        fab:fab_colorPressed="@color/theme_primary_light"
+                        fab:fab_colorRipple="@color/theme_primary_dark"  />
+                </LinearLayout>
+
+                <com.example.ai.babel.ui.widget.MyFloatingActionButton
+                    android:id="@+id/fab"
+                    android:layout_width="@dimen/fab_size"
+                    android:layout_height="@dimen/fab_size"
+                    android:layout_margin="16dp"
+                    android:layout_gravity="bottom|right">
+
+                    <ImageView
+                        android:id="@+id/img_fab"
+                        android:layout_width="@dimen/fab_icon_size"
+                        android:layout_height="@dimen/fab_icon_size"
+                        android:src="@drawable/ic_add"
+                        android:layout_gravity="center"
+                        android:duplicateParentState="true"/>
+                </com.example.ai.babel.ui.widget.MyFloatingActionButton>
+            </FrameLayout>
         </LinearLayout>
 
+
         <!-- The navigation drawer -->
-        <com.example.ai.babel.ui.widget.ScrimInsetsFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <com.example.ai.babel.ui.widget.ScrimInsetsFrameLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="304dp"
             android:layout_height="match_parent"
@@ -56,9 +112,6 @@
             <include layout="@layout/nav_drawer"></include>
 
         </com.example.ai.babel.ui.widget.ScrimInsetsFrameLayout>
-
     </android.support.v4.widget.DrawerLayout>
-
-
 
 </LinearLayout> 

@@ -20,22 +20,30 @@
     android:layout_height="match_parent"
     android:background="#fff"
     android:orientation="vertical">
+
     <EditText
         android:hint="标题"
         android:textColorHint="@color/theme_primary"
         android:textColor="#000"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="0dp"
         android:textCursorDrawable="@null"
         android:layout_width="match_parent"
         android:background="@null"
         android:id="@+id/page_title"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
         android:textSize="24sp" />
-    <LinearLayout
-        android:layout_height="wrap_content"
-        android:id="@+id/page_box"
-        android:orientation="vertical"
-        android:layout_width="match_parent">
-    </LinearLayout>
+
+    <jp.wasabeef.richeditor.RichEditor
+        android:id="@+id/editor"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 </LinearLayout>
 

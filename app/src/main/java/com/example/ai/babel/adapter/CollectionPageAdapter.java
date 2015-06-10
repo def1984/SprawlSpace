@@ -39,7 +39,6 @@ public class CollectionPageAdapter extends FragmentStatePagerAdapter {
         }else {
             stack.push(new AddNewPageFragment());
         }
-
         return stack.get(i);
     }
 

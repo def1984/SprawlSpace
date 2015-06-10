@@ -11,11 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.Interpolator;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
@@ -24,9 +19,6 @@ import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.SaveCallback;
 import com.example.ai.babel.R;
 import com.example.ai.babel.adapter.CollectionPageAdapter;
-import com.example.ai.babel.ui.widget.MyFloatingActionButton;
-import com.melnykov.fab.FloatingActionButton;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,9 +26,6 @@ import java.util.List;
 public class PageActivity extends BaseActivity {
 
     private Toolbar mToolbar;
-    private MyFloatingActionButton fabBtn;
-    private Boolean isCheck = false;
-    private LinearLayout mLinearLayout;
     private CollectionPageAdapter mDemoCollectionPagerAdapter;
     private ViewPager mViewPager;
     private ArrayList<String> pgObIdList = new ArrayList<String>();
@@ -112,8 +101,6 @@ public class PageActivity extends BaseActivity {
         bookObjectId=getIntent().getStringExtra("objectId");
         setContentView(R.layout.activity_page);
         intiView();
-        fabBtnAm();
-        addNewPost();
     }
 
 
@@ -170,67 +157,4 @@ public class PageActivity extends BaseActivity {
         });
     }
 
-    private void showAllMinFab() {
-        Animation minFabSet = AnimationUtils.loadAnimation(PageActivity.this, R.anim.min_fab_anim);
-        mLinearLayout = (LinearLayout) findViewById(R.id.mini_fab_content);
-        for (int i = 0; i < mLinearLayout.getChildCount(); i++) {
-            FloatingActionButton mini = (FloatingActionButton) mLinearLayout.getChildAt(i);
-            mini.setVisibility(View.VISIBLE);
-            mini.startAnimation(minFabSet);
-        }
-    }
-
-    private void hideAllMinFab() {
-        mLinearLayout = (LinearLayout) findViewById(R.id.mini_fab_content);
-        Animation minFabSetRve = AnimationUtils.loadAnimation(PageActivity.this, R.anim.min_fab_anim_rev);
-        for (int i = 0; i < mLinearLayout.getChildCount(); i++) {
-            FloatingActionButton mini = (FloatingActionButton) mLinearLayout.getChildAt(i);
-            minFabSetRve.setFillAfter(true);
-            mini.startAnimation(minFabSetRve);
-        }
-    }
-
-
-    private void fabBtnAm() {
-        fabBtn = (MyFloatingActionButton) findViewById(R.id.fab);
-        fabBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Animation animationSet = AnimationUtils.loadAnimation(PageActivity.this, R.anim.fab_anim);
-                ImageView fabImageView = (ImageView) findViewById(R.id.img_fab);
-                if (!isCheck) {
-                    animationSet.setFillAfter(true);
-                    showAllMinFab();
-                    fabImageView.startAnimation(animationSet);
-                    isCheck = true;
-                } else {
-                    animationSet.setInterpolator(new ReverseInterpolator());
-                    fabImageView.startAnimation(animationSet);
-                    hideAllMinFab();
-                    isCheck = false;
-                }
-            }
-        });
-    }
-
-    public class ReverseInterpolator implements Interpolator {
-        @Override
-        public float getInterpolation(float paramFloat) {
-            return Math.abs(paramFloat - 1f);
-        }
-    }
-
-    private void addNewPost() {
-        FloatingActionButton addNewPost = (FloatingActionButton) findViewById(R.id.add_new_post);
-        addNewPost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.putExtra("objectId", pgObIdList.get(mViewPager.getCurrentItem()));
-                intent.setClass(PageActivity.this, AddNewPost.class);
-                startActivity(intent);
-                overridePendingTransition(android.support.v7.appcompat.R.anim.abc_fade_in, android.support.v7.appcompat.R.anim.abc_fade_out);
-            }
-        });
-    }
 }

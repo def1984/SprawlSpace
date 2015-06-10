@@ -5,6 +5,8 @@
 
 
     <Button
+        android:layout_margin="36dp"
+        android:background="@color/theme_primary_light"
         android:layout_width="match_parent"
         android:id="@+id/btn_add_new_book"
         android:layout_height="match_parent"

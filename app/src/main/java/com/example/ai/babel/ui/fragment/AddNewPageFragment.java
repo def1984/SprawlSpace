@@ -4,7 +4,6 @@ package com.example.ai.babel.ui.fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -41,7 +40,7 @@ public class AddNewPageFragment extends Fragment {
                     @Override
                     public void done(AVObject avObject, AVException e) {
                         AVObject newPage = new AVObject("Page");
-                        newPage.put("title", "请输入标题");
+                        newPage.put("title", "");
                         newPage.put("bookObjectId", avObject);
                         avObject.put("pageIndex", 0);
                         final Intent intent = new Intent();

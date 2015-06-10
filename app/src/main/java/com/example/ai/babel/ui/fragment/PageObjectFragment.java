@@ -2,6 +2,7 @@ package com.example.ai.babel.ui.fragment;
 
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,7 +14,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
@@ -21,9 +22,13 @@ import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.SaveCallback;
 import com.example.ai.babel.R;
 
+import org.xwalk.core.XWalkView;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import jp.wasabeef.richeditor.RichEditor;
 
 
 public class PageObjectFragment extends android.support.v4.app.Fragment {
@@ -32,10 +37,18 @@ public class PageObjectFragment extends android.support.v4.app.Fragment {
     private EditText pageTitle;
     private ArrayList<View> pgViewList = new ArrayList<View>();
     private LinearLayout pageBox ;
+    private XWalkView mXWalkView;
+
+    private RichEditor mEditor;
+    private TextView mPreview;
     @Override
     public void onResume() {
         super.onResume();
         new UpDataPostList().execute();
+        if (mXWalkView != null) {
+            mXWalkView.resumeTimers();
+            mXWalkView.onShow();
+        }
     }
 
     public PageObjectFragment(AVObject pageObj) {
@@ -46,7 +59,6 @@ public class PageObjectFragment extends android.support.v4.app.Fragment {
 
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +67,10 @@ public class PageObjectFragment extends android.support.v4.app.Fragment {
     @Override
     public void onPause() {
         super.onPause();
-
+        if (mXWalkView != null) {
+            mXWalkView.pauseTimers();
+            mXWalkView.onHide();
+        }
     }
 
     @Override
@@ -71,16 +86,37 @@ public class PageObjectFragment extends android.support.v4.app.Fragment {
                 }
             }
         });
+        if (mXWalkView != null) {
+            mXWalkView.onDestroy();
+        }
     }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_collection_page, container, false);
         pageTitle = (EditText) rootView.findViewById(R.id.page_title);
         pageTitle.setText(pageObj.get("title").toString());
-        pageBox= (LinearLayout) rootView.findViewById(R.id.page_box);
+//        mXWalkView = (XWalkView) rootView.findViewById(R.id.edit_main);
+//        mXWalkView.load("file:///android_asset/index.html", null);
+        mEditor = (RichEditor) rootView.findViewById(R.id.editor);
+        mEditor.setEditorHeight(200);
+        mEditor.setEditorFontSize(16);
+        mEditor.setPlaceholder("请输入内容...");
         return rootView;
     }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (mXWalkView != null) {
+            mXWalkView.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+
 
     class UpDataPostList extends AsyncTask<Void, Integer, Boolean> {
         ArrayList<HashMap<String, Object>> listItemMain = new ArrayList<HashMap<String, Object>>();
@@ -97,29 +133,11 @@ public class PageObjectFragment extends android.support.v4.app.Fragment {
             query.setCachePolicy(AVQuery.CachePolicy.NETWORK_ELSE_CACHE);
             query.whereEqualTo("pgObjectId", pageObj);
             query.orderByDescending("createdAt");
-            LayoutParams param = new LinearLayout.LayoutParams(
-                    LayoutParams.MATCH_PARENT,
-                    LayoutParams.MATCH_PARENT, 1.0f);
-            LayoutParams param2 = new LinearLayout.LayoutParams(
-                    LayoutParams.MATCH_PARENT,
-                    LayoutParams.WRAP_CONTENT, 1.0f);
             List<AVObject> commentList = null;
             try {
                 commentList = query.find();
                 for (int i = 0; i < commentList.size(); i++) {
-                    LinearLayout postItem = new LinearLayout(getActivity());
-                    postItem.setLayoutParams(param);
-                    postItem.setOrientation(LinearLayout.VERTICAL);
-                    EditText editTitle = new EditText(getActivity());
-                    EditText editContent = new EditText(getActivity());
-                    editTitle.setLayoutParams(param2);
-                    editContent.setLayoutParams(param2);
-                    editTitle.setText(commentList.get(i).getString("title"));
-                    editContent.setText(commentList.get(i).getString("content"));
-                    postItem.addView(editTitle);
-                    postItem.addView(editContent);
-                    pgViewList.add(postItem);
-                    postObjIDList.add(commentList.get(i).getObjectId());
+
                 }
             } catch (AVException e) {
                 e.printStackTrace();
@@ -134,13 +152,6 @@ public class PageObjectFragment extends android.support.v4.app.Fragment {
 
         @Override
         protected void onPostExecute(Boolean result) {
-            if (errMs == null) {
-                for (int i = 0; i <pgViewList.size() ; i++) {
-                    pageBox.addView(pgViewList.get(i));
-                }
-            }else {
-                Toast.makeText(getActivity(), "查询错误,错误代码:" + errMs, Toast.LENGTH_SHORT).show();
-            }
         }
     }
 

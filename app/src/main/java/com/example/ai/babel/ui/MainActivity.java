@@ -14,17 +14,23 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
 import com.example.ai.babel.R;
 import com.example.ai.babel.adapter.CollectionBookAdapter;
+import com.example.ai.babel.ui.widget.MyFloatingActionButton;
+import com.melnykov.fab.FloatingActionButton;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -43,7 +49,9 @@ public class MainActivity extends BaseActivity {
     private CircleImageView profileImage;
     private CollectionBookAdapter mDemoCollectionPagerAdapter;
     private ViewPager mViewPager;
-
+    private MyFloatingActionButton fabBtn;
+    private Boolean isCheck = false;
+    private LinearLayout mLinearLayout;
     private AVUser currentUser = AVUser.getCurrentUser();
     private ArrayList<String> pgObIdList = new ArrayList<String>();
 
@@ -138,6 +146,8 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         intiView();
+        fabBtnAm();
+        addNewBook();
         new LoadBooks().execute();
         logOut();
     }
@@ -202,5 +212,64 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    private void showAllMinFab() {
+        Animation minFabSet = AnimationUtils.loadAnimation(MainActivity.this, R.anim.min_fab_anim);
+        mLinearLayout = (LinearLayout) findViewById(R.id.mini_fab_content);
+        for (int i = 0; i < mLinearLayout.getChildCount(); i++) {
+            FloatingActionButton mini = (FloatingActionButton) mLinearLayout.getChildAt(i);
+            mini.setVisibility(View.VISIBLE);
+            mini.startAnimation(minFabSet);
+        }
+    }
 
+    private void hideAllMinFab() {
+        mLinearLayout = (LinearLayout) findViewById(R.id.mini_fab_content);
+        Animation minFabSetRve = AnimationUtils.loadAnimation(MainActivity.this, R.anim.min_fab_anim_rev);
+        for (int i = 0; i < mLinearLayout.getChildCount(); i++) {
+            FloatingActionButton mini = (FloatingActionButton) mLinearLayout.getChildAt(i);
+            minFabSetRve.setFillAfter(true);
+            mini.startAnimation(minFabSetRve);
+        }
+    }
+
+
+    private void fabBtnAm() {
+        fabBtn = (MyFloatingActionButton) findViewById(R.id.fab);
+        fabBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animation animationSet = AnimationUtils.loadAnimation(MainActivity.this, R.anim.fab_anim);
+                ImageView fabImageView = (ImageView) findViewById(R.id.img_fab);
+                if (!isCheck) {
+                    animationSet.setFillAfter(true);
+                    showAllMinFab();
+                    fabImageView.startAnimation(animationSet);
+                    isCheck = true;
+                } else {
+                    animationSet.setInterpolator(new ReverseInterpolator());
+                    fabImageView.startAnimation(animationSet);
+                    hideAllMinFab();
+                    isCheck = false;
+                }
+            }
+        });
+    }
+
+    public class ReverseInterpolator implements Interpolator {
+        @Override
+        public float getInterpolation(float paramFloat) {
+            return Math.abs(paramFloat - 1f);
+        }
+    }
+
+    private void addNewBook() {
+        FloatingActionButton addNewPost = (FloatingActionButton) findViewById(R.id.add_new_post);
+        addNewPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, AddNewBook.class));
+                MainActivity.this.overridePendingTransition(android.support.v7.appcompat.R.anim.abc_fade_in, android.support.v7.appcompat.R.anim.abc_fade_out);
+            }
+        });
+    }
 }
