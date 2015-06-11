@@ -41,7 +41,7 @@ public class CollectionBookAdapter extends FragmentStatePagerAdapter {
     @Override
     public int getCount() {
         // For this contrived example, we have a 100-object collection.
-        return pageList.size() + 1;
+        return pageList.size();
     }
 
     @Override

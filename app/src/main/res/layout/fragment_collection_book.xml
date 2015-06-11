@@ -20,7 +20,7 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:background="#ffff"
+        android:background="@drawable/corners_bg"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_margin="36dp"

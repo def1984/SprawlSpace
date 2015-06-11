@@ -2,11 +2,13 @@ package com.example.ai.babel.ui;
 
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.DeleteCallback;
 import com.avos.avoscloud.SaveCallback;
 import com.example.ai.babel.R;
 import com.example.ai.babel.adapter.CollectionPageAdapter;
@@ -31,6 +34,7 @@ public class PageActivity extends BaseActivity {
     private ArrayList<String> pgObIdList = new ArrayList<String>();
     AVQuery<AVObject> queryBook = AVQuery.getQuery("Book");
     AVObject BookObject;
+    private List<AVObject> pageListAll;
     static public String bookObjectId;
     @Override
     protected void onResume() {
@@ -46,7 +50,7 @@ public class PageActivity extends BaseActivity {
             progressDialog.show();
         }
 
-        private List<AVObject> pageListAll;
+
         @Override
         protected Boolean doInBackground(Void... params) {
             AVQuery<AVObject> queryPage = AVQuery.getQuery("Page");
@@ -103,6 +107,19 @@ public class PageActivity extends BaseActivity {
         intiView();
     }
 
+    private void intiView() {
+        mToolbar = getActionBarToolbar();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbar.setTitle("");
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+    }
+
 
     @Override
     protected void onPause() {
@@ -120,7 +137,7 @@ public class PageActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_page, menu);
         final MenuItem searchItem = menu.findItem(R.id.menu_search_into);
         searchItem.setIcon(android.support.v7.appcompat.R.drawable.abc_ic_search_api_mtrl_alpha);
         return true;
@@ -132,29 +149,36 @@ public class PageActivity extends BaseActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
-            case R.id.menu_search_into:
-                startActivity(new Intent(this, SearchActivity.class));
-                break;
-            case R.id.add_new_page:
-                startActivity(new Intent(this, AddNewBook.class));
-                finish();
+            case R.id.delete_this_page:
+                DeleteDialog();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-
-    private void intiView() {
-        mToolbar = getActionBarToolbar();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mToolbar.setTitle("");
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    private void DeleteDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(PageActivity.this);
+        builder.setMessage("确定要删除此页面");
+        builder.setTitle("提示");
+        builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                finish();
+            public void onClick(DialogInterface dialog, int which) {
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        pageListAll.get(mViewPager.getCurrentItem()).deleteInBackground(new DeleteCallback() {
+                            @Override
+                            public void done(AVException e) {
+                                if (e == null) {
+                                    Toast.makeText(PageActivity.this,"删除成功",Toast.LENGTH_SHORT).show();
+                                    new LoadPages().execute();
+                                }
+                            }
+                        });
+                    }
+                }, 1);
             }
         });
+        builder.create().show();
     }
 
 }

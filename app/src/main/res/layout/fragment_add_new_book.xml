@@ -6,10 +6,11 @@
 
     <Button
         android:layout_margin="36dp"
-        android:background="@color/theme_primary_light"
+        android:textSize="24dp"
+        android:background="#fff"
         android:layout_width="match_parent"
         android:id="@+id/btn_add_new_book"
         android:layout_height="match_parent"
-        android:text="添加新笔记本" />
+        android:text="添加新页面" />
 
 </FrameLayout>

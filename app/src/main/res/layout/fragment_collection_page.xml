@@ -13,8 +13,11 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
-
-<LinearLayout
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -36,14 +39,21 @@
         android:layout_height="wrap_content"
         android:textSize="24sp" />
 
-    <jp.wasabeef.richeditor.RichEditor
-        android:id="@+id/editor"
+    <EditText
+        android:hint="标题"
+        android:textColorHint="@color/theme_primary"
+        android:textColor="#000"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="0dp"
+        android:textCursorDrawable="@null"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:background="@null"
+        android:id="@+id/page_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp" />
 
-</LinearLayout>
+</LinearLayout></ScrollView>
+
 

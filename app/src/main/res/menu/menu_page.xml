@@ -8,12 +8,12 @@
         android:title="@string/description_search"
         app:showAsAction="always" />
     <item
-        android:id="@+id/edit_this_book"
+        android:id="@+id/show_own_page"
         android:orderInCategory="1"
-        android:title="编辑封面"
+        android:title="分享页面"
         app:showAsAction="never" />
     <item
-        android:id="@+id/delete_this_book"
+        android:id="@+id/delete_this_page"
         android:orderInCategory="1"
         android:title="删除"
         app:showAsAction="never" />

@@ -1,14 +1,17 @@
 package com.example.ai.babel.ui;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -26,6 +29,7 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.DeleteCallback;
 import com.avos.avoscloud.SaveCallback;
 import com.example.ai.babel.R;
 import com.example.ai.babel.adapter.CollectionBookAdapter;
@@ -53,8 +57,8 @@ public class MainActivity extends BaseActivity {
     private Boolean isCheck = false;
     private LinearLayout mLinearLayout;
     private AVUser currentUser = AVUser.getCurrentUser();
-    private ArrayList<String> pgObIdList = new ArrayList<String>();
-
+    private ArrayList<String> pgObIdList = new ArrayList<>();
+    private List<AVObject> bookListAll;
     @Override
     protected void onPause() {
         super.onPause();
@@ -71,6 +75,12 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         new LoadBooks().execute();
     }
 
@@ -83,7 +93,7 @@ public class MainActivity extends BaseActivity {
             progressDialog.show();
         }
 
-        private List<AVObject> bookListAll;
+
         @Override
         protected Boolean doInBackground(Void... params) {
             AVQuery<AVObject> query = AVQuery.getQuery("Book");
@@ -112,7 +122,6 @@ public class MainActivity extends BaseActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             mDemoCollectionPagerAdapter = new CollectionBookAdapter(getSupportFragmentManager());
             mDemoCollectionPagerAdapter.setPageList(bookListAll);
             return true;
@@ -148,7 +157,6 @@ public class MainActivity extends BaseActivity {
         intiView();
         fabBtnAm();
         addNewBook();
-        new LoadBooks().execute();
         logOut();
     }
 
@@ -167,12 +175,11 @@ public class MainActivity extends BaseActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
-            case R.id.menu_search_into:
-                startActivity(new Intent(this, SearchActivity.class));
+            case R.id.edit_this_book:
+                editThisBook();
                 break;
-            case R.id.add_new_page:
-                startActivity(new Intent(this, AddNewBook.class));
-                finish();
+            case R.id.delete_this_book:
+                DeleteDialog();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -184,12 +191,10 @@ public class MainActivity extends BaseActivity {
         TypedValue typedValue = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValue, true);
         int color = typedValue.data;
-
         // 注意setStatusBarBackgroundColor方法需要你将fitsSystemWindows设置为true才会生效
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.my_drawer_layout);
         drawerLayout.setStatusBarBackgroundColor(color);
         mToolbar = getActionBarToolbar();
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, mToolbar, R.string.drawer_open,
                 R.string.drawer_close);
@@ -262,14 +267,54 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    private void editThisBook() {
+        Intent intent = new Intent();
+        intent.putExtra("bookObjectId", bookListAll.get(mViewPager.getCurrentItem()).getObjectId());
+        intent.setClass(MainActivity.this, EditBook.class);
+        startActivity(intent);
+        MainActivity.this.overridePendingTransition(android.support.v7.appcompat.R.anim.abc_fade_in, android.support.v7.appcompat.R.anim.abc_fade_out);
+    }
     private void addNewBook() {
-        FloatingActionButton addNewPost = (FloatingActionButton) findViewById(R.id.add_new_post);
-        addNewPost.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton addNewBook = (FloatingActionButton) findViewById(R.id.add_new_book);
+        addNewBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, AddNewBook.class));
                 MainActivity.this.overridePendingTransition(android.support.v7.appcompat.R.anim.abc_fade_in, android.support.v7.appcompat.R.anim.abc_fade_out);
             }
         });
+    }
+
+    private void DeleteDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setMessage("确定要删除此笔记吗？如果删除，那么此笔记下的所有页面也将被删除");
+        builder.setTitle("提示");
+        builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        bookListAll.get(mViewPager.getCurrentItem()).deleteInBackground(new DeleteCallback() {
+                            @Override
+                            public void done(AVException e) {
+                                if (e == null) {
+                                    AVQuery<AVObject> query = AVQuery.getQuery("Page");
+                                    query.setCachePolicy(AVQuery.CachePolicy.NETWORK_ONLY);
+                                    query.whereEqualTo("bookObjectId", bookListAll.get(mViewPager.getCurrentItem()));
+                                    try {
+                                        AVObject.deleteAll(query.find());
+                                    } catch (AVException e1) {
+                                        e1.printStackTrace();
+                                    }
+                                    Toast.makeText(MainActivity.this,"删除成功",Toast.LENGTH_SHORT).show();
+                                    new LoadBooks().execute();
+                                }
+                            }
+                        });
+                    }
+                }, 1);
+            }
+        });
+        builder.create().show();
     }
 }

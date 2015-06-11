@@ -65,7 +65,7 @@
 
                     <com.melnykov.fab.FloatingActionButton
                         android:visibility="gone"
-                        android:id="@+id/add_new_post"
+                        android:id="@+id/add_new_book"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/abc_edit_text_material"

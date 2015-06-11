@@ -13,25 +13,26 @@ import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
 import com.example.ai.babel.R;
+import com.example.ai.babel.ui.widget.MyFloatingActionButton;
 
 public class AddNewBook extends BaseActivity {
 
-    private EditText postTitle,postContent;
-    private Button saveBtn;
+    private EditText bookTitle, bookDescription;
+    private MyFloatingActionButton saveBtn;
     private AVUser currentUser = AVUser.getCurrentUser();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
-        postContent= (EditText) findViewById(R.id.post_et_content);
-        postTitle= (EditText) findViewById(R.id.post_et_title);
-        saveBtn= (Button) findViewById(R.id.btnSave);
+        setContentView(R.layout.activity_detail_book);
+        bookTitle= (EditText) findViewById(R.id.book_title);
+        bookDescription= (EditText) findViewById(R.id.book_description);
+        saveBtn= (MyFloatingActionButton) findViewById(R.id.btnSave);
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AVObject newPost = new AVObject("Book");
-                newPost.put("description", postContent.getText().toString());
-                newPost.put("title", postTitle.getText().toString());
+                newPost.put("title", bookTitle.getText().toString());
+                newPost.put("description", bookDescription.getText().toString());
                 newPost.put("userObjectId", currentUser);
                 currentUser.put("bookIndex",0);
                 newPost.saveInBackground(new SaveCallback() {

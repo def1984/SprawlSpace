@@ -1,6 +1,5 @@
 package com.example.ai.babel.ui.fragment;
 
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,6 +24,7 @@ public class AddNewPageFragment extends Fragment {
     private Button btnDddNewBook;
 
     AVQuery<AVObject> query = AVQuery.getQuery("Book");
+    final AVObject newPage = new AVObject("Page");
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,30 +35,7 @@ public class AddNewPageFragment extends Fragment {
         btnDddNewBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                query.setCachePolicy(AVQuery.CachePolicy.NETWORK_ELSE_CACHE);
-                query.getInBackground(getActivity().getIntent().getStringExtra("objectId"), new GetCallback<AVObject>() {
-                    @Override
-                    public void done(AVObject avObject, AVException e) {
-                        AVObject newPage = new AVObject("Page");
-                        newPage.put("title", "");
-                        newPage.put("bookObjectId", avObject);
-                        avObject.put("pageIndex", 0);
-                        final Intent intent = new Intent();
-                        intent.putExtra("objectId", PageActivity.bookObjectId);
-                        newPage.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(AVException e) {
-                                if (e == null) {
-                                    DeleteDialog();
-                                } else {
-                                    Toast.makeText(getActivity(), "查询错误", Toast.LENGTH_SHORT).show();
-                                    Log.e("LeanCloud", "Save failed.");
-                                    getActivity().finish();
-                                }
-                            }
-                        });
-                    }
-                });
+                DeleteDialog();
             }
         });
         return rootView;
@@ -71,12 +48,34 @@ public class AddNewPageFragment extends Fragment {
         builder.setPositiveButton("建立", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                getActivity().finish();
-                Intent intent = new Intent();
-                intent.putExtra("objectId", PageActivity.bookObjectId);
-                intent.setClass(getActivity(), PageActivity.class);
-                startActivity(intent);
-                getActivity().overridePendingTransition(android.support.v7.appcompat.R.anim.abc_fade_in, android.support.v7.appcompat.R.anim.abc_fade_out);
+                query.setCachePolicy(AVQuery.CachePolicy.NETWORK_ELSE_CACHE);
+                query.getInBackground(getActivity().getIntent().getStringExtra("objectId"), new GetCallback<AVObject>() {
+                    @Override
+                    public void done(AVObject avObject, AVException e) {
+                        newPage.put("title", "");
+                        newPage.put("content", "");
+                        newPage.put("bookObjectId", avObject);
+                        final Intent intent = new Intent();
+                        intent.putExtra("objectId", PageActivity.bookObjectId);
+                        newPage.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(AVException e) {
+                                if (e == null) {
+                                    getActivity().finish();
+                                    Intent intent = new Intent();
+                                    intent.putExtra("objectId", PageActivity.bookObjectId);
+                                    intent.setClass(getActivity(), PageActivity.class);
+                                    startActivity(intent);
+                                    getActivity().overridePendingTransition(android.support.v7.appcompat.R.anim.abc_fade_in, android.support.v7.appcompat.R.anim.abc_fade_out);
+                                } else {
+                                    Toast.makeText(getActivity(), "查询错误", Toast.LENGTH_SHORT).show();
+                                    Log.e("LeanCloud", "Save failed.");
+                                    getActivity().finish();
+                                }
+                            }
+                        });
+                    }
+                });
 
             }
         });
