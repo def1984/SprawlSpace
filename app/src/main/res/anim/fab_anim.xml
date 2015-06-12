@@ -12,9 +12,8 @@
 -->
 
 
-<set xmlns:android="http://schemas.android.com/apk/res/android"
-    >
-    <rotate
+<set xmlns:android="http://schemas.android.com/apk/res/android" >
+   <rotate
         android:pivotX="50%"
         android:pivotY="50%"
         android:fromDegrees="0"

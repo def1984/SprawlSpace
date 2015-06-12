@@ -50,7 +50,7 @@ public class CollectionPageAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return "第" + (position + 1)+"页";
+        return  Integer.toString(position+1);
     }
 
     public void setPageList(List<AVObject> pageList) {

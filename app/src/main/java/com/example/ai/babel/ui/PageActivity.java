@@ -56,13 +56,11 @@ public class PageActivity extends BaseActivity {
             AVQuery<AVObject> queryPage = AVQuery.getQuery("Page");
             queryPage.setCachePolicy(AVQuery.CachePolicy.NETWORK_ONLY);
             queryBook.setCachePolicy(AVQuery.CachePolicy.NETWORK_ONLY);
-
             try {
                 queryPage.whereEqualTo("bookObjectId", queryBook.get(getIntent().getStringExtra("objectId")));
             } catch (AVException e) {
                 e.printStackTrace();
             }
-
             queryPage.orderByAscending("createdAt");
             try {
                 pageListAll=queryPage.find();

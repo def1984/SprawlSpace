@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,16 +12,10 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
 
-        <!-- Your normal content view -->
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
-            <!-- We use a Toolbar so that our drawer can be displayed
-                 in front of the action bar -->
 
             <include layout="@layout/toolbar"></include>
 
@@ -37,63 +31,70 @@
                     android:background="@color/theme_primary"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-
                 </android.support.v4.view.ViewPager>
-
-
-                <LinearLayout
-                    android:layout_gravity="bottom|right"
-                    android:layout_width="60dp"
-                    android:id="@+id/mini_fab_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginBottom="82dp"
-                    android:layout_height="wrap_content">
-
-                    <com.melnykov.fab.FloatingActionButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_up"
-                        android:layout_margin="16dp"
-                        fab:fab_type="mini"
-                        android:id="@+id/add_new_photo"
-                        android:visibility="gone"
-                        fab:fab_colorNormal="@color/nearby_header_color"
-                        fab:fab_colorPressed="@color/theme_primary_light"
-                        fab:fab_colorRipple="@color/theme_primary_dark"  />
-
-                    <com.melnykov.fab.FloatingActionButton
-                        android:visibility="gone"
-                        android:id="@+id/add_new_book"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/abc_edit_text_material"
-                        android:layout_margin="16dp"
-                        fab:fab_type="mini"
-                        fab:fab_colorNormal="@color/fab_color_1"
-                        fab:fab_colorPressed="@color/theme_primary_light"
-                        fab:fab_colorRipple="@color/theme_primary_dark"  />
-                </LinearLayout>
-
-                <com.example.ai.babel.ui.widget.MyFloatingActionButton
-                    android:id="@+id/fab"
-                    android:layout_width="@dimen/fab_size"
-                    android:layout_height="@dimen/fab_size"
-                    android:layout_margin="16dp"
-                    android:layout_gravity="bottom|right">
-
-                    <ImageView
-                        android:id="@+id/img_fab"
-                        android:layout_width="@dimen/fab_icon_size"
-                        android:layout_height="@dimen/fab_icon_size"
-                        android:src="@drawable/ic_add"
-                        android:layout_gravity="center"
-                        android:duplicateParentState="true"/>
-                </com.example.ai.babel.ui.widget.MyFloatingActionButton>
             </FrameLayout>
         </LinearLayout>
+        <Button
+            android:visibility="gone"
+            android:id="@+id/background_cover"
+            android:layout_width="match_parent"
+            android:background="#ccffffff"
+            android:layout_height="match_parent" />
+        <FrameLayout
+            xmlns:fab="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_gravity="bottom|right"
+                android:layout_width="60dp"
+                android:id="@+id/mini_fab_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="82dp"
+                android:layout_height="wrap_content">
 
+                <com.melnykov.fab.FloatingActionButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_up"
+                    android:layout_margin="16dp"
+                    fab:fab_type="mini"
+                    android:id="@+id/add_new_photo"
+                    android:visibility="gone"
+                    fab:fab_colorNormal="@color/nearby_header_color"
+                    fab:fab_colorPressed="@color/theme_primary_light"
+                    fab:fab_colorRipple="@color/theme_primary_dark"  />
+
+                <com.melnykov.fab.FloatingActionButton
+                    android:visibility="gone"
+                    android:id="@+id/add_new_book"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/abc_edit_text_material"
+                    android:layout_margin="16dp"
+                    fab:fab_type="mini"
+                    fab:fab_colorNormal="@color/fab_color_1"
+                    fab:fab_colorPressed="@color/theme_primary_light"
+                    fab:fab_colorRipple="@color/theme_primary_dark"  />
+            </LinearLayout>
+
+            <com.example.ai.babel.ui.widget.MyFloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="@dimen/fab_size"
+                android:layout_height="@dimen/fab_size"
+                android:layout_margin="16dp"
+                android:layout_gravity="bottom|right">
+
+                <ImageView
+                    android:id="@+id/img_fab"
+                    android:layout_width="@dimen/fab_icon_size"
+                    android:layout_height="@dimen/fab_icon_size"
+                    android:src="@drawable/ic_add"
+                    android:layout_gravity="center"
+                    android:duplicateParentState="true"/>
+            </com.example.ai.babel.ui.widget.MyFloatingActionButton>
+        </FrameLayout>
 
         <!-- The navigation drawer -->
         <com.example.ai.babel.ui.widget.ScrimInsetsFrameLayout
@@ -114,4 +115,4 @@
         </com.example.ai.babel.ui.widget.ScrimInsetsFrameLayout>
     </android.support.v4.widget.DrawerLayout>
 
-</LinearLayout> 
+</FrameLayout>

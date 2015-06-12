@@ -30,6 +30,7 @@ import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.DeleteCallback;
+import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.SaveCallback;
 import com.example.ai.babel.R;
 import com.example.ai.babel.adapter.CollectionBookAdapter;
@@ -40,6 +41,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -49,7 +51,7 @@ public class MainActivity extends BaseActivity {
 
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mDrawerToggle;
-    private Button logoutButton;
+    private Button logoutButton, BtnBgc;
     private CircleImageView profileImage;
     private CollectionBookAdapter mDemoCollectionPagerAdapter;
     private ViewPager mViewPager;
@@ -59,6 +61,8 @@ public class MainActivity extends BaseActivity {
     private AVUser currentUser = AVUser.getCurrentUser();
     private ArrayList<String> pgObIdList = new ArrayList<>();
     private List<AVObject> bookListAll;
+
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -72,13 +76,6 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-
-    }
-
-    @Override
     protected void onStart() {
         super.onStart();
         new LoadBooks().execute();
@@ -87,7 +84,8 @@ public class MainActivity extends BaseActivity {
     class LoadBooks extends AsyncTask<Void, Integer, Boolean> {
         URL picUrl = null;
         Bitmap pngBM = null;
-        ProgressDialog progressDialog =new ProgressDialog(MainActivity.this);
+        ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
+
         @Override
         protected void onPreExecute() {
             progressDialog.show();
@@ -101,17 +99,17 @@ public class MainActivity extends BaseActivity {
             query.whereEqualTo("userObjectId", currentUser);
             query.orderByDescending("createdAt");
             try {
-                bookListAll=query.find();
+                bookListAll = query.find();
                 for (int i = 0; i < bookListAll.size(); i++) {
                     pgObIdList.add(bookListAll.get(i).getObjectId());
                 }
             } catch (AVException e) {
-                Toast.makeText(MainActivity.this, "连接超时:错误代码:"+e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "连接超时:错误代码:" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
             try {
                 if (currentUser.getAVFile("AvatarImage") != null) {
                     picUrl = new URL(currentUser.getAVFile("AvatarImage").getUrl());
-                }else {
+                } else {
                     picUrl = new URL("http://ac-9lv2ouk1.clouddn.com/qG55U7B45Q7bL4fgoLOy1xlN4TUJpzJfXWSirhMN.jpg");
                 }
             } catch (MalformedURLException e) {
@@ -171,9 +169,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.edit_this_book:
                 editThisBook();
@@ -191,7 +186,6 @@ public class MainActivity extends BaseActivity {
         TypedValue typedValue = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValue, true);
         int color = typedValue.data;
-        // 注意setStatusBarBackgroundColor方法需要你将fitsSystemWindows设置为true才会生效
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.my_drawer_layout);
         drawerLayout.setStatusBarBackgroundColor(color);
         mToolbar = getActionBarToolbar();
@@ -201,7 +195,6 @@ public class MainActivity extends BaseActivity {
         mDrawerToggle.syncState();
         drawerLayout.setDrawerListener(mDrawerToggle);
     }
-
 
 
     private void logOut() {
@@ -232,6 +225,7 @@ public class MainActivity extends BaseActivity {
         Animation minFabSetRve = AnimationUtils.loadAnimation(MainActivity.this, R.anim.min_fab_anim_rev);
         for (int i = 0; i < mLinearLayout.getChildCount(); i++) {
             FloatingActionButton mini = (FloatingActionButton) mLinearLayout.getChildAt(i);
+            mini.setVisibility(View.GONE);
             minFabSetRve.setFillAfter(true);
             mini.startAnimation(minFabSetRve);
         }
@@ -240,19 +234,52 @@ public class MainActivity extends BaseActivity {
 
     private void fabBtnAm() {
         fabBtn = (MyFloatingActionButton) findViewById(R.id.fab);
+        BtnBgc = (Button) findViewById(R.id.background_cover);
         fabBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Animation animationSet = AnimationUtils.loadAnimation(MainActivity.this, R.anim.fab_anim);
+                Animation animSetFab = AnimationUtils.loadAnimation(MainActivity.this, R.anim.fab_anim);
+                Animation animSetCbg = AnimationUtils.loadAnimation(MainActivity.this, R.anim.background_cover_anim);
                 ImageView fabImageView = (ImageView) findViewById(R.id.img_fab);
                 if (!isCheck) {
-                    animationSet.setFillAfter(true);
+                    animSetFab.setFillAfter(true);
+                    animSetCbg.setFillAfter(true);
                     showAllMinFab();
-                    fabImageView.startAnimation(animationSet);
+                    BtnBgc.setVisibility(View.VISIBLE);
+                    BtnBgc.startAnimation(animSetCbg);
+                    fabImageView.startAnimation(animSetFab);
                     isCheck = true;
                 } else {
-                    animationSet.setInterpolator(new ReverseInterpolator());
-                    fabImageView.startAnimation(animationSet);
+                    animSetFab.setInterpolator(new ReverseInterpolator());
+                    animSetCbg.setInterpolator(new ReverseInterpolator());
+                    fabImageView.startAnimation(animSetFab);
+                    BtnBgc.startAnimation(animSetCbg);
+                    BtnBgc.setVisibility(View.GONE);
+                    hideAllMinFab();
+                    isCheck = false;
+                }
+            }
+        });
+        BtnBgc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animation animSetFab = AnimationUtils.loadAnimation(MainActivity.this, R.anim.fab_anim);
+                Animation animSetCbg = AnimationUtils.loadAnimation(MainActivity.this, R.anim.background_cover_anim);
+                ImageView fabImageView = (ImageView) findViewById(R.id.img_fab);
+                if (!isCheck) {
+                    animSetFab.setFillAfter(true);
+                    animSetCbg.setFillAfter(true);
+                    showAllMinFab();
+                    BtnBgc.setVisibility(View.VISIBLE);
+                    BtnBgc.startAnimation(animSetCbg);
+                    fabImageView.startAnimation(animSetFab);
+                    isCheck = true;
+                } else {
+                    animSetFab.setInterpolator(new ReverseInterpolator());
+                    animSetCbg.setInterpolator(new ReverseInterpolator());
+                    fabImageView.startAnimation(animSetFab);
+                    BtnBgc.startAnimation(animSetCbg);
+                    BtnBgc.setVisibility(View.GONE);
                     hideAllMinFab();
                     isCheck = false;
                 }
@@ -274,11 +301,13 @@ public class MainActivity extends BaseActivity {
         startActivity(intent);
         MainActivity.this.overridePendingTransition(android.support.v7.appcompat.R.anim.abc_fade_in, android.support.v7.appcompat.R.anim.abc_fade_out);
     }
+
     private void addNewBook() {
         FloatingActionButton addNewBook = (FloatingActionButton) findViewById(R.id.add_new_book);
         addNewBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
                 startActivity(new Intent(MainActivity.this, AddNewBook.class));
                 MainActivity.this.overridePendingTransition(android.support.v7.appcompat.R.anim.abc_fade_in, android.support.v7.appcompat.R.anim.abc_fade_out);
             }
@@ -294,23 +323,27 @@ public class MainActivity extends BaseActivity {
             public void onClick(DialogInterface dialog, int which) {
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
-                        bookListAll.get(mViewPager.getCurrentItem()).deleteInBackground(new DeleteCallback() {
+                        AVQuery<AVObject> pageQuery = AVQuery.getQuery("Page");
+                        pageQuery.setCachePolicy(AVQuery.CachePolicy.NETWORK_ONLY);
+                        pageQuery.whereEqualTo("bookObjectId", bookListAll.get(mViewPager.getCurrentItem()));
+                        pageQuery.findInBackground(new FindCallback<AVObject>() {
                             @Override
-                            public void done(AVException e) {
+                            public void done(List<AVObject> list, AVException e) {
                                 if (e == null) {
-                                    AVQuery<AVObject> query = AVQuery.getQuery("Page");
-                                    query.setCachePolicy(AVQuery.CachePolicy.NETWORK_ONLY);
-                                    query.whereEqualTo("bookObjectId", bookListAll.get(mViewPager.getCurrentItem()));
-                                    try {
-                                        AVObject.deleteAll(query.find());
-                                    } catch (AVException e1) {
-                                        e1.printStackTrace();
+                                    for (int i = 0; i < list.size(); i++) {
+                                        list.get(i).deleteInBackground();
                                     }
-                                    Toast.makeText(MainActivity.this,"删除成功",Toast.LENGTH_SHORT).show();
-                                    new LoadBooks().execute();
+                                    bookListAll.get(mViewPager.getCurrentItem()).deleteInBackground(new DeleteCallback() {
+                                        @Override
+                                        public void done(AVException e) {
+                                            Toast.makeText(MainActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
+                                            new LoadBooks().execute();
+                                        }
+                                    });
                                 }
                             }
                         });
+
                     }
                 }, 1);
             }
