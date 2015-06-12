@@ -1,4 +1,5 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -6,7 +7,7 @@
 
     <EditText
         android:hint="标题"
-        android:textColorHint="@color/theme_primary"
+        android:textColorHint="@color/avoscloud_feedback_text_gray"
         android:textColor="#000"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
@@ -18,7 +19,7 @@
         android:layout_height="wrap_content" />
     <EditText
         android:hint="描述"
-        android:textColorHint="@color/theme_primary"
+        android:textColorHint="@color/avoscloud_feedback_text_gray"
         android:textColor="#000"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"

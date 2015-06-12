@@ -1,10 +1,11 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context="com.example.ai.babel.ui.fragment.LoginFragment">
+     >
 
-    <!-- TODO: Update blank fragment layout -->
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_marginTop="100dp"
@@ -15,19 +16,23 @@
         <EditText
             android:id="@+id/login_email_input"
             android:hint="@string/email"
+            android:textCursorDrawable="@null"
+            android:textColorHint="@color/avoscloud_feedback_text_gray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <EditText
             android:id="@+id/login_password_input"
             android:hint="@string/password"
+            android:textCursorDrawable="@null"
+            android:textColorHint="@color/avoscloud_feedback_text_gray"
             android:password="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <Button
-            android:textColor="@color/avoscloud_feedback_white"
-            android:background="@color/theme_primary"
+
+            android:background="@color/theme_primary_light"
             android:id="@+id/login_button"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
