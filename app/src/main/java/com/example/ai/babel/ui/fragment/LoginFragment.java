@@ -24,6 +24,7 @@ public class LoginFragment extends Fragment {
 
     private Button loginButton;
     private EditText loginEmailInput,loginPasswordInput;
+    private String username,password ;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -36,24 +37,31 @@ public class LoginFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         loginButton= (Button) getActivity().findViewById(R.id.login_button);
         loginEmailInput= (EditText) getActivity().findViewById(R.id.login_email_input);
+        username= loginEmailInput.getText().toString();
+        password= loginPasswordInput.getText().toString();
         loginPasswordInput= (EditText) getActivity().findViewById(R.id.login_password_input);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = loginEmailInput.getText().toString();
-                String password = loginPasswordInput.getText().toString();
-                AVUser.logInInBackground(username, password, new LogInCallback() {
-                    public void done(AVUser user, AVException e) {
-                        if (user != null) {
-                            Toast.makeText(getActivity().getBaseContext(),"登陆成功",Toast.LENGTH_SHORT);
-                            Intent mainIntent = new Intent(getActivity().getBaseContext(), MainActivity.class);
-                            startActivity(mainIntent);
-                            getActivity().finish();
-                        } else {
-                            Toast.makeText(getActivity().getBaseContext(),"登陆失败",Toast.LENGTH_SHORT);
+
+                if (username != null || password !=null ) {
+                    AVUser.logInInBackground(username, password, new LogInCallback<AVUser>() {
+                        @Override
+                        public void done(AVUser avUser, AVException e) {
+                            if (avUser != null & e == null) {
+                                Intent mainIntent = new Intent(getActivity().getBaseContext(), MainActivity.class);
+                                startActivity(mainIntent);
+                                Toast.makeText(getActivity(), "登陆成功", Toast.LENGTH_SHORT).show();
+                                getActivity().finish();
+                            } else {
+                                Toast.makeText(getActivity(), "登陆失败：请输入正确的用户名或者密码", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
+                }else {
+                    Toast.makeText(getActivity(),"请输入正确的用户名或者密码",Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }

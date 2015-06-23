@@ -21,6 +21,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -61,6 +62,11 @@ public class MainActivity extends BaseActivity {
     private ArrayList<String> pgObIdList = new ArrayList<>();
     private List<AVObject> bookListAll;
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
     @Override
     protected void onPause() {
@@ -154,7 +160,6 @@ public class MainActivity extends BaseActivity {
         intiView();
         fabBtnAm();
         addNewBook();
-        logOut();
     }
 
     @Override
@@ -188,32 +193,64 @@ public class MainActivity extends BaseActivity {
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.my_drawer_layout);
         drawerLayout.setStatusBarBackgroundColor(color);
         mToolbar = getActionBarToolbar();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, mToolbar, R.string.drawer_open,
                 R.string.drawer_close);
         mDrawerToggle.syncState();
         drawerLayout.setDrawerListener(mDrawerToggle);
-    }
-
-
-    private void logOut() {
         logoutButton = (Button) findViewById(R.id.logout_button);
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AVUser.logOut();
-                Intent interIntent = new Intent(MainActivity.this, InitActivity.class);
-                startActivity(interIntent);
-                finish();
+                new LayoutClass().execute();
+
             }
         });
     }
+
+    class LayoutClass extends AsyncTask<Void, Integer, Boolean> {
+
+        ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog.show();
+        }
+
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            AVUser.logOut();
+            return true;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            progressDialog.setMessage("当前下载进度：" + values[0] + "%");
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            progressDialog.dismiss();
+            Intent interIntent = new Intent(MainActivity.this, InitActivity.class);
+            if (currentUser == null) {
+                Toast.makeText(MainActivity.this,"登出成功",Toast.LENGTH_SHORT).show();
+            }
+            startActivity(interIntent);
+            finish();
+        }
+    }
+
+
+
 
     private void showAllMinFab() {
         Animation minFabSet = AnimationUtils.loadAnimation(MainActivity.this, R.anim.min_fab_anim);
         mLinearLayout = (LinearLayout) findViewById(R.id.mini_fab_content);
         for (int i = 0; i < mLinearLayout.getChildCount(); i++) {
-            FloatingActionButton mini = (FloatingActionButton) mLinearLayout.getChildAt(i);
+            LinearLayout mini = (LinearLayout) mLinearLayout.getChildAt(i);
             mini.setVisibility(View.VISIBLE);
             mini.startAnimation(minFabSet);
         }
@@ -223,10 +260,10 @@ public class MainActivity extends BaseActivity {
         mLinearLayout = (LinearLayout) findViewById(R.id.mini_fab_content);
         Animation minFabSetRve = AnimationUtils.loadAnimation(MainActivity.this, R.anim.min_fab_anim_rev);
         for (int i = 0; i < mLinearLayout.getChildCount(); i++) {
-            FloatingActionButton mini = (FloatingActionButton) mLinearLayout.getChildAt(i);
-            mini.setVisibility(View.GONE);
+            LinearLayout mini = (LinearLayout) mLinearLayout.getChildAt(i);
             minFabSetRve.setFillAfter(true);
             mini.startAnimation(minFabSetRve);
+            mini.setVisibility(View.GONE);
         }
     }
 
@@ -259,6 +296,7 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
+
         BtnBgc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -302,7 +340,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void addNewBook() {
-        FloatingActionButton addNewBook = (FloatingActionButton) findViewById(R.id.add_new_book);
+        ImageButton addNewBook = (ImageButton) findViewById(R.id.add_new_book);
         addNewBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

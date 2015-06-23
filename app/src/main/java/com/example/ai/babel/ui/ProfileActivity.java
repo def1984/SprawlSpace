@@ -65,7 +65,7 @@ public class ProfileActivity extends BaseActivity {
                 path1.mkdirs();
             }
         } else {
-            return;
+
         }
     }
 
@@ -79,7 +79,6 @@ public class ProfileActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.action_save) {
-
                 try {
                     if (currentUser.getAVFile("AvatarImage") != null) {
                         currentUser.getAVFile("AvatarImage").deleteInBackground();

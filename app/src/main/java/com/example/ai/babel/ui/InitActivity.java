@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -19,18 +18,16 @@ import com.example.ai.babel.ui.fragment.RegisterFragment;
 
 public class InitActivity extends BaseActivity {
 
-    private Toolbar mToolbar;
     DemoCollectionPagerAdapter mDemoCollectionPagerAdapter;
     private ViewPager mViewPager;
-
+    AVUser currentUser = AVUser.getCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inter);
-        AVUser currentUser = AVUser.getCurrentUser();
         if (currentUser != null) {
-            Intent mainIntent = new Intent(this, MainActivity.class);
+            Intent mainIntent = new Intent(InitActivity.this, MainActivity.class);
             startActivity(mainIntent);
             finish();
         } else {
@@ -39,8 +36,6 @@ public class InitActivity extends BaseActivity {
     }
 
     private void intiView(){
-        mToolbar = getActionBarToolbar();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         mDemoCollectionPagerAdapter =
                 new DemoCollectionPagerAdapter(
                         getSupportFragmentManager());
@@ -100,7 +95,6 @@ public class InitActivity extends BaseActivity {
         public int getCount() {
             return 3;
         }
-
         @Override
         public CharSequence getPageTitle(int position) {
             return "OBJECT " + (position + 1);
