@@ -41,9 +41,7 @@ import com.example.ai.babel.ui.widget.MyFloatingActionButton;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -59,6 +57,7 @@ public class MainActivity extends BaseActivity {
     private ViewPager mViewPager;
     private MyFloatingActionButton fabBtn;
     private Boolean isCheck = false;
+    private Boolean userCheck ;
     private LinearLayout mLinearLayout;
     private AVUser currentUser = AVUser.getCurrentUser();
     private ArrayList<String> pgObIdList = new ArrayList<>();
@@ -69,6 +68,9 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if( userCheck == false){
+            AVUser.logOut();
+        }
     }
 
     @Override
@@ -168,6 +170,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         intiView();
         fabBtnAm();
+        userCheck=getIntent().hasExtra("userCheck");
         addNewBook();
     }
 
@@ -213,43 +216,17 @@ public class MainActivity extends BaseActivity {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new LayoutClass().execute();
+                AVUser.logOut();
+                Intent interIntent = new Intent(MainActivity.this, InitActivity.class);
+                startActivity(interIntent);
+                Toast.makeText(MainActivity.this,"登出成功",Toast.LENGTH_SHORT).show();
+                userCheck=false;
+                finish();
             }
         });
     }
 
-    class LayoutClass extends AsyncTask<Void, Integer, Boolean> {
 
-        ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
-
-        @Override
-        protected void onPreExecute() {
-            progressDialog.show();
-        }
-
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            AVUser.logOut();
-            return true;
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            progressDialog.setMessage("当前下载进度：" + values[0] + "%");
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            progressDialog.dismiss();
-            Intent interIntent = new Intent(MainActivity.this, InitActivity.class);
-            if (currentUser == null) {
-                Toast.makeText(MainActivity.this,"登出成功",Toast.LENGTH_SHORT).show();
-            }
-            startActivity(interIntent);
-            finish();
-        }
-    }
 
     private void showAllMinFab() {
         Animation minFabSet = AnimationUtils.loadAnimation(MainActivity.this, R.anim.min_fab_anim);

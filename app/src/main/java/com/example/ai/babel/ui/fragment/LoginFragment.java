@@ -49,6 +49,7 @@ public class LoginFragment extends Fragment {
                     public void done(AVUser avUser, AVException e) {
                         if (avUser != null && e == null) {
                             Intent mainIntent = new Intent(getActivity().getBaseContext(), MainActivity.class);
+                            mainIntent.putExtra("userCheck",true);
                             startActivity(mainIntent);
                             Toast.makeText(getActivity(), "登陆成功", Toast.LENGTH_SHORT).show();
                             getActivity().finish();

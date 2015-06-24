@@ -90,8 +90,9 @@
     <orderEntry type="library" exported="" name="library-2.4.0" level="project" />
     <orderEntry type="library" exported="" name="httpmime-4.2.4" level="project" />
     <orderEntry type="library" exported="" name="android-styled-dialogs-2.2.0" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-22.1.0" level="project" />
+    <orderEntry type="library" exported="" name="fastjson-1.1.38-leancloud" level="project" />
     <orderEntry type="library" exported="" name="httpcore-4.2.4" level="project" />
+    <orderEntry type="library" exported="" name="support-annotations-22.1.0" level="project" />
     <orderEntry type="library" exported="" name="support-v4-22.1.0" level="project" />
     <orderEntry type="library" exported="" name="xwalk_core_library-10.39.235.15" level="project" />
     <orderEntry type="library" exported="" name="avoscloud-search-v2.7" level="project" />
@@ -102,12 +103,11 @@
     <orderEntry type="library" exported="" name="avoscloud-push-v2.7" level="project" />
     <orderEntry type="library" exported="" name="richeditor-android-0.0.7" level="project" />
     <orderEntry type="library" exported="" name="android-crop-1.0.0" level="project" />
+    <orderEntry type="library" exported="" name="avoscloud-sdk-v3.3.5" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-21.0.3" level="project" />
-    <orderEntry type="library" exported="" name="fastjson-1.1.37-leancloud" level="project" />
     <orderEntry type="library" exported="" name="android-async-http-1.4.6" level="project" />
     <orderEntry type="library" exported="" name="avoscloud-statistics-v2.7" level="project" />
     <orderEntry type="library" exported="" name="Java-WebSocket-1.2.0-leancloud" level="project" />
-    <orderEntry type="library" exported="" name="avoscloud-sdk-v2.7" level="project" />
     <orderEntry type="library" exported="" name="avoscloud-sns-v2.7" level="project" />
   </component>
 </module>

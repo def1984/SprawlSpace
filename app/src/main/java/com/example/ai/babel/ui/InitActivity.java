@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.avos.avoscloud.AVUser;
 import com.example.ai.babel.R;
@@ -23,15 +24,23 @@ public class InitActivity extends BaseActivity {
     private AVUser currentUser = AVUser.getCurrentUser();
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inter);
-        if (currentUser != null) {
+        if (currentUser != null ) {
+            Toast.makeText(InitActivity.this,"不为null",Toast.LENGTH_LONG).show();
             Intent mainIntent = new Intent(InitActivity.this, MainActivity.class);
             startActivity(mainIntent);
             finish();
         } else {
             intiView();
+            AVUser.logOut();
         }
     }
 

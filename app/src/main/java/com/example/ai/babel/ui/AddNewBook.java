@@ -29,7 +29,7 @@ public class AddNewBook extends BaseActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (bookTitle.getText()  == null || bookDescription.getText()== null ) {
+                if (bookTitle.getText().toString().isEmpty()|| bookDescription.getText().toString().isEmpty()) {
                     Toast.makeText(AddNewBook.this, "标题或者描述不能为空", Toast.LENGTH_SHORT).show();
                 }else{
                     AVObject newPost = new AVObject("Book");
