@@ -7,10 +7,10 @@
     <Button
         android:layout_margin="36dp"
         android:textSize="24dp"
-        android:background="#fff"
+        android:background="#ffffffed"
         android:layout_width="match_parent"
         android:id="@+id/btn_add_new_book"
         android:layout_height="match_parent"
-        android:text="添加新页面" />
+        android:text="书写新的篇章" />
 
 </FrameLayout>

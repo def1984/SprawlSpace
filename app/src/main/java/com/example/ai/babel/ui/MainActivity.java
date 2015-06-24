@@ -37,7 +37,6 @@ import com.avos.avoscloud.SaveCallback;
 import com.example.ai.babel.R;
 import com.example.ai.babel.adapter.CollectionBookAdapter;
 import com.example.ai.babel.ui.widget.MyFloatingActionButton;
-import com.melnykov.fab.FloatingActionButton;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -56,7 +55,7 @@ public class MainActivity extends BaseActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private Button logoutButton, BtnBgc;
     private CircleImageView profileImage;
-    private CollectionBookAdapter mDemoCollectionPagerAdapter;
+    private CollectionBookAdapter mDemoCollectionBookAdapter;
     private ViewPager mViewPager;
     private MyFloatingActionButton fabBtn;
     private Boolean isCheck = false;
@@ -129,8 +128,8 @@ public class MainActivity extends BaseActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            mDemoCollectionPagerAdapter = new CollectionBookAdapter(getSupportFragmentManager());
-            mDemoCollectionPagerAdapter.setPageList(bookListAll);
+            mDemoCollectionBookAdapter = new CollectionBookAdapter(getSupportFragmentManager());
+            mDemoCollectionBookAdapter.setPageList(bookListAll);
             return true;
         }
 
@@ -143,15 +142,15 @@ public class MainActivity extends BaseActivity {
         protected void onPostExecute(Boolean result) {
             progressDialog.dismiss();
             mViewPager = (ViewPager) findViewById(R.id.pager);
-            mViewPager.setAdapter(mDemoCollectionPagerAdapter);
-            mViewPager.setCurrentItem(currentUser.getInt("bookIndex"));
+            if (mDemoCollectionBookAdapter != null) {
+                mViewPager.setAdapter(mDemoCollectionBookAdapter);
+                mViewPager.setCurrentItem(currentUser.getInt("bookIndex"));
+            }
             profileImage = (CircleImageView) findViewById(R.id.profile_image);
             profileImage.setImageBitmap(pngBM);
             TextView userEmail= (TextView) findViewById(R.id.user_email);
             TextView userCreatedAt= (TextView) findViewById(R.id.user_ctime);
-            SimpleDateFormat format = new SimpleDateFormat("yy_MM_dd");
-            Date date = new Date(String.valueOf(AVUser.getCurrentUser().getCreatedAt()));
-            userCreatedAt.setText(format.format(date)+"创建");
+            userCreatedAt.setText(String.valueOf(AVUser.getCurrentUser().getCreatedAt())+"创建");
             userEmail.setText(AVUser.getCurrentUser().getEmail());
             profileImage.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -188,7 +187,7 @@ public class MainActivity extends BaseActivity {
                 editThisBook();
                 break;
             case R.id.delete_this_book:
-                DeleteDialog();
+                    DeleteDialog();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -251,9 +250,6 @@ public class MainActivity extends BaseActivity {
             finish();
         }
     }
-
-
-
 
     private void showAllMinFab() {
         Animation minFabSet = AnimationUtils.loadAnimation(MainActivity.this, R.anim.min_fab_anim);
@@ -341,11 +337,15 @@ public class MainActivity extends BaseActivity {
     }
 
     private void editThisBook() {
-        Intent intent = new Intent();
-        intent.putExtra("bookObjectId", bookListAll.get(mViewPager.getCurrentItem()).getObjectId());
-        intent.setClass(MainActivity.this, EditBook.class);
-        startActivity(intent);
-        MainActivity.this.overridePendingTransition(android.support.v7.appcompat.R.anim.abc_fade_in, android.support.v7.appcompat.R.anim.abc_fade_out);
+        if (mViewPager != null) {
+            Intent intent = new Intent();
+            intent.putExtra("bookObjectId", bookListAll.get(mViewPager.getCurrentItem()).getObjectId());
+            intent.setClass(MainActivity.this, EditBook.class);
+            startActivity(intent);
+            MainActivity.this.overridePendingTransition(android.support.v7.appcompat.R.anim.abc_fade_in, android.support.v7.appcompat.R.anim.abc_fade_out);
+        } else {
+            Toast.makeText(MainActivity.this,"没有可以编辑的笔记本",Toast.LENGTH_LONG).show();
+        }
     }
 
     private void addNewBook() {

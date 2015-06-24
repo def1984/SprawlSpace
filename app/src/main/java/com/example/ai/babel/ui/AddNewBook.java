@@ -29,24 +29,29 @@ public class AddNewBook extends BaseActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AVObject newPost = new AVObject("Book");
-                newPost.put("title", bookTitle.getText().toString());
-                newPost.put("description", bookDescription.getText().toString());
-                newPost.put("userObjectId", currentUser);
-                currentUser.put("bookIndex",0);
-                newPost.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(AVException e) {
-                        if (e == null) {
-                            Toast.makeText(AddNewBook.this, "保存成功", Toast.LENGTH_SHORT).show();
-                            finish();
-                            startActivity(new Intent(AddNewBook.this, MainActivity.class));
-                            overridePendingTransition(android.support.v7.appcompat.R.anim.abc_fade_in, android.support.v7.appcompat.R.anim.abc_fade_out);
-                        } else {
-                            Log.e("LeanCloud", "Save failed.");
+                if (bookTitle.getText()  == null || bookDescription.getText()== null ) {
+                    Toast.makeText(AddNewBook.this, "标题或者描述不能为空", Toast.LENGTH_SHORT).show();
+                }else{
+                    AVObject newPost = new AVObject("Book");
+                    newPost.put("title", bookTitle.getText().toString());
+                    newPost.put("description", bookDescription.getText().toString());
+                    newPost.put("userObjectId", currentUser);
+                    currentUser.put("bookIndex",0);
+                    newPost.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(AVException e) {
+                            if (e == null) {
+                                Toast.makeText(AddNewBook.this, "保存成功", Toast.LENGTH_SHORT).show();
+                                finish();
+                                startActivity(new Intent(AddNewBook.this, MainActivity.class));
+                                overridePendingTransition(android.support.v7.appcompat.R.anim.abc_fade_in, android.support.v7.appcompat.R.anim.abc_fade_out);
+                            } else {
+                                Log.e("LeanCloud", "Save failed.");
+                            }
                         }
-                    }
-                });
+                    });
+                }
+
 
             }
         });

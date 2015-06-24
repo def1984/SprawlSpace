@@ -60,7 +60,7 @@
                 android:layout_marginBottom="82dp">
 
                 <LinearLayout
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:focusable="true"
                     android:layout_margin="8dp"
                     android:id="@+id/add_new_book_1"
@@ -73,15 +73,14 @@
                         android:layout_width="wrap_content"
                         android:background="#00000000"
                         android:layout_height="wrap_content"
-                        android:text="MOLESKINE ONE"
-                        android:textStyle="bold"
-                        android:padding="8dp"/>
+                        android:text="敬请期待"
+                        android:textStyle="bold" />
 
                     <ImageButton
                         android:background="#00000000"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:src="@drawable/note2"/>
+                        android:src="@drawable/nodaf"/>
                 </LinearLayout>
                 <LinearLayout
                     android:visibility="gone"
@@ -95,14 +94,14 @@
                         android:background="#00000000"
                         android:textStyle="bold"
                         android:layout_height="wrap_content"
-                        android:text="MOLESKINE TWO"
+                        android:text="MOLESKINE"
                         />
                     <ImageButton
                         android:id="@+id/add_new_book"
                         android:background="#00000000"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:src="@drawable/note1"/>
+                        android:src="@drawable/moleskine"/>
                 </LinearLayout>
             </LinearLayout>
             <com.example.ai.babel.ui.widget.MyFloatingActionButton
