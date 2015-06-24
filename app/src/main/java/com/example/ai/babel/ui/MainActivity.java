@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
@@ -41,7 +42,9 @@ import com.melnykov.fab.FloatingActionButton;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -61,6 +64,7 @@ public class MainActivity extends BaseActivity {
     private AVUser currentUser = AVUser.getCurrentUser();
     private ArrayList<String> pgObIdList = new ArrayList<>();
     private List<AVObject> bookListAll;
+
 
 
     @Override
@@ -143,6 +147,12 @@ public class MainActivity extends BaseActivity {
             mViewPager.setCurrentItem(currentUser.getInt("bookIndex"));
             profileImage = (CircleImageView) findViewById(R.id.profile_image);
             profileImage.setImageBitmap(pngBM);
+            TextView userEmail= (TextView) findViewById(R.id.user_email);
+            TextView userCreatedAt= (TextView) findViewById(R.id.user_ctime);
+            SimpleDateFormat format = new SimpleDateFormat("yy_MM_dd");
+            Date date = new Date(String.valueOf(AVUser.getCurrentUser().getCreatedAt()));
+            userCreatedAt.setText(format.format(date)+"创建");
+            userEmail.setText(AVUser.getCurrentUser().getEmail());
             profileImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -205,7 +215,6 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 new LayoutClass().execute();
-
             }
         });
     }

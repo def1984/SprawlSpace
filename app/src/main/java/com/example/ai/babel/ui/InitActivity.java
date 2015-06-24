@@ -20,7 +20,7 @@ public class InitActivity extends BaseActivity {
 
     DemoCollectionPagerAdapter mDemoCollectionPagerAdapter;
     private ViewPager mViewPager;
-    AVUser currentUser = AVUser.getCurrentUser();
+    private AVUser currentUser = AVUser.getCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -11,46 +11,52 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <include layout="@layout/toolbar"></include>
-
-            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:fab="http://schemas.android.com/apk/res-auto"
-                android:background="@color/theme_primary"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <!-- The rest of your content view -->
-                <android.support.v4.view.ViewPager
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/pager"
-                    android:background="@color/theme_primary"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                </android.support.v4.view.ViewPager>
-            </FrameLayout>
-        </LinearLayout>
-        <Button
-            android:visibility="gone"
-            android:id="@+id/background_cover"
-            android:layout_width="match_parent"
-            android:background="#ccffffff"
-            android:layout_height="match_parent" />
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <include layout="@layout/toolbar"></include>
+
+                <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:fab="http://schemas.android.com/apk/res-auto"
+                    android:background="@color/theme_primary"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <!-- The rest of your content view -->
+                    <android.support.v4.view.ViewPager
+                        xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/pager"
+                        android:background="@color/theme_primary"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                    </android.support.v4.view.ViewPager>
+
+                </FrameLayout>
+            </LinearLayout>
+            <Button
+                android:visibility="gone"
+                android:id="@+id/background_cover"
+                android:layout_width="match_parent"
+                android:background="#ddffffff"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <LinearLayout
                 android:layout_gravity="bottom|right"
-                android:layout_width="wrap_content" 
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/mini_fab_content"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:layout_marginRight="16dp"
+                android:layout_marginRight="12dp"
                 android:layout_marginBottom="82dp">
 
                 <LinearLayout
@@ -77,7 +83,6 @@
                         android:layout_height="48dp"
                         android:src="@drawable/note2"/>
                 </LinearLayout>
-
                 <LinearLayout
                     android:visibility="gone"
                     android:layout_margin="8dp"
@@ -99,9 +104,7 @@
                         android:layout_height="48dp"
                         android:src="@drawable/note1"/>
                 </LinearLayout>
-
             </LinearLayout>
-
             <com.example.ai.babel.ui.widget.MyFloatingActionButton
                 android:id="@+id/fab"
                 android:layout_width="@dimen/fab_size"
@@ -118,6 +121,7 @@
                     android:duplicateParentState="true"/>
             </com.example.ai.babel.ui.widget.MyFloatingActionButton>
         </FrameLayout>
+
 
         <!-- The navigation drawer -->
         <com.example.ai.babel.ui.widget.ScrimInsetsFrameLayout
