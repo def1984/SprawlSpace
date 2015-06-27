@@ -41,6 +41,7 @@ import com.example.ai.babel.ui.widget.MyFloatingActionButton;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +58,7 @@ public class MainActivity extends BaseActivity {
     private ViewPager mViewPager;
     private MyFloatingActionButton fabBtn;
     private Boolean isCheck = false;
-    private Boolean userCheck ;
+    private Boolean userCheck = true ;
     private LinearLayout mLinearLayout;
     private AVUser currentUser = AVUser.getCurrentUser();
     private ArrayList<String> pgObIdList = new ArrayList<>();
@@ -68,8 +69,10 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if( userCheck == false){
+        if( !userCheck ){
             AVUser.logOut();
+        }else {
+            return;
         }
     }
 
@@ -150,10 +153,12 @@ public class MainActivity extends BaseActivity {
             }
             profileImage = (CircleImageView) findViewById(R.id.profile_image);
             profileImage.setImageBitmap(pngBM);
-            TextView userEmail= (TextView) findViewById(R.id.user_email);
+            TextView userName= (TextView) findViewById(R.id.user_name);
             TextView userCreatedAt= (TextView) findViewById(R.id.user_ctime);
-            userCreatedAt.setText(String.valueOf(AVUser.getCurrentUser().getCreatedAt())+"创建");
-            userEmail.setText(AVUser.getCurrentUser().getEmail());
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            String t1=format.format(AVUser.getCurrentUser().getCreatedAt());
+            userCreatedAt.setText(t1+"创建");
+            userName.setText(AVUser.getCurrentUser().getUsername());
             profileImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -170,7 +175,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         intiView();
         fabBtnAm();
-        userCheck=getIntent().hasExtra("userCheck");
+        userCheck = getIntent().hasExtra("userCheck");
         addNewBook();
     }
 

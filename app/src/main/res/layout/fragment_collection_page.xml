@@ -9,7 +9,6 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
     android:orientation="vertical">
 
     <EditText
@@ -42,6 +41,7 @@
         android:gravity="top"
         android:layout_weight="1"
         android:background="@null"
+        android:lineSpacingExtra="14dp"
         android:id="@+id/page_content"
         android:textSize="18sp" />
 

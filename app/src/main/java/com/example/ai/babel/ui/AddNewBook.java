@@ -32,7 +32,8 @@ public class AddNewBook extends BaseActivity {
                 if (bookTitle.getText().toString().isEmpty()|| bookDescription.getText().toString().isEmpty()) {
                     Toast.makeText(AddNewBook.this, "标题或者描述不能为空", Toast.LENGTH_SHORT).show();
                 }else{
-                    AVObject newPost = new AVObject("Book");
+                    final AVObject newPost = new AVObject("Book");
+
                     newPost.put("title", bookTitle.getText().toString());
                     newPost.put("description", bookDescription.getText().toString());
                     newPost.put("userObjectId", currentUser);
@@ -41,9 +42,14 @@ public class AddNewBook extends BaseActivity {
                         @Override
                         public void done(AVException e) {
                             if (e == null) {
+                                AVObject page = new AVObject("Page");
+                                page.put("bookObjectId", newPost);
+                                page.put("title", "");
+                                page.put("content", "");
+                                page.saveInBackground();
                                 Toast.makeText(AddNewBook.this, "保存成功", Toast.LENGTH_SHORT).show();
                                 finish();
-                                startActivity(new Intent(AddNewBook.this, MainActivity.class));
+                                startActivity(new Intent(AddNewBook.this, MainActivity.class).putExtra("userCheck",true));
                                 overridePendingTransition(android.support.v7.appcompat.R.anim.abc_fade_in, android.support.v7.appcompat.R.anim.abc_fade_out);
                             } else {
                                 Log.e("LeanCloud", "Save failed.");

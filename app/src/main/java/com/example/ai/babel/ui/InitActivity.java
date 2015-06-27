@@ -36,6 +36,7 @@ public class InitActivity extends BaseActivity {
         if (currentUser != null ) {
             Toast.makeText(InitActivity.this,"不为null",Toast.LENGTH_LONG).show();
             Intent mainIntent = new Intent(InitActivity.this, MainActivity.class);
+            mainIntent.putExtra("userCheck",true);
             startActivity(mainIntent);
             finish();
         } else {

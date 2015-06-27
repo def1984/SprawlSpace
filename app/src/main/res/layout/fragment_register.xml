@@ -2,6 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/AppTheme"
     android:background="@android:color/white"
      >
     <LinearLayout
@@ -16,7 +17,7 @@
             android:layout_marginBottom="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="36dp"
+            android:textSize="30dp"
             android:text="用户注册"/>
 
         <EditText
@@ -29,6 +30,7 @@
 
         <EditText
             android:id="@+id/password_edit"
+            android:textColor="#000"
             android:textCursorDrawable="@null"
             android:textColorHint="@color/avoscloud_feedback_text_gray"
             android:hint="@string/login_input_user_password"

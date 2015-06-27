@@ -17,4 +17,12 @@
         app:border_width="1dp"
         android:layout_gravity="center"
         app:border_color="#ffffffff"/>
+
+    <EditText
+        android:minWidth="200dp"
+        android:layout_margin="8dp"
+        android:layout_width="wrap_content"
+        android:id="@+id/user_name"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content" />
 </LinearLayout>

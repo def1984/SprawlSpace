@@ -3,25 +3,36 @@ package com.example.ai.babel.ui;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
+import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
 import com.example.ai.babel.R;
+import com.example.ai.babel.adapter.CollectionBookAdapter;
 import com.soundcloud.android.crop.Crop;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -32,17 +43,25 @@ public class ProfileActivity extends BaseActivity {
     private String filename;
     private String dirPath;
     private File outputImage;
+    private EditText userName;
     private AVUser currentUser = AVUser.getCurrentUser();
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        resultView = (CircleImageView) findViewById(R.id.profile_image);
+        new resultViewEx().execute();
         Toolbar mToolbar = getActionBarToolbar();
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mToolbar.setTitle("个人设置");
+        mToolbar.setTitle("个人主页设置");
+        userName= (EditText) findViewById(R.id.user_name);
+        userName.setText(currentUser.getUsername());
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
             @Override
@@ -50,13 +69,6 @@ public class ProfileActivity extends BaseActivity {
                 finish();
             }
         });
-        resultView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Crop.pickImage(ProfileActivity.this);
-            }
-        });
-
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
             dirPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/Babel";
             File path1 = new File(dirPath);
@@ -65,6 +77,63 @@ public class ProfileActivity extends BaseActivity {
                 path1.mkdirs();
             }
         } else {
+            return;
+        }
+    }
+
+
+
+    class resultViewEx extends AsyncTask<Void, Integer, Boolean> {
+        URL picUrl = null;
+        Bitmap pngBM = null;
+        ProgressDialog progressDialog = new ProgressDialog(ProfileActivity.this);
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog.show();
+        }
+
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            AVQuery<AVObject> query = AVQuery.getQuery("Book");
+            query.setCachePolicy(AVQuery.CachePolicy.NETWORK_ONLY);
+            query.whereEqualTo("userObjectId", currentUser);
+            query.orderByDescending("createdAt");
+
+            try {
+                if (currentUser.getAVFile("AvatarImage") != null) {
+                    picUrl = new URL(currentUser.getAVFile("AvatarImage").getUrl());
+                } else {
+                    picUrl = new URL("http://ac-9lv2ouk1.clouddn.com/qG55U7B45Q7bL4fgoLOy1xlN4TUJpzJfXWSirhMN.jpg");
+                }
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            try {
+                pngBM = BitmapFactory.decodeStream(picUrl.openStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return true;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            progressDialog.setMessage("当前下载进度：" + values[0] + "%");
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            progressDialog.dismiss();
+            resultView = (CircleImageView) findViewById(R.id.profile_image);
+            resultView.setImageBitmap(pngBM);
+            resultView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Crop.pickImage(ProfileActivity.this);
+                }
+            });
 
         }
     }
@@ -77,7 +146,6 @@ public class ProfileActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if (item.getItemId() == R.id.action_save) {
                 try {
                     if (currentUser.getAVFile("AvatarImage") != null) {
@@ -90,6 +158,7 @@ public class ProfileActivity extends BaseActivity {
                     currentUser.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(AVException e) {
+                            currentUser.put("username",userName.getText().toString());
                             Toast.makeText(ProfileActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();
                             finish();

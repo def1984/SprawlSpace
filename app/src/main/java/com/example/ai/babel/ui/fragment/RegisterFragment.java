@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SignUpCallback;
 import com.example.ai.babel.AVService;
 import com.example.ai.babel.R;
@@ -64,6 +66,13 @@ public class RegisterFragment extends Fragment {
                 progressDialogDismiss();
                 if (e == null) {
                     showRegisterSuccess();
+                    AVUser currentUser = AVUser.getCurrentUser();
+                    AVObject newBook = new AVObject("Book");
+                    newBook.put("title", "这是一本笔记本");
+                    newBook.put("description", "在此你可以点击进去书写一些你需要写的东西");
+                    newBook.put("userObjectId", currentUser);
+                    currentUser.put("bookIndex", 0);
+                    newBook.saveInBackground();
                     Intent mainIntent = new Intent(getActivity(), MainActivity.class);
                     startActivity(mainIntent);
                     getActivity().finish();
