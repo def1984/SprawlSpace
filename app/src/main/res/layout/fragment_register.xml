@@ -23,7 +23,7 @@
         <EditText
             android:id="@+id/email_edit"
             android:hint="@string/login_input_user_name"
-            android:textColorHint="@color/avoscloud_feedback_text_gray"
+            android:textColorHint="@color/text_hint"
             android:textCursorDrawable="@null"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -32,7 +32,7 @@
             android:id="@+id/password_edit"
             android:textColor="#000"
             android:textCursorDrawable="@null"
-            android:textColorHint="@color/avoscloud_feedback_text_gray"
+            android:textColorHint="@color/text_hint"
             android:hint="@string/login_input_user_password"
             android:password="true"
             android:layout_width="match_parent"

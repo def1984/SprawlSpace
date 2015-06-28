@@ -6,14 +6,14 @@
     android:fadingEdge="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"  >
 <LinearLayout
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <EditText
+        android:textStyle="bold"
         android:hint="标题"
-        android:textColorHint="@color/theme_primary"
+        android:textColorHint="@color/text_hint"
         android:textColor="#000"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
@@ -28,8 +28,9 @@
         android:textSize="24sp" />
 
     <EditText
+        android:textStyle="bold"
         android:hint="内容"
-        android:textColorHint="@color/theme_primary"
+        android:textColorHint="@color/text_hint"
         android:textColor="#000"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
@@ -38,10 +39,10 @@
         android:textCursorDrawable="@null"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="top"
+        android:gravity="center_vertical"
         android:layout_weight="1"
         android:background="@null"
-        android:lineSpacingExtra="14dp"
+        android:lineSpacingExtra="4dp"
         android:id="@+id/page_content"
         android:textSize="18sp" />
 

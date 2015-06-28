@@ -3,8 +3,6 @@
     android:layout_height="match_parent"
     tools:context="com.example.ai.babel.ui.fragment.LaunchpadFragment">
 
-
-
     <Button
         android:layout_margin="36dp"
         android:textSize="24dp"
@@ -14,8 +12,8 @@
         android:layout_height="match_parent"
         android:text="新建页面" />
     <ImageView
+        android:id="@+id/add_new_page"
         android:layout_gravity="top|center"
-        android:src="@drawable/default_cover"
         android:layout_marginTop="190dp"
         android:layout_width="72dp"
         android:layout_height="72dp" />

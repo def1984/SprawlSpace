@@ -1,6 +1,7 @@
 package com.example.ai.babel.ui.fragment;
 
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -63,9 +64,14 @@ public class PageObjectFragment extends android.support.v4.app.Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_collection_page, container, false);
         pageTitle = (EditText) rootView.findViewById(R.id.page_title);
+        Typeface face = Typeface.createFromAsset (getActivity().getAssets() , "fonts/minijbf.TTF" );
         pageTitle.setText(pageObj.get("title").toString());
         pageContent = (EditText) rootView.findViewById(R.id.page_content);
         pageContent.setText(pageObj.get("content").toString());
+        pageTitle.setTypeface(face);
+        pageContent.setTypeface(face);
         return rootView;
     }
+
+
 }

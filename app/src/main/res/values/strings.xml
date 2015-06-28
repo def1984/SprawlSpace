@@ -29,7 +29,7 @@
     <string name="dialog_message_success">成功</string>
     <string name="dialog_text_wait">请等待</string>
 
-    <string name="login_input_user_name">请输入名字或者邮箱</string>
+    <string name="login_input_user_name">请输入你常用的电子邮箱</string>
     <string name="login_input_user_password">请输入密码</string>
     <string name="login_button_login">登录</string>
     <string name="login_button_register">注册</string>
