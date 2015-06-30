@@ -77,7 +77,7 @@ public class RegisterFragment extends Fragment {
                     startActivity(mainIntent);
                     getActivity().finish();
                 } else {
-                    Toast.makeText(getActivity().getBaseContext(), "202", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "错误："+e.getCode(), Toast.LENGTH_SHORT).show();
                 }
             }
         };

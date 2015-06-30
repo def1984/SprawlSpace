@@ -33,14 +33,11 @@ public class AboutActivity extends BaseActivity {
 
     static public String bookObjectId;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bookObjectId=getIntent().getStringExtra("objectId");
-        setContentView(R.layout.activity_page);
+        setContentView(R.layout.activity_about);
         intiView();
     }
 
@@ -57,25 +54,6 @@ public class AboutActivity extends BaseActivity {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_page, menu);
-        final MenuItem searchItem = menu.findItem(R.id.menu_search_into);
-        searchItem.setIcon(android.support.v7.appcompat.R.drawable.abc_ic_search_api_mtrl_alpha);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
-            case R.id.delete_this_page:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
 }

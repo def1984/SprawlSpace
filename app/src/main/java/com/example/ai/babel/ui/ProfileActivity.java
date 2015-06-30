@@ -59,9 +59,8 @@ public class ProfileActivity extends BaseActivity {
         Toolbar mToolbar = getActionBarToolbar();
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mToolbar.setTitle("个人主页设置");
-        userName= (EditText) findViewById(R.id.user_name);
-        userName.setText(currentUser.getUsername());
+        mToolbar.setTitle("个人设置");
+
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
             @Override
@@ -147,23 +146,25 @@ public class ProfileActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_save) {
+            final ProgressDialog progressDialog =new ProgressDialog(ProfileActivity.this);
+            progressDialog.show();
+            userName= (EditText) findViewById(R.id.user_name);
+            userName.setText(currentUser.getUsername());
                 try {
-                    if (currentUser.getAVFile("AvatarImage") != null) {
+                    if (currentUser.getAVFile("AvatarImage") != null && outputImage!=null) {
                         currentUser.getAVFile("AvatarImage").deleteInBackground();
+                        AVFile file = AVFile.withAbsoluteLocalPath("AvatarImage", String.valueOf(outputImage));
+                        currentUser.put("AvatarImage", file);
                     }
-                    final ProgressDialog progressDialog =new ProgressDialog(ProfileActivity.this);
-                    AVFile file = AVFile.withAbsoluteLocalPath("AvatarImage", String.valueOf(outputImage));
-                    currentUser.put("AvatarImage", file);
-                    progressDialog.show();
-                    currentUser.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(AVException e) {
-                            currentUser.put("username",userName.getText().toString());
-                            Toast.makeText(ProfileActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
-                            finish();
-                        }
-                    });
+                        currentUser.put("username",userName.getText().toString());
+                        currentUser.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(AVException e) {
+                                Toast.makeText(ProfileActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
+                                finish();
+                            }
+                        });
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }

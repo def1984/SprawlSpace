@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.avos.avoscloud.AVUser;
 import com.example.ai.babel.R;
@@ -26,7 +25,6 @@ public class InitActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
     }
 
     @Override
@@ -34,9 +32,9 @@ public class InitActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inter);
         if (currentUser != null ) {
-            Toast.makeText(InitActivity.this,"不为null",Toast.LENGTH_LONG).show();
             Intent mainIntent = new Intent(InitActivity.this, MainActivity.class);
             mainIntent.putExtra("userCheck",true);
+            mainIntent.putExtra("userName",currentUser.getUsername());
             startActivity(mainIntent);
             finish();
         } else {

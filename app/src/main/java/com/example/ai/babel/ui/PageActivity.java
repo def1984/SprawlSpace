@@ -57,7 +57,7 @@ public class PageActivity extends BaseActivity {
             queryPage.setCachePolicy(AVQuery.CachePolicy.NETWORK_ONLY);
             queryBook.setCachePolicy(AVQuery.CachePolicy.NETWORK_ONLY);
             try {
-                queryPage.whereEqualTo("bookObjectId", queryBook.get(getIntent().getStringExtra("objectId")));
+                queryPage.whereEqualTo("bookObjectId", queryBook.get(getIntent().getStringExtra("bookObjectId")));
             } catch (AVException e) {
                 e.printStackTrace();
             }
@@ -71,9 +71,8 @@ public class PageActivity extends BaseActivity {
                 e.printStackTrace();
                 Toast.makeText(PageActivity.this, "连接超时:错误代码:"+e.getMessage(),Toast.LENGTH_SHORT).show();
             }
-
             try {
-                BookObject = queryBook.get(getIntent().getStringExtra("objectId"));
+                BookObject = queryBook.get(getIntent().getStringExtra("bookObjectId"));
             } catch (AVException e) {
                 e.printStackTrace();
             }
