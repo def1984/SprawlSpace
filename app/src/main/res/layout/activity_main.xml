@@ -1,8 +1,10 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/theme_primary"
     tools:context="com.example.ai.babel.ui.MainActivity" >
 
     <android.support.v4.widget.DrawerLayout
@@ -14,31 +16,29 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-
-                <include layout="@layout/toolbar"></include>
-
                 <FrameLayout
                     xmlns:android="http://schemas.android.com/apk/res/android"
-
-                    android:background="@color/theme_primary"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                     <!-- The rest of your content view -->
-                    <com.etsy.android.grid.StaggeredGridView
+                    <GridView
+                        android:layout_margin="10dp"
+                        android:paddingTop="56dp"
                         xmlns:android="http://schemas.android.com/apk/res/android"
                         xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/grid_view"
-                        app:item_margin="16dp"
+                        android:numColumns="2"
+                        android:focusable="false"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:column_count="2" />
+                        android:layout_height="match_parent"  />
 
                 </FrameLayout>
-            </LinearLayout>
+                <include layout="@layout/toolbar"></include>
+            </FrameLayout>
             <Button
                 android:visibility="gone"
                 android:id="@+id/background_cover"
@@ -124,8 +124,6 @@
                     android:duplicateParentState="true"/>
             </com.example.ai.babel.ui.widget.MyFloatingActionButton>
         </FrameLayout>
-
-
         <!-- The navigation drawer -->
         <com.example.ai.babel.ui.widget.ScrimInsetsFrameLayout
             xmlns:android="http://schemas.android.com/apk/res/android"

@@ -53,4 +53,5 @@ dependencies {
     compile 'org.xwalk:xwalk_core_library:10.39.235.15'
     compile 'jp.wasabeef:richeditor-android:0.0.7@aar'
     compile 'com.etsy.android.grid:library:1.0.5'
+    compile 'com.joooonho:selectableroundedimageview:1.0.1'
 }

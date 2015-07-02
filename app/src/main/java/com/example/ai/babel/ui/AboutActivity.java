@@ -41,6 +41,12 @@ public class AboutActivity extends BaseActivity {
         intiView();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
     private void intiView() {
         mToolbar = getActionBarToolbar();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

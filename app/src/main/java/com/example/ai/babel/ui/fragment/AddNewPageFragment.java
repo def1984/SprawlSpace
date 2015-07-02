@@ -49,21 +49,19 @@ public class AddNewPageFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 query.setCachePolicy(AVQuery.CachePolicy.NETWORK_ELSE_CACHE);
-                query.getInBackground(getActivity().getIntent().getStringExtra("objectId"), new GetCallback<AVObject>() {
+                query.getInBackground(getActivity().getIntent().getStringExtra("bookObjectId"), new GetCallback<AVObject>() {
                     @Override
                     public void done(AVObject avObject, AVException e) {
                         newPage.put("title", "");
                         newPage.put("content", "");
                         newPage.put("bookObjectId", avObject);
-                        final Intent intent = new Intent();
-                        intent.putExtra("objectId", PageActivity.bookObjectId);
                         newPage.saveInBackground(new SaveCallback() {
                             @Override
                             public void done(AVException e) {
                                 if (e == null) {
                                     getActivity().finish();
                                     Intent intent = new Intent();
-                                    intent.putExtra("objectId", PageActivity.bookObjectId);
+                                    intent.putExtra("bookObjectId", getActivity().getIntent().getStringExtra("bookObjectId"));
                                     intent.setClass(getActivity(), PageActivity.class);
                                     startActivity(intent);
                                     getActivity().overridePendingTransition(android.support.v7.appcompat.R.anim.abc_fade_in, android.support.v7.appcompat.R.anim.abc_fade_out);

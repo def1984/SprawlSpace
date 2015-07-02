@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/bg_draw"
     tools:context="com.example.ai.babel.ui.PageActivity" >
 
      <include layout="@layout/toolbar_dark"></include>

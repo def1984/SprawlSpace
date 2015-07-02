@@ -4,9 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
      >
+    <include layout="@layout/toolbar_dark"></include>
 
     <EditText
         android:hint="标题"
+        android:background="@null"
         android:textColorHint="@color/text_hint"
         android:textColor="#000"
         android:layout_marginLeft="16dp"
@@ -19,6 +21,8 @@
         android:layout_height="wrap_content" />
     <EditText
         android:hint="描述"
+        android:background="@null"
+        android:layout_marginTop="10dp"
         android:textColorHint="@color/text_hint"
         android:textColor="#000"
         android:layout_marginLeft="16dp"

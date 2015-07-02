@@ -19,14 +19,13 @@ import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SignUpCallback;
 import com.example.ai.babel.AVService;
 import com.example.ai.babel.R;
-import com.example.ai.babel.ui.MainActivity;
+import com.example.ai.babel.ui.InitActivity;
 
 
 public class RegisterFragment extends Fragment {
 
     Button registerButton;
-    EditText userEmail;
-    EditText userPassword;
+    EditText userEmail, userPassword , writeNameED;
     private ProgressDialog progressDialog;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,10 +37,10 @@ public class RegisterFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         registerButton = (Button) getActivity().findViewById(R.id.register_button);
         userEmail = (EditText) getActivity().findViewById(R.id.email_edit);
         userPassword = (EditText) getActivity().findViewById(R.id.password_edit);
+        writeNameED = (EditText) getActivity().findViewById(R.id.edit_nick_name);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,12 +67,16 @@ public class RegisterFragment extends Fragment {
                     showRegisterSuccess();
                     AVUser currentUser = AVUser.getCurrentUser();
                     AVObject newBook = new AVObject("Book");
+                    AVObject newPage = new AVObject("Page");
                     newBook.put("title", "这是一本笔记本");
                     newBook.put("description", "在此你可以点击进去书写一些你需要写的东西");
                     newBook.put("userObjectId", currentUser);
                     currentUser.put("bookIndex", 0);
-                    newBook.saveInBackground();
-                    Intent mainIntent = new Intent(getActivity(), MainActivity.class);
+                    newPage.put("bookObjectId", newBook);
+                    newPage.put("title", "");
+                    newPage.put("content", "");
+                    newPage.saveInBackground();
+                    Intent mainIntent = new Intent(getActivity(), InitActivity.class);
                     startActivity(mainIntent);
                     getActivity().finish();
                 } else {
@@ -83,7 +86,8 @@ public class RegisterFragment extends Fragment {
         };
         String password = userPassword.getText().toString();
         String email = userEmail.getText().toString();
-        AVService.signUp(password, email, signUpCallback);
+        String writeName = writeNameED.getText().toString();
+        AVService.signUp(password, email, writeName, signUpCallback);
     }
 
     private void progressDialogDismiss() {

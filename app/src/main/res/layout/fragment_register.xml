@@ -22,6 +22,14 @@
 
         <EditText
             android:id="@+id/email_edit"
+            android:hint="@string/login_input_email"
+            android:textColorHint="@color/text_hint"
+            android:textCursorDrawable="@null"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/edit_nick_name"
             android:hint="@string/login_input_user_name"
             android:textColorHint="@color/text_hint"
             android:textCursorDrawable="@null"

@@ -10,13 +10,11 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
@@ -60,7 +58,8 @@ public class ProfileActivity extends BaseActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mToolbar.setTitle("个人设置");
-
+        userName = (EditText) findViewById(R.id.user_name);
+        userName.setText(currentUser.get("writeName").toString());
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
             @Override
@@ -79,7 +78,6 @@ public class ProfileActivity extends BaseActivity {
             return;
         }
     }
-
 
 
     class resultViewEx extends AsyncTask<Void, Integer, Boolean> {
@@ -104,7 +102,7 @@ public class ProfileActivity extends BaseActivity {
                 if (currentUser.getAVFile("AvatarImage") != null) {
                     picUrl = new URL(currentUser.getAVFile("AvatarImage").getUrl());
                 } else {
-                    picUrl = new URL("http://ac-9lv2ouk1.clouddn.com/qG55U7B45Q7bL4fgoLOy1xlN4TUJpzJfXWSirhMN.jpg");
+                    picUrl = new URL("http://ac-9lv2ouk1.clouddn.com/rDWKrB4GKVhOsrhg5fqh2cdYN5bVa4FWnBG2IXkL");
                 }
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -146,17 +144,15 @@ public class ProfileActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_save) {
-            final ProgressDialog progressDialog =new ProgressDialog(ProfileActivity.this);
+            final ProgressDialog progressDialog = new ProgressDialog(ProfileActivity.this);
             progressDialog.show();
-            userName= (EditText) findViewById(R.id.user_name);
-            userName.setText(currentUser.getUsername());
-                try {
-                    if (currentUser.getAVFile("AvatarImage") != null && outputImage!=null) {
+            try {
+                if (outputImage != null) {
+                    if (currentUser.getAVFile("AvatarImage") != null) {
                         currentUser.getAVFile("AvatarImage").deleteInBackground();
                         AVFile file = AVFile.withAbsoluteLocalPath("AvatarImage", String.valueOf(outputImage));
                         currentUser.put("AvatarImage", file);
-                    }
-                        currentUser.put("username",userName.getText().toString());
+                        currentUser.put("writeName", userName.getText().toString());
                         currentUser.saveInBackground(new SaveCallback() {
                             @Override
                             public void done(AVException e) {
@@ -165,9 +161,33 @@ public class ProfileActivity extends BaseActivity {
                                 finish();
                             }
                         });
-                } catch (IOException e1) {
-                    e1.printStackTrace();
+                    } else {
+                        AVFile file = AVFile.withAbsoluteLocalPath("AvatarImage", String.valueOf(outputImage));
+                        currentUser.put("AvatarImage", file);
+                        currentUser.put("writeName", userName.getText().toString());
+                        currentUser.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(AVException e) {
+                                Toast.makeText(ProfileActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
+                                finish();
+                            }
+                        });
+                    }
+                } else {
+                    currentUser.put("writeName", userName.getText().toString());
+                    currentUser.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(AVException e) {
+                            Toast.makeText(ProfileActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                            finish();
+                        }
+                    });
                 }
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);

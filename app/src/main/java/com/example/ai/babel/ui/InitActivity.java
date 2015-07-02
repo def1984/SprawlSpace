@@ -34,7 +34,6 @@ public class InitActivity extends BaseActivity {
         if (currentUser != null ) {
             Intent mainIntent = new Intent(InitActivity.this, MainActivity.class);
             mainIntent.putExtra("userCheck",true);
-            mainIntent.putExtra("userName",currentUser.getUsername());
             startActivity(mainIntent);
             finish();
         } else {

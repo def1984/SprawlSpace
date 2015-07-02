@@ -19,11 +19,12 @@ public class AVService extends Application{
                 Config.APP_ID, Config.APP_KEY);
     }
 
-    public static void signUp(String password, String email, SignUpCallback signUpCallback) {
+    public static void signUp(String password, String email, String writeName ,SignUpCallback signUpCallback) {
         AVUser user = new AVUser();
         user.setPassword(password);
         user.setEmail(email);
         user.setUsername(email);
+        user.put("writeName",writeName);
         user.signUpInBackground(signUpCallback);
     }
 

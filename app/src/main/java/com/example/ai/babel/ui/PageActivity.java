@@ -35,7 +35,6 @@ public class PageActivity extends BaseActivity {
     AVQuery<AVObject> queryBook = AVQuery.getQuery("Book");
     AVObject BookObject;
     private List<AVObject> pageListAll;
-    static public String bookObjectId;
     @Override
     protected void onResume() {
         // TODO Auto-generated method stub
@@ -99,7 +98,6 @@ public class PageActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        bookObjectId=getIntent().getStringExtra("objectId");
         setContentView(R.layout.activity_page);
         intiView();
     }

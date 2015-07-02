@@ -47,7 +47,7 @@ public class LoginFragment extends Fragment {
                 AVUser.logInInBackground(username, password, new LogInCallback<AVUser>() {
                     @Override
                     public void done(AVUser avUser, AVException e) {
-                        if (avUser != null && e == null) {
+                        if (avUser != null && e == null && !username.isEmpty() && !password.isEmpty()) {
                             Intent mainIntent = new Intent(getActivity().getBaseContext(), MainActivity.class);
                             mainIntent.putExtra("userCheck",true);
                             startActivity(mainIntent);

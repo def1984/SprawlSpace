@@ -29,7 +29,6 @@
                     android:layout_width="56dp"
                     android:layout_height="56dp"
                     android:layout_marginRight="16dp"
-                    android:src="@drawable/default_cover"
                     app:border_width="1dp"
                     app:border_color="@color/avoscloud_feedback_white"/>
                 <LinearLayout
