@@ -163,7 +163,7 @@ public class PageActivity extends BaseActivity {
                         pageListAll.get(mViewPager.getCurrentItem()).deleteInBackground(new DeleteCallback() {
                             @Override
                             public void done(AVException e) {
-                                if (e == null) {
+                                if (e == null && pageListAll.get(mViewPager.getCurrentItem())!=null ) {
                                     Toast.makeText(PageActivity.this,"删除成功",Toast.LENGTH_SHORT).show();
                                     new LoadPages().execute();
                                 }

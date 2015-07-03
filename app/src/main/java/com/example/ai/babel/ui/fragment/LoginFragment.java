@@ -47,14 +47,16 @@ public class LoginFragment extends Fragment {
                 AVUser.logInInBackground(username, password, new LogInCallback<AVUser>() {
                     @Override
                     public void done(AVUser avUser, AVException e) {
-                        if (avUser != null && e == null && !username.isEmpty() && !password.isEmpty()) {
+                        if (avUser != null && e == null ) {
                             Intent mainIntent = new Intent(getActivity().getBaseContext(), MainActivity.class);
                             mainIntent.putExtra("userCheck",true);
                             startActivity(mainIntent);
                             Toast.makeText(getActivity(), "登陆成功", Toast.LENGTH_SHORT).show();
                             getActivity().finish();
-                        } else {
-                            Toast.makeText(getActivity(), "登陆失败：请输入正确的用户名或者密码", Toast.LENGTH_SHORT).show();
+                        } else if( username.isEmpty() ||  password.isEmpty()){
+                            Toast.makeText(getActivity(), "用户名或者密码为空", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(getActivity(), "你输入的用户名或者密码有误", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
