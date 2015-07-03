@@ -37,29 +37,31 @@ public class LoginFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         loginButton = (Button) getActivity().findViewById(R.id.login_button);
         loginEmailInput = (EditText) getActivity().findViewById(R.id.login_email_input);
-
         loginPasswordInput = (EditText) getActivity().findViewById(R.id.login_password_input);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 username = loginEmailInput.getText().toString();
                 password = loginPasswordInput.getText().toString();
-                AVUser.logInInBackground(username, password, new LogInCallback<AVUser>() {
-                    @Override
-                    public void done(AVUser avUser, AVException e) {
-                        if (avUser != null && e == null ) {
-                            Intent mainIntent = new Intent(getActivity().getBaseContext(), MainActivity.class);
-                            mainIntent.putExtra("userCheck",true);
-                            startActivity(mainIntent);
-                            Toast.makeText(getActivity(), "登陆成功", Toast.LENGTH_SHORT).show();
-                            getActivity().finish();
-                        } else if( username.isEmpty() ||  password.isEmpty()){
-                            Toast.makeText(getActivity(), "用户名或者密码为空", Toast.LENGTH_SHORT).show();
-                        }else{
-                            Toast.makeText(getActivity(), "你输入的用户名或者密码有误", Toast.LENGTH_SHORT).show();
+
+                if (username.isEmpty() || password.isEmpty()) {
+                    Toast.makeText(getActivity(), "用户名或者密码为空", Toast.LENGTH_SHORT).show();
+                } else {
+                    AVUser.logInInBackground(username, password, new LogInCallback<AVUser>() {
+                        @Override
+                        public void done(AVUser avUser, AVException e) {
+                            if (avUser != null && e == null) {
+                                Intent mainIntent = new Intent(getActivity().getBaseContext(), MainActivity.class);
+                                mainIntent.putExtra("userCheck", true);
+                                startActivity(mainIntent);
+                                Toast.makeText(getActivity(), "登陆成功", Toast.LENGTH_SHORT).show();
+                                getActivity().finish();
+                            } else {
+                                Toast.makeText(getActivity(), "你输入的用户名或者密码有误", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
     }
