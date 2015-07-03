@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
@@ -20,7 +21,7 @@ import com.avos.avoscloud.SaveCallback;
 import com.example.ai.babel.R;
 import com.example.ai.babel.ui.PageActivity;
 
-public class AddNewPageFragment extends Fragment {
+public class AddNewPageFragment extends Fragment implements View.OnClickListener {
     private Button btnDddNewBook;
 
     AVQuery<AVObject> query = AVQuery.getQuery("Book");
@@ -31,14 +32,16 @@ public class AddNewPageFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_add_new_page, container, false);
-        btnDddNewBook = (Button) rootView.findViewById(R.id.btn_add_new_book);
-        btnDddNewBook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DeleteDialog();
-            }
-        });
+        btnDddNewBook = (Button) rootView.findViewById(R.id.add_new_page);
+        ImageButton btnDddNewBook2 = (ImageButton) rootView.findViewById(R.id.add_new_page_1);
+        btnDddNewBook2.setOnClickListener(this);
+        btnDddNewBook.setOnClickListener(this);
         return rootView;
+    }
+
+    @Override
+    public void onClick(View view) {
+        DeleteDialog();
     }
 
     private void DeleteDialog() {
@@ -79,4 +82,6 @@ public class AddNewPageFragment extends Fragment {
         });
         builder.create().show();
     }
+
+
 }

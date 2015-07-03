@@ -145,7 +145,11 @@ public class PageActivity extends BaseActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.delete_this_page:
-                DeleteDialog();
+                if( pageListAll.get(mViewPager.getCurrentItem()) == null ){
+                    Toast.makeText(PageActivity.this,"你不能删除此页面",Toast.LENGTH_SHORT).show();
+                }else {
+                    DeleteDialog();
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -163,7 +167,7 @@ public class PageActivity extends BaseActivity {
                         pageListAll.get(mViewPager.getCurrentItem()).deleteInBackground(new DeleteCallback() {
                             @Override
                             public void done(AVException e) {
-                                if (e == null && pageListAll.get(mViewPager.getCurrentItem())!=null ) {
+                                if (e == null ) {
                                     Toast.makeText(PageActivity.this,"删除成功",Toast.LENGTH_SHORT).show();
                                     new LoadPages().execute();
                                 }

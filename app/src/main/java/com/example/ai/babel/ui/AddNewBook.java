@@ -41,7 +41,7 @@ public class AddNewBook extends BaseActivity {
         saveBtn= (MyFloatingActionButton) findViewById(R.id.btnSave);
         mToolbar = getActionBarToolbar();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mToolbar.setTitle("新建笔记本");
+        mToolbar.setTitle("新建封面");
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
             @Override

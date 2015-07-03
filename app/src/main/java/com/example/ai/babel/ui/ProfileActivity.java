@@ -102,7 +102,7 @@ public class ProfileActivity extends BaseActivity {
                 if (currentUser.getAVFile("AvatarImage") != null) {
                     picUrl = new URL(currentUser.getAVFile("AvatarImage").getUrl());
                 } else {
-                    picUrl = new URL("http://ac-9lv2ouk1.clouddn.com/VkQPx4UaoxP0pplpUxAksh44hVKDhirfrlCoTBu0.png");
+                    picUrl = new URL("http://ac-9lv2ouk1.clouddn.com/Rxp6OsY6nWDJqyLU2kzdnGkFXgY6htH6JjUCf0H5.png@600w_1l");
                 }
             } catch (MalformedURLException e) {
                 e.printStackTrace();

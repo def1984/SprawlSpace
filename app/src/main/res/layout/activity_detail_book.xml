@@ -17,7 +17,6 @@
         android:textCursorDrawable="@null"
         android:id="@+id/book_title"
         android:textSize="24sp"
-        android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <EditText

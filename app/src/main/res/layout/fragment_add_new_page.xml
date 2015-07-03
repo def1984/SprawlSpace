@@ -5,8 +5,9 @@
     android:gravity="center"
     tools:context="com.example.ai.babel.ui.fragment.LaunchpadFragment">
 
-    <ImageView
-        android:id="@+id/add_new_page"
+    <ImageButton
+        android:background="@null"
+        android:id="@+id/add_new_page_1"
         android:src="@drawable/moleskine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -14,7 +15,7 @@
         android:textSize="18dp"
         android:background="@null"
         android:layout_width="wrap_content"
-        android:id="@+id/btn_add_new_book"
+        android:id="@+id/add_new_page"
         android:layout_height="wrap_content"
         android:text="新建页面" />
 
