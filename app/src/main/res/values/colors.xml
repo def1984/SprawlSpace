@@ -25,7 +25,8 @@
     <color name="body_text_2_inverse">#8affffff</color>
     <color name="text_hint">#cccccccc</color>
     <color name="theme_primary">#cceeeeee</color>
-    <color name="theme_primary_light">#ffEEFF41</color>
+    <color name="theme_primary_light">#EA6547</color>
+    <color name="theme_primary_bg">#fffdf9e8</color>
     <color name="theme_primary_dark">#ccBDBDBD</color>
 
     <color name="theme_accent_1">#00b0ff</color>

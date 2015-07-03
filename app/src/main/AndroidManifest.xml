@@ -52,7 +52,7 @@
 
         <activity
             android:name=".ui.EditBook"
-            android:label="@string/title_activity_add_new_post" >
+            android:label="编辑封面" >
         </activity>
         <activity
             android:name=".ui.ProfileActivity"
@@ -61,7 +61,7 @@
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
         <activity
             android:name=".ui.AddNewBook"
-            android:label="@string/title_activity_profile" >
+            android:label="新建新书" >
         </activity>
         <activity
             android:name=".ui.PageActivity"

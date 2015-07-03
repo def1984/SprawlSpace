@@ -1,20 +1,21 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
     tools:context="com.example.ai.babel.ui.fragment.LaunchpadFragment">
 
-    <Button
-        android:layout_margin="36dp"
-        android:textSize="24dp"
-        android:background="#00000000"
-        android:layout_width="match_parent"
-        android:id="@+id/btn_add_new_book"
-        android:layout_height="match_parent"
-        android:text="新建页面" />
     <ImageView
         android:id="@+id/add_new_page"
-        android:layout_gravity="top|center"
-        android:layout_marginTop="190dp"
-        android:layout_width="72dp"
-        android:layout_height="72dp" />
-</FrameLayout>
+        android:src="@drawable/moleskine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <Button
+        android:textSize="18dp"
+        android:background="@null"
+        android:layout_width="wrap_content"
+        android:id="@+id/btn_add_new_book"
+        android:layout_height="wrap_content"
+        android:text="新建页面" />
+
+</LinearLayout>

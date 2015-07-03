@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="@color/theme_primary_light"
     tools:context="com.example.ai.babel.ui.fragment.LaunchpadFragment">
 
     <ImageView

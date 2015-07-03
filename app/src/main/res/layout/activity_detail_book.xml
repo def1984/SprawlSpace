@@ -13,14 +13,16 @@
         android:textColor="#000"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginBottom="0dp"
         android:textCursorDrawable="@null"
         android:id="@+id/book_title"
+        android:textSize="24sp"
+        android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <EditText
         android:hint="描述"
+        android:textSize="18sp"
         android:background="@null"
         android:layout_marginTop="10dp"
         android:textColorHint="@color/text_hint"

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/theme_primary"
+    android:background="@color/theme_primary_bg"
     tools:context="com.example.ai.babel.ui.MainActivity" >
 
     <android.support.v4.widget.DrawerLayout
@@ -23,11 +23,11 @@
                 <FrameLayout
                     xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
+                    android:paddingTop="48dp"
                     android:layout_height="match_parent">
                     <!-- The rest of your content view -->
                     <GridView
                         android:layout_margin="10dp"
-                        android:paddingTop="56dp"
                         xmlns:android="http://schemas.android.com/apk/res/android"
                         xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/grid_view"
@@ -98,7 +98,7 @@
                         android:background="#00000000"
                         android:textStyle="bold"
                         android:layout_height="wrap_content"
-                        android:text="新建笔记本"
+                        android:text="开始写作"
                         />
                     <ImageButton
                         android:id="@+id/add_new_book"
@@ -131,7 +131,7 @@
             android:layout_width="304dp"
             android:layout_height="match_parent"
             android:layout_gravity="left"
-            android:background="@android:color/white"
+            android:background="@color/theme_primary_bg"
             android:elevation="10dp"
             android:fitsSystemWindows="true"
             app:insetForeground="#4000">
