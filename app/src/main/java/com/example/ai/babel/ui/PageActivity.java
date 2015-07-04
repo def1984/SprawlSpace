@@ -145,7 +145,7 @@ public class PageActivity extends BaseActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.delete_this_page:
-                if( pageListAll.get(mViewPager.getCurrentItem()) == null ){
+                if( pageListAll.isEmpty()){
                     Toast.makeText(PageActivity.this,"你不能删除此页面",Toast.LENGTH_SHORT).show();
                 }else {
                     DeleteDialog();

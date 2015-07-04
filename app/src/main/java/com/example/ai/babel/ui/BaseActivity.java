@@ -26,6 +26,11 @@ public class BaseActivity extends ActionBarActivity {
         getActionBarToolbar();
     }
 
+    @Override
+    public void setRequestedOrientation(int requestedOrientation) {
+        super.setRequestedOrientation(requestedOrientation);
+        return;
+    }
 
     protected Toolbar getActionBarToolbar() {
         if (mActionBarToolbar == null) {

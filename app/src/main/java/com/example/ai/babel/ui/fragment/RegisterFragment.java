@@ -68,8 +68,8 @@ public class RegisterFragment extends Fragment {
                     AVUser currentUser = AVUser.getCurrentUser();
                     AVObject newBook = new AVObject("Book");
                     AVObject newPage = new AVObject("Page");
-                    newBook.put("title", "这是一本笔记本");
-                    newBook.put("description", "在此你可以点击进去书写一些你需要写的东西");
+                    newBook.put("title", "欢迎来到巴别");
+                    newBook.put("description", "在此你可以点击进去书写一些你需要写的任何事物");
                     newBook.put("userObjectId", currentUser);
                     currentUser.put("bookIndex", 0);
                     newPage.put("bookObjectId", newBook);
