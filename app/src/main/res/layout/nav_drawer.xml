@@ -31,7 +31,6 @@
                     android:id="@+id/profile_image"
                     android:layout_width="56dp"
                     android:layout_height="56dp"
-                    android:src="@drawable/logo"
                     android:layout_marginRight="16dp"
                     app:border_width="1dp"
                     app:border_color="@color/avoscloud_feedback_white"/>
