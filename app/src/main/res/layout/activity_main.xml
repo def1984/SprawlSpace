@@ -6,6 +6,7 @@
     android:orientation="vertical"
     tools:context="com.example.ai.babel.ui.MainActivity" >
 
+
     <android.support.v4.widget.DrawerLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/my_drawer_layout"
@@ -48,8 +49,6 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-
             <LinearLayout
                 android:layout_gravity="bottom|right"
                 android:layout_width="wrap_content"
@@ -97,7 +96,7 @@
                         android:background="#00000000"
                         android:textStyle="bold"
                         android:layout_height="wrap_content"
-                        android:text="开始写作"
+                        android:text="新建笔记本"
                         />
                     <ImageButton
                         android:id="@+id/add_new_book"

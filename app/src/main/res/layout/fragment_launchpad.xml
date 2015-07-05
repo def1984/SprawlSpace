@@ -15,11 +15,10 @@
     <TextView
         android:layout_below="@+id/logo"
         android:layout_gravity="center"
-        android:textSize="48dp"
-        android:textColor="@color/theme_primary_light"
+        android:textSize="32dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Babel"/>
+        android:text="BabelWrite"/>
     <TextView
         android:layout_below="@+id/logo"
         android:layout_gravity="center"
@@ -27,4 +26,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="记录你的世界"/>
+
 </LinearLayout>
