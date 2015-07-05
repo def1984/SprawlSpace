@@ -20,6 +20,7 @@ import com.avos.avoscloud.GetCallback;
 import com.avos.avoscloud.SaveCallback;
 import com.example.ai.babel.R;
 import com.example.ai.babel.ui.PageActivity;
+import com.example.ai.babel.ui.widget.MyFloatingActionButton;
 
 public class AddNewPageFragment extends Fragment implements View.OnClickListener {
     private Button btnDddNewBook;
@@ -33,7 +34,7 @@ public class AddNewPageFragment extends Fragment implements View.OnClickListener
 
         View rootView = inflater.inflate(R.layout.fragment_add_new_page, container, false);
         btnDddNewBook = (Button) rootView.findViewById(R.id.add_new_page);
-        ImageButton btnDddNewBook2 = (ImageButton) rootView.findViewById(R.id.add_new_page_1);
+        MyFloatingActionButton btnDddNewBook2 = (MyFloatingActionButton) rootView.findViewById(R.id.add_new_page_fab);
         btnDddNewBook2.setOnClickListener(this);
         btnDddNewBook.setOnClickListener(this);
         return rootView;

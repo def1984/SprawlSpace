@@ -6,13 +6,13 @@
     tools:context="com.example.ai.babel.ui.fragment.LaunchpadFragment">
 
     <com.example.ai.babel.ui.widget.MyFloatingActionButton
-        android:id="@+id/fab"
+
+        android:id="@+id/add_new_page_fab"
         android:layout_width="@dimen/fab_size"
         android:layout_height="@dimen/fab_size"
         android:layout_margin="16dp" >
 
         <ImageView
-            android:id="@+id/add_new_page_1"
             android:layout_width="@dimen/fab_icon_size"
             android:layout_height="@dimen/fab_icon_size"
             android:src="@drawable/ic_add"

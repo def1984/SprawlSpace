@@ -8,6 +8,7 @@
     <include layout="@layout/toolbar"/>
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:src="@drawable/logo"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/profile_image"
         android:layout_width="96dp"
