@@ -11,8 +11,9 @@
             <!-- The rest of your content view -->
      <TextView
          android:layout_width="match_parent"
-         android:padding="16dp"
-         android:text="巴别记录是一个按章节来记录的笔记应用，如果他对于你的写作有任何的帮助，我都深表荣幸，有建议或者bug，都可以反馈到这个邮箱：250688477@qq.com"
+         android:padding="24dp"
+         android:textSize="24dp"
+         android:text="巴别记录是一个模拟实体笔记本的记录功能的应用，如果他对于你的写作有任何的帮助，我都深表荣幸，有建议或者bug，都可以反馈到这个邮箱：250688477@qq.com"
          android:layout_height="wrap_content" />
 
 </LinearLayout>
