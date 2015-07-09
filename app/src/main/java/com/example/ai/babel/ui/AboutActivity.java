@@ -59,7 +59,4 @@ public class AboutActivity extends BaseActivity {
             }
         });
     }
-
-
-
 }

@@ -1,22 +1,12 @@
 package com.example.ai.babel.adapter;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.view.ViewGroup;
 import android.widget.SimpleAdapter;
 
-import com.avos.avoscloud.AVObject;
 import com.example.ai.babel.R;
-import com.example.ai.babel.ui.MainActivity;
-import com.example.ai.babel.ui.fragment.BookObjectFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
 
 
 /**

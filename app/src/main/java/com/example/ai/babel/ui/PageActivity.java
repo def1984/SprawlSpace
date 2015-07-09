@@ -37,7 +37,6 @@ public class PageActivity extends BaseActivity {
     private List<AVObject> pageListAll;
     @Override
     protected void onResume() {
-        // TODO Auto-generated method stub
         super.onResume();
         new LoadPages().execute();
     }

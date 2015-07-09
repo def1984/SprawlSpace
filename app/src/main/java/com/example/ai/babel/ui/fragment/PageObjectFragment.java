@@ -1,6 +1,7 @@
 package com.example.ai.babel.ui.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,7 @@ import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.SaveCallback;
 import com.example.ai.babel.R;
 
+@SuppressLint("ValidFragment")
 public class PageObjectFragment extends android.support.v4.app.Fragment {
 
     private AVObject pageObj;
@@ -24,13 +26,14 @@ public class PageObjectFragment extends android.support.v4.app.Fragment {
         super.onResume();
     }
 
+    public PageObjectFragment() {
+
+    }
+
     public PageObjectFragment(AVObject pageObj) {
         this.pageObj = pageObj;
     }
 
-    public PageObjectFragment() {
-
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
