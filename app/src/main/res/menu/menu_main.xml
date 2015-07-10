@@ -3,9 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity" >
     <item
-        android:id="@+id/menu_search_into"
+        android:id="@+id/menu_search_view"
         android:orderInCategory="1"
         android:title="@string/description_search"
         app:showAsAction="always" />
-
 </menu>

@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">巴别</string>
-    <string name="app_name_main">巴别</string>
+    <string name="app_name">巴别记录</string>
+    <string name="app_name_main">巴别记录</string>
     <string name="action_settings">Settings</string>
     <string name="drawer_open">打开</string>
     <string name="drawer_close">关闭</string>
     <string name="description_search">搜索</string>
-
-
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="dummy_section_text">dummy_section_text</string>
 
 
     <string name="action_registers">创建账户</string>
