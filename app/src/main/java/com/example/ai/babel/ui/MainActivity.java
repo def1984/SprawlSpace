@@ -357,6 +357,7 @@ public class MainActivity extends BaseActivity {
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
                         AVQuery<AVObject> pageQuery = AVQuery.getQuery("Page");
+                        pageQuery.whereEqualTo("bookObjectId",bookListAll.get(deleteIndex).getObjectId());
                         pageQuery.setCachePolicy(AVQuery.CachePolicy.NETWORK_ONLY);
                         //pageQuery.whereEqualTo("bookObjectId", bookListAll.get(mViewPager.getCurrentItem()));
                         pageQuery.findInBackground(new FindCallback<AVObject>() {
