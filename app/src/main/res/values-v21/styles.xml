@@ -3,7 +3,7 @@
     <style name="AppTheme" parent="@style/AppBaseTheme">
         <!-- 底部导航栏颜色 -->
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:navigationBarColor">#4876FF</item>  
+        <item name="android:navigationBarColor">@color/theme_primary_light</item>
     </style>
 
     <style name="MainAtyTheme" parent="@style/AppTheme">

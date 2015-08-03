@@ -13,115 +13,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <FrameLayout
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+            <include layout="@layout/toolbar"></include>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#ccc"/>
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-                <FrameLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="match_parent"
-                    android:paddingTop="48dp"
-                    android:layout_height="match_parent">
-                    <!-- The rest of your content view -->
-                    <GridView
-                        android:layout_margin="10dp"
-                        xmlns:android="http://schemas.android.com/apk/res/android"
-                        xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/grid_view"
-                        android:numColumns="2"
-                        android:focusable="false"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"  />
+                android:layout_height="match_parent" >
+            </android.support.v4.view.ViewPager>
+        </LinearLayout>
 
-                </FrameLayout>
-                <include layout="@layout/toolbar"></include>
-            </FrameLayout>
-            <Button
-                android:visibility="gone"
-                android:id="@+id/background_cover"
-                android:layout_width="match_parent"
-                android:background="#ddffffff"
-                android:layout_height="match_parent" />
-        </FrameLayout>
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <LinearLayout
-                android:layout_gravity="bottom|right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/mini_fab_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_marginRight="12dp"
-                android:layout_marginBottom="82dp">
-
-                <LinearLayout
-                    android:visibility="gone"
-                    android:focusable="true"
-                    android:layout_margin="8dp"
-                    android:id="@+id/add_new_book_1"
-                    android:layout_gravity="right"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:background="#00000000"
-                        android:layout_height="wrap_content"
-                        android:text="敬请期待"
-                        android:layout_gravity="center"
-                        android:textStyle="bold" />
-
-                    <ImageButton
-                        android:background="#00000000"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:src="@drawable/nodaf"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:visibility="gone"
-                    android:layout_margin="8dp"
-                    android:layout_gravity="right"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_gravity="center"
-                        android:layout_width="wrap_content"
-                        android:background="#00000000"
-                        android:textStyle="bold"
-                        android:layout_height="wrap_content"
-                        android:text="新建笔记本"
-                        />
-                    <ImageButton
-                        android:id="@+id/add_new_book"
-                        android:background="#00000000"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:src="@drawable/moleskine"/>
-                </LinearLayout>
-            </LinearLayout>
-            <com.example.ai.babel.ui.widget.MyFloatingActionButton
-                android:id="@+id/fab"
-                android:layout_width="@dimen/fab_size"
-                android:layout_height="@dimen/fab_size"
-                android:layout_margin="16dp"
-                android:layout_gravity="bottom|right">
-
-                <ImageView
-                    android:id="@+id/img_fab"
-                    android:layout_width="@dimen/fab_icon_size"
-                    android:layout_height="@dimen/fab_icon_size"
-                    android:src="@drawable/ic_add"
-                    android:layout_gravity="center"
-                    android:duplicateParentState="true"/>
-            </com.example.ai.babel.ui.widget.MyFloatingActionButton>
-        </FrameLayout>
         <!-- The navigation drawer -->
         <com.example.ai.babel.ui.widget.ScrimInsetsFrameLayout
             xmlns:android="http://schemas.android.com/apk/res/android"

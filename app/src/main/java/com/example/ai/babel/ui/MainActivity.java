@@ -4,46 +4,39 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.Interpolator;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.GridView;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVObject;
-import com.avos.avoscloud.AVQuery;
+import com.astuetz.PagerSlidingTabStrip;
 import com.avos.avoscloud.AVUser;
-import com.avos.avoscloud.DeleteCallback;
-import com.avos.avoscloud.FindCallback;
 import com.example.ai.babel.R;
-import com.example.ai.babel.adapter.CollectionBookAdapter;
 import com.example.ai.babel.adapter.NavListAdapter;
-import com.example.ai.babel.ui.widget.MyFloatingActionButton;
+import com.example.ai.babel.ui.fragment.BooksFragment;
+import com.example.ai.babel.ui.fragment.LaunchpadFragment;
+import com.example.ai.babel.ui.fragment.LoginFragment;
+import com.example.ai.babel.ui.fragment.RegisterFragment;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -53,15 +46,14 @@ public class MainActivity extends BaseActivity {
     private Toolbar mToolbar;
     private CircleImageView profileImage;
     private AVUser currentUser = AVUser.getCurrentUser();
-    private List<AVObject> bookListAll;
+
     private ActionBarDrawerToggle mDrawerToggle;
-    private Button logoutButton, BtnBgc;
-    private MyFloatingActionButton fabBtn;
-    private Boolean isCheck = false;
+    private Button logoutButton;
+    private ViewPager mViewPager ;
     private Boolean userCheck = true;
-    private LinearLayout mLinearLayout;
+    private PagerSlidingTabStrip mPagerSlidingTabStrip;
     private ListView navList;
-    private int deleteIndex;
+    private DemoCollectionPagerAdapter  mDemoCollectionPagerAdapter;
     private TextView userName;
 
 
@@ -76,7 +68,7 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void onStart() {
+     protected void onStart() {
         super.onStart();
         new LoadBooks().execute();
     }
@@ -86,7 +78,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         intiView();
-        fabBtnAm();
+
         navList = (ListView) findViewById(R.id.nav_list);
         navList.setAdapter(new NavListAdapter().getNavSimpleAdapter(this));//为ListView绑定适配器
         navList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -105,7 +97,7 @@ public class MainActivity extends BaseActivity {
             }
         });
         userCheck = getIntent().hasExtra("userCheck");
-        addNewBook();
+
     }
 
     @Override
@@ -125,9 +117,54 @@ public class MainActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public class DemoCollectionPagerAdapter extends FragmentStatePagerAdapter {
+        public DemoCollectionPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+            switch (i) {
+                case 0:
+                    // The first section of the app is the most interesting -- it offers
+                    // a launchpad into the other demonstrations in this example application.
+                    return new BooksFragment();
+                case 1:
+                    // The first section of the app is the most interesting -- it offers
+                    // a launchpad into the other demonstrations in this example application.
+                    return new RegisterFragment();
+
+                default:
+                    // The other sections of the app are dummy placeholders.
+                    return new LoginFragment();
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return 3;
+        }
+        @Override
+        public CharSequence getPageTitle(int position) {
+
+            switch (position) {
+                case 0:
+                    // The first section of the app is the most interesting -- it offers
+                    // a launchpad into the other demonstrations in this example application.
+                    return "笔记本";
+                case 1:
+                    // The first section of the app is the most interesting -- it offers
+                    // a launchpad into the other demonstrations in this example application.
+                    return "思维碎片";
+
+                default:
+                    // The other sections of the app are dummy placeholders.
+                    return "影音";
+            }
+        }
+    }
 
     private void intiView() {
-        // 在这里我们获取了主题暗色，并设置了status bar的颜色
         TypedValue typedValue = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValue, true);
         int color = typedValue.data;
@@ -155,105 +192,57 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-    }
+        mPagerSlidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        mDemoCollectionPagerAdapter =
+                new DemoCollectionPagerAdapter(
+                        getSupportFragmentManager());
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager.setAdapter(mDemoCollectionPagerAdapter);
+        mPagerSlidingTabStrip.setViewPager(mViewPager);
+        mPagerSlidingTabStrip.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
-
-    private void showAllMinFab() {
-        Animation minFabSet = AnimationUtils.loadAnimation(MainActivity.this, R.anim.min_fab_anim);
-        mLinearLayout = (LinearLayout) findViewById(R.id.mini_fab_content);
-        for (int i = 0; i < mLinearLayout.getChildCount(); i++) {
-            LinearLayout mini = (LinearLayout) mLinearLayout.getChildAt(i);
-            mini.setVisibility(View.VISIBLE);
-            mini.startAnimation(minFabSet);
-        }
-    }
-
-    private void hideAllMinFab() {
-        mLinearLayout = (LinearLayout) findViewById(R.id.mini_fab_content);
-        Animation minFabSetRve = AnimationUtils.loadAnimation(MainActivity.this, R.anim.min_fab_anim_rev);
-        for (int i = 0; i < mLinearLayout.getChildCount(); i++) {
-            LinearLayout mini = (LinearLayout) mLinearLayout.getChildAt(i);
-            minFabSetRve.setFillAfter(true);
-            mini.startAnimation(minFabSetRve);
-            mini.setVisibility(View.GONE);
-        }
-    }
-
-
-    private void fabBtnAm() {
-        fabBtn = (MyFloatingActionButton) findViewById(R.id.fab);
-        BtnBgc = (Button) findViewById(R.id.background_cover);
-        fabBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Animation animSetFab = AnimationUtils.loadAnimation(MainActivity.this, R.anim.fab_anim);
-                Animation animSetCbg = AnimationUtils.loadAnimation(MainActivity.this, R.anim.background_cover_anim);
-                ImageView fabImageView = (ImageView) findViewById(R.id.img_fab);
-                if (!isCheck) {
-                    animSetFab.setFillAfter(true);
-                    animSetCbg.setFillAfter(true);
-                    showAllMinFab();
-                    BtnBgc.setVisibility(View.VISIBLE);
-                    BtnBgc.startAnimation(animSetCbg);
-                    fabImageView.startAnimation(animSetFab);
-                    isCheck = true;
-                } else {
-                    animSetFab.setInterpolator(new ReverseInterpolator());
-                    animSetCbg.setInterpolator(new ReverseInterpolator());
-                    fabImageView.startAnimation(animSetFab);
-                    BtnBgc.startAnimation(animSetCbg);
-                    BtnBgc.setVisibility(View.GONE);
-                    hideAllMinFab();
-                    isCheck = false;
-                }
+            public void onPageSelected(int arg0) {
+
+            }
+
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
             }
         });
-
-        BtnBgc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Animation animSetFab = AnimationUtils.loadAnimation(MainActivity.this, R.anim.fab_anim);
-                Animation animSetCbg = AnimationUtils.loadAnimation(MainActivity.this, R.anim.background_cover_anim);
-                ImageView fabImageView = (ImageView) findViewById(R.id.img_fab);
-                if (!isCheck) {
-                    animSetFab.setFillAfter(true);
-                    animSetCbg.setFillAfter(true);
-                    showAllMinFab();
-                    BtnBgc.setVisibility(View.VISIBLE);
-                    BtnBgc.startAnimation(animSetCbg);
-                    fabImageView.startAnimation(animSetFab);
-                    isCheck = true;
-                } else {
-                    animSetFab.setInterpolator(new ReverseInterpolator());
-                    animSetCbg.setInterpolator(new ReverseInterpolator());
-                    fabImageView.startAnimation(animSetFab);
-                    BtnBgc.startAnimation(animSetCbg);
-                    BtnBgc.setVisibility(View.GONE);
-                    hideAllMinFab();
-                    isCheck = false;
-                }
-            }
-        });
+        initTabsValue();
     }
 
-    public class ReverseInterpolator implements Interpolator {
-        @Override
-        public float getInterpolation(float paramFloat) {
-            return Math.abs(paramFloat - 1f);
-        }
+
+
+
+    private void initTabsValue() {
+        // 底部游标颜色
+        mPagerSlidingTabStrip.setIndicatorColor(Color.GRAY);
+        // tab的分割线颜色
+        mPagerSlidingTabStrip.setDividerColor(Color.TRANSPARENT);
+        // tab背景
+        mPagerSlidingTabStrip.setBackgroundColor(Color.TRANSPARENT);
+        // tab底线高度
+        mPagerSlidingTabStrip.setUnderlineHeight((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                0, getResources().getDisplayMetrics()));
+        // 游标高度
+        mPagerSlidingTabStrip.setIndicatorHeight((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                2, getResources().getDisplayMetrics()));
+        // 选中的文字颜色
+
+        // 正常文字颜色
+        mPagerSlidingTabStrip.setTextColor(Color.BLACK);
     }
 
-    private void addNewBook() {
-        ImageButton addNewBook = (ImageButton) findViewById(R.id.add_new_book);
-        addNewBook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, AddNewBook.class));
-                MainActivity.this.overridePendingTransition(android.support.v7.appcompat.R.anim.abc_fade_in, android.support.v7.appcompat.R.anim.abc_fade_out);
-                finish();
-            }
-        });
-    }
+
+
+
+
 
     public class LoadBooks extends AsyncTask<Void, Integer, Boolean> {
         ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
@@ -268,15 +257,6 @@ public class MainActivity extends BaseActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            AVQuery<AVObject> query = AVQuery.getQuery("Book");
-            query.setCachePolicy(AVQuery.CachePolicy.NETWORK_ONLY);
-            query.whereEqualTo("userObjectId", currentUser);
-            query.orderByDescending("createdAt");
-            try {
-                bookListAll = query.find();
-            } catch (AVException e) {
-                Toast.makeText(MainActivity.this, "连接超时:错误代码:" + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
             try {
                 if (currentUser.getAVFile("AvatarImage") != null) {
                     picUrl = new URL(currentUser.getAVFile("AvatarImage").getUrl());
@@ -302,34 +282,6 @@ public class MainActivity extends BaseActivity {
         @Override
         protected void onPostExecute(Boolean result) {
             progressDialog.dismiss();
-            final GridView gridView = (GridView) findViewById(R.id.grid_view);
-            gridView.setAdapter(new CollectionBookAdapter(MainActivity.this, bookListAll));
-            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Intent intent = new Intent();
-                    intent.putExtra("bookObjectId", bookListAll.get(i).getObjectId());
-                    intent.setClass(MainActivity.this, PageActivity.class);
-                    startActivity(intent);
-                    overridePendingTransition(android.support.v7.appcompat.R.anim.abc_fade_in, android.support.v7.appcompat.R.anim.abc_fade_out);
-
-                }
-            });
-
-            gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                @Override
-                public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int i, long l) {
-                    deleteIndex = i;
-                    gridView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-                        @Override
-                        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-                            contextMenu.add(0, 0, 0, "编辑封面");
-                            contextMenu.add(0, 1, 0, "删除");
-                        }
-                    });
-                    return false;
-                }
-            });
             profileImage = (CircleImageView) findViewById(R.id.profile_image);
             profileImage.setImageBitmap(pngBM);
             TextView userCreatedAt = (TextView) findViewById(R.id.user_ctime);
@@ -341,47 +293,4 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case 0:
-                Intent intent = new Intent();
-                intent.putExtra("bookObjectId", bookListAll.get(deleteIndex).getObjectId());
-                intent.setClass(MainActivity.this, EditBook.class);
-                startActivity(intent);
-                overridePendingTransition(android.support.v7.appcompat.R.anim.abc_fade_in, android.support.v7.appcompat.R.anim.abc_fade_out);
-                finish();
-                break;
-            case 1:
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        AVQuery<AVObject> pageQuery = AVQuery.getQuery("Page");
-                        pageQuery.whereEqualTo("bookObjectId",bookListAll.get(deleteIndex).getObjectId());
-                        pageQuery.setCachePolicy(AVQuery.CachePolicy.NETWORK_ONLY);
-                        //pageQuery.whereEqualTo("bookObjectId", bookListAll.get(mViewPager.getCurrentItem()));
-                        pageQuery.findInBackground(new FindCallback<AVObject>() {
-                            @Override
-                            public void done(List<AVObject> list, AVException e) {
-                                if (e == null) {
-                                    for (int i = 0; i < list.size(); i++) {
-                                        list.get(i).deleteInBackground();
-                                    }
-                                    bookListAll.get(deleteIndex).deleteInBackground(new DeleteCallback() {
-                                        @Override
-                                        public void done(AVException e) {
-                                            Toast.makeText(MainActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
-                                            new LoadBooks().execute();
-                                        }
-                                    });
-                                }
-                            }
-                        });
-
-                    }
-                }, 1);
-
-        }
-        return super.onContextItemSelected(item);
-    }
 }

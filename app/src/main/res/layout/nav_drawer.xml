@@ -19,28 +19,28 @@
             android:background="@color/theme_primary_bg"
             android:layout_height="wrap_content">
             <LinearLayout
-                android:layout_gravity="center_vertical"
+                android:layout_gravity="center"
                 android:scaleType="centerCrop"
                 android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 >
                 <de.hdodenhof.circleimageview.CircleImageView
                     xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/profile_image"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:layout_marginRight="16dp"
-                    app:border_width="1dp"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    app:border_width="3dp"
                     app:border_color="@color/navdrawer_background"/>
                 <LinearLayout
+                    android:gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
                         android:id="@+id/user_name"
-                        android:textSize="14sp"
+                        android:textSize="18sp"
                         android:layout_width="wrap_content"
                         android:text="youname"
                         android:layout_height="wrap_content" />
