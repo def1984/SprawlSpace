@@ -40,7 +40,6 @@ import com.example.ai.babel.ui.widget.MyFloatingActionButton;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 
@@ -71,6 +70,7 @@ public class BooksFragment extends Fragment {
     public void onResume() {
         super.onResume();
         fabBtnAm();
+        addNewBook();
     }
 
     @Override
