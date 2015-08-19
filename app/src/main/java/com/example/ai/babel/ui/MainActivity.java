@@ -29,9 +29,7 @@ import com.avos.avoscloud.AVUser;
 import com.example.ai.babel.R;
 import com.example.ai.babel.adapter.NavListAdapter;
 import com.example.ai.babel.ui.fragment.BooksFragment;
-import com.example.ai.babel.ui.fragment.LaunchpadFragment;
-import com.example.ai.babel.ui.fragment.LoginFragment;
-import com.example.ai.babel.ui.fragment.RegisterFragment;
+import com.example.ai.babel.ui.fragment.TestFragment;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -132,11 +130,11 @@ public class MainActivity extends BaseActivity {
                 case 1:
                     // The first section of the app is the most interesting -- it offers
                     // a launchpad into the other demonstrations in this example application.
-                    return new RegisterFragment();
+                    return new TestFragment();
 
                 default:
                     // The other sections of the app are dummy placeholders.
-                    return new LoginFragment();
+                    return new TestFragment();
             }
         }
 
