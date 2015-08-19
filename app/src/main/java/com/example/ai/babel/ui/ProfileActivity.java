@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -41,8 +42,10 @@ public class ProfileActivity extends BaseActivity {
     private String filename;
     private String dirPath;
     private File outputImage;
+    private Button logoutButton;
     private EditText userName;
     private AVUser currentUser = AVUser.getCurrentUser();
+    private Boolean userCheck = true;
 
     @Override
     protected void onPause() {
@@ -58,6 +61,18 @@ public class ProfileActivity extends BaseActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mToolbar.setTitle("个人设置");
+        logoutButton = (Button) findViewById(R.id.logout_button);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AVUser.logOut();
+                Intent interIntent = new Intent(ProfileActivity.this, InitActivity.class);
+                startActivity(interIntent);
+                userCheck = false;
+                finish();
+                Toast.makeText(ProfileActivity.this, "登出成功", Toast.LENGTH_SHORT).show();
+            }
+        });
         userName = (EditText) findViewById(R.id.user_name);
         userName.setText(currentUser.get("writeName").toString());
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {

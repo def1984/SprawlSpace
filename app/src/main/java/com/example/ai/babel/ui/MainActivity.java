@@ -46,7 +46,7 @@ public class MainActivity extends BaseActivity {
     private AVUser currentUser = AVUser.getCurrentUser();
 
     private ActionBarDrawerToggle mDrawerToggle;
-    private Button logoutButton;
+
     private ViewPager mViewPager ;
     private Boolean userCheck = true;
     private PagerSlidingTabStrip mPagerSlidingTabStrip;
@@ -177,18 +177,7 @@ public class MainActivity extends BaseActivity {
                 R.string.drawer_close);
         mDrawerToggle.syncState();
         drawerLayout.setDrawerListener(mDrawerToggle);
-        logoutButton = (Button) findViewById(R.id.logout_button);
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AVUser.logOut();
-                Intent interIntent = new Intent(MainActivity.this, InitActivity.class);
-                startActivity(interIntent);
-                userCheck = false;
-                finish();
-                Toast.makeText(MainActivity.this, "登出成功", Toast.LENGTH_SHORT).show();
-            }
-        });
+
 
         mPagerSlidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         mDemoCollectionPagerAdapter =

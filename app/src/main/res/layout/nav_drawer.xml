@@ -32,6 +32,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     app:border_width="3dp"
+                    android:layout_marginBottom="8dp"
                     app:border_color="@color/navdrawer_background"/>
                 <LinearLayout
                     android:gravity="center"
@@ -41,6 +42,7 @@
                     <TextView
                         android:id="@+id/user_name"
                         android:textSize="18sp"
+                        android:layout_margin="8dp"
                         android:layout_width="wrap_content"
                         android:text="youname"
                         android:layout_height="wrap_content" />
@@ -62,11 +64,5 @@
         </ListView>
     </LinearLayout>
 
-    <Button
-        android:layout_gravity="bottom"
-        android:background="@color/theme_primary"
-        android:id="@+id/logout_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="登出"/>
+
 </FrameLayout>
